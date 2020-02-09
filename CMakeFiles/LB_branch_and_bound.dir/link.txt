@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -DNDEBUG   CMakeFiles/LB_branch_and_bound.dir/main.cpp.o  -o LB_branch_and_bound 
