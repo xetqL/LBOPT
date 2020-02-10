@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/LB_branch_and_bound.dir/main.cpp.o"
+  "CMakeFiles/LB_branch_and_bound.dir/zupply/src/zupply.cpp.o"
   "LB_branch_and_bound"
   "LB_branch_and_bound.pdb"
 )

@@ -3,3 +3,7 @@
 
 CMakeFiles/LB_branch_and_bound.dir/main.cpp.o
  /home/xetql/lb_exhaustive_search/main.cpp
+ zupply/src/zupply.hpp
+CMakeFiles/LB_branch_and_bound.dir/zupply/src/zupply.cpp.o
+ /home/xetql/lb_exhaustive_search/zupply/src/zupply.cpp
+ /home/xetql/lb_exhaustive_search/zupply/src/zupply.hpp

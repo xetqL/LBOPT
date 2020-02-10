@@ -1,16 +1,22 @@
 #include <iostream>
 #include <queue>
 #include <algorithm>
-#include <fstream>
-#include <sstream>
 #include <cmath>
 #include <functional>
 #include <iomanip>
+#include <zupply.hpp>
 
+using namespace zz;
+
+/* Initial workload */
 double W0;
+/* Workload increase load function */
 std::function<double(int)> deltaW;
+/* Load balancing cost */
 double C;
+/* Number of iteration to simulate */
 unsigned int maxI;
+/* Number of processors */
 unsigned int P;
 
 template<class FMath>
@@ -147,26 +153,45 @@ int main(int argc, char** argv) {
     using PriorityQueue = std::priority_queue<LBNode, std::vector<LBNode>, CompareLBNode>;
     PriorityQueue pQueue;
 
-    /* Initial workload */
-    W0     = 10;
-
-    /* Number of processors */
-    P      = 10;
-
     /* Workload increase rate function, some examples are given below */
-    deltaW = [](int i){return 1.0;};    // constant -> CPU_time is quadratic
-    //deltaW = [](int i){return i;};   // linear
-    // deltaW = [](int i){return std::sin((double) i);};
+    int deltaW_func_id;
+    std::function<double(int)> deltaWf[3] = {
+            [](int i){return (double) 1.0;},
+            [](int i){return (double) i;},
+            [](int i){return std::sin((double) i);}
+    };
 
-    /* Load balancing cost */
-    C      = 25;
+    /* Number of solution to get from Branch and Bound */
+    int nb_solution_wanted;
 
-    /* Number of iteration to simulate */
-    maxI   = std::atoi(argv[1]);
+    cfg::ArgParser parser;
+    parser.add_opt_version('V', "version", "0.1");
+    parser.add_opt_help('h', "help"); // use -h or --help
+
+    parser.add_opt_value('W', "W0",W0, (double) 0, "Initial workload", "DOUBLE").require(); // require this option
+    parser.add_opt_value('d', "deltaW", deltaW_func_id, (int) 0, "Select the workload increase rate function: default (0): dw=1, (1) dw=i, (2) dw=sin(i)", "INT"); // require this option
+    parser.add_opt_value('p', "processor",  P, (unsigned int) 0, "Number of processors", "INT").require(); // require this option
+    parser.add_opt_value('i', "iteration",  maxI, (unsigned int) maxI, "Number of iteration to simulate", "INT").require(); // require this option
+    parser.add_opt_value('C', "lbcost",     C, (double) 0, "Load balancing cost", "DOUBLE").require(); // require this option
+    parser.add_opt_value('s', "solution", nb_solution_wanted, (int) 1, "Number of output solution from branch and bound, default = 1", "INT"); // require this option
+    bool output;
+    parser.add_opt_flag('o', "out", "Produce output (yes/no)", &output);
+
+    parser.parse(argc, argv);
+
+    if (parser.count_error() > 0)
+    {
+        std::cout << parser.get_error() << std::endl;
+        std::cout << parser.get_help() << std::endl;
+        exit(-1);
+    }
+
+    deltaW_func_id = deltaW_func_id > 2 ? 0 : deltaW_func_id;
+
+    deltaW = deltaWf[deltaW_func_id];
 
     W.resize(maxI);
     for(int i = 0; i < maxI; ++i) W[i] = _W(i);
-    int nb_solution_wanted = std::atoi(argv[2]);
 
     LBNode initNode {0, 0, {0}, {false}};
     pQueue.push(initNode);
@@ -183,6 +208,7 @@ int main(int argc, char** argv) {
             pQueue.push(r);
         }
     } while(solutions.size() < nb_solution_wanted);
+
     std::cout << std::setfill('=') << std::setw(130) << "\n";
     std::cout << "Results from search using branch and bound: " << std::endl ;
     enumerate(solutions.cbegin(), solutions.cend(), [&](int i, auto val){
@@ -215,11 +241,13 @@ int main(int argc, char** argv) {
 
     std::cout << std::setfill('=') << std::setw(130) << "\n";
 
-    std::ofstream fCpuTime;
-    for(int i = 0; i < nb_solution_wanted; ++i){
-        fCpuTime.open("optimal-cpu-time-"+std::to_string(i)+".txt");
-        fCpuTime << solutions[i].get_cpu_time();
-        fCpuTime.close();
+    if(output){
+        std::ofstream fCpuTime;
+        for(int i = 0; i < nb_solution_wanted; ++i){
+            fCpuTime.open("optimal-cpu-time-"+std::to_string(i)+".txt");
+            fCpuTime << solutions[i].get_cpu_time();
+            fCpuTime.close();
+        }
     }
 
     /* Show the cumulative time (CPU_TIME) of a given solution until a given iteration */

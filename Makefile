@@ -150,6 +150,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+zupply/src/zupply.o: zupply/src/zupply.cpp.o
+
+.PHONY : zupply/src/zupply.o
+
+# target to build an object file
+zupply/src/zupply.cpp.o:
+	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/zupply/src/zupply.cpp.o
+.PHONY : zupply/src/zupply.cpp.o
+
+zupply/src/zupply.i: zupply/src/zupply.cpp.i
+
+.PHONY : zupply/src/zupply.i
+
+# target to preprocess a source file
+zupply/src/zupply.cpp.i:
+	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/zupply/src/zupply.cpp.i
+.PHONY : zupply/src/zupply.cpp.i
+
+zupply/src/zupply.s: zupply/src/zupply.cpp.s
+
+.PHONY : zupply/src/zupply.s
+
+# target to generate assembly for a file
+zupply/src/zupply.cpp.s:
+	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/zupply/src/zupply.cpp.s
+.PHONY : zupply/src/zupply.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,6 +189,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... zupply/src/zupply.o"
+	@echo "... zupply/src/zupply.i"
+	@echo "... zupply/src/zupply.s"
 .PHONY : help
 
 
