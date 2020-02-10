@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/xetql/LB_branch_and_bound/main.cpp" "/home/xetql/LB_branch_and_bound/CMakeFiles/LB_branch_and_bound.dir/main.cpp.o"
+  "/home/xetql/lb_exhaustive_search/main.cpp" "/home/xetql/lb_exhaustive_search/CMakeFiles/LB_branch_and_bound.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
