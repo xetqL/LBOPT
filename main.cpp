@@ -30,6 +30,7 @@ double sum(int b, int e, FMath& f){
 inline double _W(unsigned int i) {
     return W0 + sum(0, i, deltaW);
 }
+
 /* Application workload at each iteration */
 std::vector<double> W;
 
@@ -40,6 +41,15 @@ inline std::vector<T> append(const std::vector<T>& prev, T v){
     next.push_back(v);
     return next;
 }
+
+
+/* Append value and create new vector */
+template<class T>
+inline std::vector<T> _append(std::vector<T> prev, T v){
+    prev.push_back(v);
+    return std::move(prev);
+}
+
 
 /* Get the latest element of the vector */
 template<class T>
@@ -59,8 +69,8 @@ struct LBNode {
     std::vector<bool>   apply_lb;
 
     /* Functions to evaluate the next computing time given the current scenario */
-    double eval() const { return eval(iteration); }
-    double eval(int i) const {
+    inline double eval() const { return eval(iteration); }
+    inline double eval(int i) const {
         auto v = get(apply_lb, i) ?
                  get(cpu_time, i) + (W[iteration+1] / P) + C:
                  get(cpu_time, i) + (W[prev_lb == 0 ? 0 : prev_lb+1] / P) + deltaW(iteration) * (iteration - prev_lb);
@@ -78,8 +88,8 @@ struct LBNode {
     inline std::pair<LBNode, LBNode> children() {
         return
         {
-            {iteration+1, latest(apply_lb) ? iteration : prev_lb, append(cpu_time, eval()), append(apply_lb, true)},
-            {iteration+1, latest(apply_lb) ? iteration : prev_lb, append(cpu_time, eval()), append(apply_lb, false)}
+            {iteration+1, latest(apply_lb) ? iteration : prev_lb, append(cpu_time, eval()), append((apply_lb), true)},
+            {iteration+1, latest(apply_lb) ? iteration : prev_lb, _append(std::move(cpu_time), eval()), _append(std::move(apply_lb), false)}
         };
     }
 
@@ -150,8 +160,10 @@ void show_each_iteration(LBNode& n, int until){
 }
 
 int main(int argc, char** argv) {
+    std::vector<LBNode> container;
+    container.reserve(std::pow(2, 20));
     using PriorityQueue = std::priority_queue<LBNode, std::vector<LBNode>, CompareLBNode>;
-    PriorityQueue pQueue;
+    PriorityQueue pQueue{CompareLBNode{}, std::move(container)};
 
     /* Workload increase rate function, some examples are given below */
     int deltaW_func_id;
@@ -195,8 +207,8 @@ int main(int argc, char** argv) {
 
     LBNode initNode {0, 0, {0}, {false}};
     pQueue.push(initNode);
-    std::vector<LBNode> solutions;
 
+    std::vector<LBNode> solutions;
     do {
         LBNode currentNode = pQueue.top();
         pQueue.pop();
