@@ -13,8 +13,6 @@
 
 using namespace zz;
 
-
-
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const std::shared_ptr<T>& pc) {
     os << *pc;
@@ -173,9 +171,13 @@ int main(int argc, char** argv) {
             fCpuTime.close();
         }
     }
-
+    auto it = get_lb_iterations(solutions[0]);
     /* Show the cumulative time (CPU_TIME) of a given solution until a given iteration */
     show_each_iteration(solutions[0], maxI);
 
+
+    std::ofstream fCpuTime; fCpuTime.open("optimal-lb.txt");
+    std::for_each(it.begin(), it.end(), [&fCpuTime](int i){fCpuTime << (i+1) << ",";});
+    fCpuTime.close();
     return 0;
 }

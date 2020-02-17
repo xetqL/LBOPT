@@ -30,8 +30,8 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
     inline double eval(int i) const {
         double v;
         v = apply_lb ?
-            cpu_time + (params->W.at(iteration+1) / params->P) + params->C :
-            cpu_time + (params->W.at(prev_lb == 0 ? 0 : prev_lb + 1) / params->P) + params->deltaW(iteration) * (iteration - prev_lb);
+            cpu_time + (params->W.at(iteration) / params->P) + params->C :
+            cpu_time + (params->W.at(prev_lb == 0 ? 0 : prev_lb) / params->P) + params->deltaW(iteration) * (iteration - prev_lb);
         return v;
     }
 
@@ -184,15 +184,16 @@ void reverse(std::shared_ptr<LBChainedNode>& node);
 void show_each_iteration(std::shared_ptr<LBChainedNode> n, int until);
 void show_each_iteration(LBNode& n, int until);
 
+std::vector<int> get_lb_iterations(std::shared_ptr<LBChainedNode> n);
 
 /* Structure for comparing LBNode */
 struct CompareLBNode {
-    bool operator()(LBNode &a, LBNode &b){
+    bool operator()(const LBNode &a, const LBNode &b){
         return a.eval() > b.eval();
     }
 };
 struct CompareLBChainedNode {
-    bool operator()(std::shared_ptr<LBChainedNode> a, std::shared_ptr<LBChainedNode> b){
+    inline bool operator()(const std::shared_ptr<LBChainedNode>& a, const std::shared_ptr<LBChainedNode>& b) const {
         return a->eval() < b->eval();
     }
 };

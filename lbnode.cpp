@@ -94,3 +94,16 @@ void show_each_iteration(LBNode& n, int until) {
     for(int i = 0; i < until; ++i)
         std::cout << eval(LBNode{0,0,{0}, n.apply_lb, n.params}, i) << std::endl;
 }
+
+std::vector<int> get_lb_iterations(std::shared_ptr<LBChainedNode> n){
+    std::vector<int> ret;
+    reverse(n);
+    auto tmp = n;
+    while(tmp != nullptr){
+        if(tmp->apply_lb)
+            ret.push_back(tmp->iteration);
+        tmp = tmp->pnode;
+    }
+    reverse(n);
+    return ret;
+}
