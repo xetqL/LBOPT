@@ -6,7 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/xetql/lb_exhaustive_search/main.cpp
+/home/xetql/LB_branch_and_bound/main.cpp
+utility
+-
 iostream
 -
 queue
@@ -20,6 +22,8 @@ functional
 iomanip
 -
 zupply.hpp
+-
+fstream
 -
 
 zupply/src/zupply.hpp

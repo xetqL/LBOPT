@@ -34,6 +34,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/home/xetql/LB_branch_and_bound/zupply/src"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../include/c++/9.2.0"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../include/c++/9.2.0/x86_64-pc-linux-gnu"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../include/c++/9.2.0/backward"/>
@@ -56,6 +57,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/home/xetql/LB_branch_and_bound/zupply/src"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../include/c++/9.2.0"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../include/c++/9.2.0/x86_64-pc-linux-gnu"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../include/c++/9.2.0/backward"/>
@@ -83,6 +85,12 @@
 			</Target>
 		</Build>
 		<Unit filename="/home/xetql/LB_branch_and_bound/main.cpp">
+			<Option target="LB_branch_and_bound"/>
+		</Unit>
+		<Unit filename="/home/xetql/LB_branch_and_bound/zupply/src/zupply.cpp">
+			<Option target="LB_branch_and_bound"/>
+		</Unit>
+		<Unit filename="/home/xetql/LB_branch_and_bound/zupply/src/zupply.hpp">
 			<Option target="LB_branch_and_bound"/>
 		</Unit>
 		<Unit filename="/home/xetql/LB_branch_and_bound/CMakeLists.txt">

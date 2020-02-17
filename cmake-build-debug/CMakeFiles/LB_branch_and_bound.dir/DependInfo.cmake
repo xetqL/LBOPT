@@ -5,11 +5,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/xetql/LB_branch_and_bound/main.cpp" "/home/xetql/LB_branch_and_bound/cmake-build-debug/CMakeFiles/LB_branch_and_bound.dir/main.cpp.o"
+  "/home/xetql/LB_branch_and_bound/zupply/src/zupply.cpp" "/home/xetql/LB_branch_and_bound/cmake-build-debug/CMakeFiles/LB_branch_and_bound.dir/zupply/src/zupply.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "../zupply/src"
   )
 
 # Targets to which this target links.

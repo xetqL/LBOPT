@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/LB_branch_and_bound.dir/main.cpp.o  -o LB_branch_and_bound 
+/usr/bin/c++  -g   CMakeFiles/LB_branch_and_bound.dir/main.cpp.o CMakeFiles/LB_branch_and_bound.dir/zupply/src/zupply.cpp.o  -o LB_branch_and_bound -lpthread 

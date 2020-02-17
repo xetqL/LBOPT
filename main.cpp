@@ -1,3 +1,5 @@
+#include <utility>
+
 #include <iostream>
 #include <queue>
 #include <algorithm>
@@ -5,6 +7,7 @@
 #include <functional>
 #include <iomanip>
 #include <zupply.hpp>
+#include <fstream>
 
 using namespace zz;
 
@@ -61,6 +64,82 @@ inline T get(const std::vector<T>& prev, int i){
     return *(prev.begin() + i);
 }
 
+struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
+    unsigned int iteration = 0;
+    unsigned int prev_lb   = 0;
+    double cpu_time = 0;
+    bool   apply_lb = false;
+    std::shared_ptr<LBChainedNode> pnode;
+
+    LBChainedNode(unsigned int iteration, unsigned int prevLb, double cpuTime, bool applyLb,
+                  std::shared_ptr<LBChainedNode> pnode) : iteration(iteration), prev_lb(prevLb),
+                                                                 cpu_time(cpuTime), apply_lb(applyLb), pnode(std::move(pnode)) {}
+
+    /* Functions to evaluate the next computing time given the current scenario */
+    inline double eval() const { return eval(iteration); }
+    inline double eval(int i) const {
+        double v;
+            v = apply_lb ?
+                cpu_time + (W.at(iteration+1) / P) + C :
+                cpu_time + (W.at(prev_lb == 0 ? 0 : prev_lb + 1) / P) + deltaW(iteration) * (iteration - prev_lb);
+        return v;
+    }
+
+    std::shared_ptr<LBChainedNode> next(const std::vector<bool>& apply_lb) {
+        return std::make_shared<LBChainedNode>(iteration + 1,
+                get(apply_lb, iteration) ? iteration : prev_lb,
+                eval(iteration),
+                get(apply_lb, iteration + 1),
+                this->shared_from_this());
+    }
+    /* Get the possible children that may appear after the current scenario (apply_lb) */
+    inline std::pair<std::shared_ptr<LBChainedNode>, std::shared_ptr<LBChainedNode>> children() {
+        return
+        {
+            std::make_shared<LBChainedNode>(iteration+1, apply_lb ? iteration : prev_lb, eval(), true,  this->shared_from_this()),
+            std::make_shared<LBChainedNode>(iteration+1, apply_lb ? iteration : prev_lb, eval(), false, this->shared_from_this())
+        };
+    }
+
+    std::vector<bool> get_scenario(std::vector<bool>& scenario, const LBChainedNode* n) const {
+        if(n == nullptr) {
+            return scenario;
+        } else {
+            scenario.at(n->iteration) = (n->apply_lb);
+            return get_scenario(scenario, n->pnode.get());
+        }
+    }
+
+    std::vector<double> get_times(std::vector<double>& scenario, const LBChainedNode* n) const {
+        if(n->pnode == nullptr) {
+            return scenario;
+        } else {
+            scenario.at(n->iteration) = (n->eval());
+            return get_times(scenario, n->pnode.get());
+        }
+    }
+
+    friend std::ostream &operator<<(std::ostream &os, const LBChainedNode &node) {
+        std::vector<bool> scenario(node.iteration+1);
+        scenario = node.get_scenario(scenario, &node);
+        os << "iteration " << std::right << std::setfill(' ') << std::setw(3) << (node.iteration+1) << " -> { ";
+        std::for_each(scenario.begin(), scenario.begin() + node.iteration + 1, [&](auto val){ os << val << " ";});
+        os << "} = " << node.eval();
+        return os;
+    }
+
+    /* The node must be evaluated once */
+    std::string get_cpu_time() {
+        std::ostringstream str;
+        std::vector<double> scenario;
+        scenario = get_times(scenario, this);
+        std::for_each(scenario.cbegin(), scenario.cend(), [&](auto val){str << std::to_string(val) << std::endl;});
+        str << std::to_string(eval());
+        return str.str();
+    }
+
+};
+
 /* Structure of LBNode, it contains the full CPU_Time history and the LB history*/
 struct LBNode {
     unsigned int iteration = 0;
@@ -107,12 +186,35 @@ struct LBNode {
         str << std::to_string(eval());
         return str.str();
     }
+
+    bool operator<(const LBNode &rhs) const {
+        return this->eval() < rhs.eval();
+    }
+
+    bool operator>(const LBNode &rhs) const {
+        return rhs.eval() < this->eval();
+    }
+
+    bool operator<=(const LBNode &rhs) const {
+        return !(rhs.eval() < this->eval());
+    }
+
+    bool operator>=(const LBNode &rhs) const {
+        return !(this->eval() < rhs.eval());
+
+    }
 };
 
 /* Structure for comparing LBNode */
 struct CompareLBNode {
     bool operator()(LBNode &a, LBNode &b){
         return a.eval() > b.eval();
+    }
+};
+
+struct CompareLBChainedNode {
+    bool operator()(std::shared_ptr<LBChainedNode> &a, std::shared_ptr<LBChainedNode> &b){
+        return a->eval() > b->eval();
     }
 };
 
@@ -124,7 +226,7 @@ LBNode eval(LBNode&& n) {
     }
     return tmp;
 }
-LBNode eval(LBNode& n,  int until) {
+LBNode eval(LBNode&  n, int until) {
     int maxI = std::min((int) n.apply_lb.size() - 1, until);
     LBNode tmp = n;
     while(tmp.iteration < maxI) {
@@ -141,6 +243,29 @@ LBNode eval(LBNode&& n, int until) {
     return tmp;
 }
 
+LBChainedNode get_node_at(LBChainedNode&& head, int at){
+    int maxI = std::min((int) head.iteration, at);
+    maxI = maxI > 0 ? maxI : 0;
+    if(head.iteration == at){
+        return std::forward<LBChainedNode>(head);
+    }
+
+    LBChainedNode tmp = head;
+    while(tmp.iteration != maxI){
+        tmp = *tmp.pnode;
+    }
+    return tmp;
+}
+
+std::shared_ptr<LBChainedNode> eval(std::vector<bool> scenario) {
+    std::shared_ptr<LBChainedNode> node = std::make_shared<LBChainedNode>(0, 0, 0, scenario.at(0), nullptr);
+    auto size = scenario.size();
+    while(node->iteration+1 < size) {
+        node = node->next(scenario);
+    }
+    return node;
+}
+
 /* Enumerate (python-like) function, i.e., apply a binary function on a pair (int, T) where int is the id and T a
  * data to be processed. This function may or may not change the data via non-const iterator.*/
 template<class InputIt, class BinaryOp>
@@ -152,18 +277,62 @@ void enumerate(InputIt begin, InputIt end, BinaryOp&& fb){
         ++i;
     }
 }
+void reverse(std::shared_ptr<LBChainedNode>& node){
+    std::shared_ptr<LBChainedNode>
+                  prev = nullptr,
+                  curr = node,
+                  next = node->pnode;
+    while(curr != nullptr) {
+        curr->pnode = prev;
+        prev = curr;
+        curr = next;
+        if(next != nullptr)
+            next = next->pnode;
+    }
+    node = prev;
+}
+void show_each_iteration(std::shared_ptr<LBChainedNode> n, int until) {
+    reverse(n);
+    auto head = n;
+    for(int i = 0; i < until-1; ++i) {
+        std::cout << "iteration " << std::right << std::setfill(' ') << std::setw(3) << (i+1) << " -> { ";
+        for(int j = 0; j < i+1; ++j){
+            std::cout << n->apply_lb << " ";
+            if(n->pnode == nullptr) break;
+            n = n->pnode;
+
+        }
+        std::cout << "} = " << n->cpu_time << std::endl;
+        n = head;
+    }
+    std::cout << "iteration " << std::right << std::setfill(' ') << std::setw(3) << (until) << " -> { ";
+    for(int j = 0; j < until; ++j){
+        std::cout << n->apply_lb << " ";
+        if(n->pnode == nullptr) break;
+        n = n->pnode;
+
+    }
+    std::cout << "} = " << n->eval() << std::endl;
+    reverse(n);
+}
 
 /* Show the cumulative time (CPU_TIME) of a given solution until a given iteration */
-void show_each_iteration(LBNode& n, int until){
+void show_each_iteration(LBNode& n, int until) {
     for(int i = 0; i < until; ++i)
         std::cout << eval(LBNode{0,0,{0}, n.apply_lb}, i) << std::endl;
 }
 
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const std::shared_ptr<T>& pc) {
+    os << *pc;
+    return os;
+}
 int main(int argc, char** argv) {
-    std::vector<LBNode> container;
+    using TNode = LBChainedNode;
+    std::vector<std::shared_ptr<TNode>> container;
     container.reserve(std::pow(2, 20));
-    using PriorityQueue = std::priority_queue<LBNode, std::vector<LBNode>, CompareLBNode>;
-    PriorityQueue pQueue{CompareLBNode{}, std::move(container)};
+    using PriorityQueue = std::priority_queue<std::shared_ptr<TNode>, std::vector<std::shared_ptr<TNode>>, CompareLBChainedNode>;
+    PriorityQueue pQueue{CompareLBChainedNode{}, std::move(container)};
 
     /* Workload increase rate function, some examples are given below */
     int deltaW_func_id;
@@ -179,20 +348,19 @@ int main(int argc, char** argv) {
     cfg::ArgParser parser;
     parser.add_opt_version('V', "version", "0.1");
     parser.add_opt_help('h', "help"); // use -h or --help
-
     parser.add_opt_value('W', "W0",W0, (double) 0, "Initial workload", "DOUBLE").require(); // require this option
     parser.add_opt_value('d', "deltaW", deltaW_func_id, (int) 0, "Select the workload increase rate function: default (0): dw=1, (1) dw=i, (2) dw=sin(i)", "INT"); // require this option
     parser.add_opt_value('p', "processor",  P, (unsigned int) 0, "Number of processors", "INT").require(); // require this option
     parser.add_opt_value('i', "iteration",  maxI, (unsigned int) maxI, "Number of iteration to simulate", "INT").require(); // require this option
     parser.add_opt_value('C', "lbcost",     C, (double) 0, "Load balancing cost", "DOUBLE").require(); // require this option
     parser.add_opt_value('s', "solution", nb_solution_wanted, (int) 1, "Number of output solution from branch and bound, default = 1", "INT"); // require this option
+
     bool output;
     parser.add_opt_flag('o', "out", "Produce output (yes/no)", &output);
 
     parser.parse(argc, argv);
 
-    if (parser.count_error() > 0)
-    {
+    if (parser.count_error() > 0) {
         std::cout << parser.get_error() << std::endl;
         std::cout << parser.get_help() << std::endl;
         exit(-1);
@@ -202,20 +370,21 @@ int main(int argc, char** argv) {
 
     deltaW = deltaWf[deltaW_func_id];
 
-    W.resize(maxI);
+    W.resize(maxI+1);
     for(int i = 0; i < maxI; ++i) W[i] = _W(i);
 
-    LBNode initNode {0, 0, {0}, {false}};
+    std::shared_ptr<TNode> initNode = std::make_shared<TNode>(0, 0, 0, false, nullptr);
     pQueue.push(initNode);
 
-    std::vector<LBNode> solutions;
+    std::vector<std::shared_ptr<TNode>> solutions;
     do {
-        LBNode currentNode = pQueue.top();
+        std::shared_ptr<TNode> currentNode = pQueue.top();
+        //std::cout << currentNode.iteration << " " << (currentNode.pnode != nullptr ? currentNode.pnode->iteration:0) << std::endl;
         pQueue.pop();
-        if(currentNode.iteration >= maxI - 1) {
+        if(currentNode->iteration >= maxI-1) {
             solutions.push_back(currentNode);
         } else {
-            auto [ l, r ] = currentNode.children();
+            auto [ l, r ] = currentNode->children();
             pQueue.push(l);
             pQueue.push(r);
         }
@@ -223,13 +392,12 @@ int main(int argc, char** argv) {
 
     std::cout << std::setfill('=') << std::setw(130) << "\n";
     std::cout << "Results from search using branch and bound: " << std::endl ;
-    enumerate(solutions.cbegin(), solutions.cend(), [&](int i, auto val){
+    enumerate(solutions.cbegin(), solutions.cend(), [](int i, std::shared_ptr<TNode> val){
         std::cout << std::right << std::setw (22) << std::fixed << std::setprecision(5) << std::setfill(' ')
         << "Solution " + std::to_string(i) << ": " << std::string(13, ' ') << val << std::endl;
     });
     std::cout << std::endl << "Results using mathematical formulation: "<<std::endl;
-    auto average_increase_load = (W[maxI-1] - W[0]) / maxI;
-
+    auto average_increase_load = (W[maxI-1] - W[0]) / (maxI-1);
     std::vector<bool> apply_lb1(maxI, false);
     auto fLB1 = [&](int cnt){return cnt*std::sqrt(2*C / (average_increase_load*(1-1.0/P)));};
     for(int i = 1, lb = std::round(fLB1(i)); lb <= maxI; ++i, lb = std::round(fLB1(i))) apply_lb1[lb-1] = true;
@@ -257,7 +425,7 @@ int main(int argc, char** argv) {
         std::ofstream fCpuTime;
         for(int i = 0; i < nb_solution_wanted; ++i){
             fCpuTime.open("optimal-cpu-time-"+std::to_string(i)+".txt");
-            fCpuTime << solutions[i].get_cpu_time();
+            fCpuTime << solutions[i]->get_cpu_time();
             fCpuTime.close();
         }
     }
