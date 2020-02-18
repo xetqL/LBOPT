@@ -1,5 +1,4 @@
 #include <utility>
-
 #include <iostream>
 #include <queue>
 #include <algorithm>
@@ -9,6 +8,8 @@
 #include <zupply.hpp>
 #include <fstream>
 #include <set>
+#include <chrono>
+
 #include "lbnode.hpp"
 
 using namespace zz;
@@ -92,6 +93,9 @@ int main(int argc, char** argv) {
 
     std::vector<std::shared_ptr<TNode>> solutions;
     std::vector<bool> foundYes (maxI, false);
+
+    using namespace std::chrono;
+    high_resolution_clock::time_point t1 = high_resolution_clock::now();
     do {
         auto currentNode = *pQueue.begin();
         pQueue.erase(pQueue.begin());
@@ -110,9 +114,11 @@ int main(int argc, char** argv) {
             pQueue.insert(no);
         }
     } while(solutions.size() < nb_solution_wanted);
+    high_resolution_clock::time_point t2 = high_resolution_clock::now();
+    duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
 
     std::cout << std::setfill('=') << std::setw(130) << "\n";
-    std::cout << "Results from search using branch and bound: " << std::endl ;
+    std::cout << "Results from search using branch and bound: (it took "<< time_span.count() << " seconds)" << std::endl ;
 
     enumerate(solutions.cbegin(), solutions.cend(), [](int i, std::shared_ptr<TNode> val){
         std::cout << std::right << std::setw (22) << std::fixed << std::setprecision(5) << std::setfill(' ')
@@ -120,6 +126,7 @@ int main(int argc, char** argv) {
     });
 
     std::cout << std::endl << "Results using mathematical formulation: "<<std::endl;
+    t1 = high_resolution_clock::now();
     auto average_increase_load = (W[maxI-1] - W[0]) / (maxI-1);
     std::vector<bool> apply_lb1(maxI, false);
     auto fLB1 = [&](int cnt){return cnt*std::sqrt(2*C / (average_increase_load*(1-1.0/P)));};
@@ -141,7 +148,11 @@ int main(int argc, char** argv) {
     std::cout << std::left << std::setw (24) << std::fixed << std::setprecision(5) << std::setfill(' ')
               <<  "sqrt(2*C/dW):  "<<"Tau=" << fLB3(1) <<"; "
               << eval(LBNode{0, 0, {0}, apply_lb3, &param}) << std::endl;
+    t2 = high_resolution_clock::now();
+    time_span = duration_cast<duration<double>>(t2 - t1);
+    std::cout << "Computation using mathematical formulation took " << time_span.count() << " seconds. " << std::endl;
     std::cout << std::setfill('=') << std::setw(130) << "\n";
+
 
     /* Show the cumulative time (CPU_TIME) of a given solution until a given iteration */
     if(verbose.get_count() >= 1) {
