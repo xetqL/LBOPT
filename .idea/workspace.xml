@@ -152,6 +152,12 @@
   <component name="MacroExpansionManager">
     <option name="directoryName" value="oCknIMAr" />
   </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="3" />
+    <option name="y" value="25" />
+    <option name="width" value="315" />
+    <option name="height" value="1052" />
+  </component>
   <component name="ProjectId" id="1XbiaCSn54OI2RRxeygyJiovk68" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -176,7 +182,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../irregular-domain-decomposition" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/CMakeLists.txt" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -191,7 +197,7 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="LB_branch_and_bound" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LB_branch_and_bound" TARGET_NAME="LB_branch_and_bound" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="LB_branch_and_bound" RUN_TARGET_NAME="LB_branch_and_bound">
+    <configuration name="LB_branch_and_bound" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LB_branch_and_bound" TARGET_NAME="LB_branch_and_bound" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="LB_branch_and_bound" RUN_TARGET_NAME="LB_branch_and_bound">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>

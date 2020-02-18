@@ -121,8 +121,8 @@ struct LBNode {
     inline double eval() const { return eval(iteration); }
     inline double eval(int i) const {
         auto v = get(apply_lb, i) ?
-                 get(cpu_time, i) + (params->W[iteration+1] / params->P) + params->C:
-                 get(cpu_time, i) + (params->W[prev_lb == 0 ? 0 : prev_lb+1] / params->P) + params->deltaW(iteration) * (iteration - prev_lb);
+                 get(cpu_time, i) + (params->W[iteration] / params->P) + params->C:
+                 get(cpu_time, i) + (params->W[prev_lb == 0 ? 0 : prev_lb] / params->P) + params->deltaW(iteration) * (iteration - prev_lb);
         return v;
     }
 
