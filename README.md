@@ -9,6 +9,7 @@ Lightning fast code for computing load balancing scenario from application param
 ``make``
 
 # run
+```console
 ./lb_exhaustive_search -h
 
 Usage: lb_exhaustive_search  [-hVv] -W=<DOUBLE> [-d <INT>] -p=<INT> -i=<INT> -C=<DOUBLE> [-s <INT>]
@@ -25,9 +26,9 @@ Usage: lb_exhaustive_search  [-hVv] -W=<DOUBLE> [-d <INT>] -p=<INT> -i=<INT> -C=
   -d, --deltaW=INT          Select the workload increase rate function: (0) dw=1.0, (1) dw=5.0/(1.0+0.2*i, (2) dw=1.0 + 0.2*i, (3) dw=sin(0.2*i)(default: 0)
   -s, --solution=INT        Number of output solution from branch and bound(default: 1)
   -v, --verbose             (1) output iteration by iteration, (2) produce output 
-  
+```  
 # example
-  
+```console  
 ./lb_exhaustive_search -W 10 -p 10 -C 20 -d 1 -s 3 -i 10 -v                                                                                    255 ↵
 =================================================================================================================================
 Results from search using branch and bound: 
@@ -73,6 +74,6 @@ iteration   7 -> { 0 0 0 1 0 0 1 } = 72.02282
 iteration   8 -> { 0 0 0 1 0 0 1 0 } = 77.22024
 iteration   9 -> { 0 0 0 1 0 0 1 0 0 } = 84.18048
 iteration  10 -> { 0 0 0 1 0 0 1 0 0 0 } = 92.65171
-
+```
 
   
