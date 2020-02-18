@@ -2,9 +2,11 @@
 Lightning fast code for computing load balancing scenario from application parameters
 
 # install
-git clone https://github.com/xetqL/lb_exhaustive_search.git --recursive
-cmake -DCMAKE_BUILD_TYPE=Release .
-make
+``git clone https://github.com/xetqL/lb_exhaustive_search.git --recursive``
+
+``cmake -DCMAKE_BUILD_TYPE=Release .``
+
+``make``
 
 # run
 ./lb_exhaustive_search -h
