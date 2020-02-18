@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named LB_branch_and_bound
+# Target rules for targets named lb_exhaustive_search
 
 # Build rule for target.
-LB_branch_and_bound: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 LB_branch_and_bound
-.PHONY : LB_branch_and_bound
+lb_exhaustive_search: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lb_exhaustive_search
+.PHONY : lb_exhaustive_search
 
 # fast build rule for target.
-LB_branch_and_bound/fast:
-	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/build
-.PHONY : LB_branch_and_bound/fast
+lb_exhaustive_search/fast:
+	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/build
+.PHONY : lb_exhaustive_search/fast
 
 lbnode.o: lbnode.cpp.o
 
@@ -129,7 +129,7 @@ lbnode.o: lbnode.cpp.o
 
 # target to build an object file
 lbnode.cpp.o:
-	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/lbnode.cpp.o
+	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/lbnode.cpp.o
 .PHONY : lbnode.cpp.o
 
 lbnode.i: lbnode.cpp.i
@@ -138,7 +138,7 @@ lbnode.i: lbnode.cpp.i
 
 # target to preprocess a source file
 lbnode.cpp.i:
-	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/lbnode.cpp.i
+	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/lbnode.cpp.i
 .PHONY : lbnode.cpp.i
 
 lbnode.s: lbnode.cpp.s
@@ -147,7 +147,7 @@ lbnode.s: lbnode.cpp.s
 
 # target to generate assembly for a file
 lbnode.cpp.s:
-	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/lbnode.cpp.s
+	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/lbnode.cpp.s
 .PHONY : lbnode.cpp.s
 
 main.o: main.cpp.o
@@ -156,7 +156,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -165,7 +165,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -174,7 +174,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 utils.o: utils.cpp.o
@@ -183,7 +183,7 @@ utils.o: utils.cpp.o
 
 # target to build an object file
 utils.cpp.o:
-	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/utils.cpp.o
+	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/utils.cpp.o
 .PHONY : utils.cpp.o
 
 utils.i: utils.cpp.i
@@ -192,7 +192,7 @@ utils.i: utils.cpp.i
 
 # target to preprocess a source file
 utils.cpp.i:
-	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/utils.cpp.i
+	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/utils.cpp.i
 .PHONY : utils.cpp.i
 
 utils.s: utils.cpp.s
@@ -201,7 +201,7 @@ utils.s: utils.cpp.s
 
 # target to generate assembly for a file
 utils.cpp.s:
-	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/utils.cpp.s
+	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/utils.cpp.s
 .PHONY : utils.cpp.s
 
 zupply/src/zupply.o: zupply/src/zupply.cpp.o
@@ -210,7 +210,7 @@ zupply/src/zupply.o: zupply/src/zupply.cpp.o
 
 # target to build an object file
 zupply/src/zupply.cpp.o:
-	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/zupply/src/zupply.cpp.o
+	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/zupply/src/zupply.cpp.o
 .PHONY : zupply/src/zupply.cpp.o
 
 zupply/src/zupply.i: zupply/src/zupply.cpp.i
@@ -219,7 +219,7 @@ zupply/src/zupply.i: zupply/src/zupply.cpp.i
 
 # target to preprocess a source file
 zupply/src/zupply.cpp.i:
-	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/zupply/src/zupply.cpp.i
+	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/zupply/src/zupply.cpp.i
 .PHONY : zupply/src/zupply.cpp.i
 
 zupply/src/zupply.s: zupply/src/zupply.cpp.s
@@ -228,7 +228,7 @@ zupply/src/zupply.s: zupply/src/zupply.cpp.s
 
 # target to generate assembly for a file
 zupply/src/zupply.cpp.s:
-	$(MAKE) -f CMakeFiles/LB_branch_and_bound.dir/build.make CMakeFiles/LB_branch_and_bound.dir/zupply/src/zupply.cpp.s
+	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/zupply/src/zupply.cpp.s
 .PHONY : zupply/src/zupply.cpp.s
 
 # Help Target
@@ -238,7 +238,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... LB_branch_and_bound"
+	@echo "... lb_exhaustive_search"
 	@echo "... edit_cache"
 	@echo "... lbnode.o"
 	@echo "... lbnode.i"

@@ -143,23 +143,20 @@ int main(int argc, char** argv) {
               << eval(LBNode{0, 0, {0}, apply_lb3, &param}) << std::endl;
     std::cout << std::setfill('=') << std::setw(130) << "\n";
 
-    std::vector<bool> s(maxI);
-    std::vector<bool> apply_lb4 = solutions[0]->get_scenario(s, solutions[0].get());
-
-    std::cout << std::left << std::setw (24) << std::fixed << std::setprecision(5) << std::setfill(' ')
-              <<  "Verification:  "<<"Tau=" <<"; "
-              << eval(LBNode{0, 0, {0}, apply_lb4, &param}) << std::endl;
-    std::cout << std::setfill('=') << std::setw(130) << "\n";
-
     /* Show the cumulative time (CPU_TIME) of a given solution until a given iteration */
     if(verbose.get_count() >= 1) {
-        reverse(solutions[0]);
-        auto it = get_lb_iterations(solutions[0]);
-        show_each_iteration(solutions[0], maxI);
-        reverse(solutions[0]);
-        std::ofstream fCpuTime; fCpuTime.open("optimal-lb.txt");
-        std::for_each(it.begin(), it.end(), [&fCpuTime](int i){fCpuTime << (i) << ",";});
-        fCpuTime.close();
+        int i = 0;
+        for(auto& solution : solutions){
+            reverse(solution);
+            auto it = get_lb_iterations(solution);
+            std::cout << "Solution ("<<i<<") "<< std::setfill('-') << std::setw(50) << "\n";
+            show_each_iteration(solution, maxI);
+            reverse(solution);
+            std::ofstream fCpuTime; fCpuTime.open(std::to_string(i)+"th-optimal_lb-scenario.txt");
+            std::for_each(it.begin(), it.end(), [&fCpuTime](int i){fCpuTime << (i) << ",";});
+            fCpuTime.close();
+            i++;
+        }
     }
 
     if(verbose.get_count() >= 2) {
