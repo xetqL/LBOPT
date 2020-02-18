@@ -30,7 +30,6 @@ int main(int argc, char** argv) {
     int deltaW_func_id;
     constexpr int NB_INCREASING_WORKLOAD_F = 4;
 
-
     /* Number of solution to get from Branch and Bound */
     int nb_solution_wanted;
     /* Initial workload */

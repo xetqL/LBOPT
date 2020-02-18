@@ -5,7 +5,7 @@ project(LB_branch_and_bound)
 set(CMAKE_CXX_STANDARD 17)
 find_package (Threads)
 
-add_executable(LB_branch_and_bound main.cpp zupply/src/zupply.cpp lbnode.cpp lbnode.hpp simparam.hpp utils.cpp utils.hpp)
+add_executable(lb_exhaustive_search main.cpp zupply/src/zupply.cpp lbnode.cpp lbnode.hpp simparam.hpp utils.cpp utils.hpp)
 
 target_link_libraries (LB_branch_and_bound ${CMAKE_THREAD_LIBS_INIT})
 target_include_directories(LB_branch_and_bound PUBLIC zupply/src)
