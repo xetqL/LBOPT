@@ -7,13 +7,13 @@
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Release" CONFIG_NAME="Release" GENERATION_DIR="." />
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4c6eeabb-7f92-4328-953b-70f283c55d28" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake_install.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lbnode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/lbnode.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lbnode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/lbnode.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
@@ -29,28 +29,14 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeCache.txt">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="501">
-              <caret line="180" column="21" selection-start-line="180" selection-start-column="21" selection-end-line="180" selection-end-column="21" />
+            <state relative-caret-position="166">
+              <caret line="91" column="28" selection-start-line="91" selection-start-column="28" selection-end-line="91" selection-end-column="28" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -58,20 +44,60 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/optimal-lb.txt">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/optimal-cpu-time-0.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-column="38" />
+            <state relative-caret-position="220">
+              <caret line="10" column="9" lean-forward="true" selection-start-line="10" selection-end-line="10" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="154">
+              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/optimal-lb.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="2" selection-start-column="2" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lbnode.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="479">
-              <caret line="195" column="115" selection-start-line="195" selection-start-column="115" selection-end-line="195" selection-end-column="115" />
+            <state relative-caret-position="188">
+              <caret line="86" column="51" lean-forward="true" selection-start-line="86" selection-start-column="51" selection-end-line="86" selection-end-column="51" />
+              <folding>
+                <element signature="e#0#2#0" />
+                <element signature="e#121#138#0" expanded="true" />
+                <element signature="e#1363#1868#0" />
+                <element signature="e#1873#2744#0" />
+                <element signature="e#4298#7103#1" />
+                <element signature="e#4927#5249#0" />
+                <element signature="e#5255#5543#0" />
+                <element signature="e#5548#6041#0" />
+                <element signature="e#6047#6418#0" />
+                <element signature="e#6424#6713#0" />
+                <element signature="e#6719#6809#0" />
+                <element signature="e#6814#6904#0" />
+                <element signature="e#6909#7002#0" />
+                <element signature="e#7007#7101#0" />
+                <element signature="e#7692#7813#1" />
+                <element signature="e#7719#7811#0" />
+                <element signature="e#7815#8007#1" />
+                <element signature="e#7849#8005#0" />
+                <element signature="e#8474#8492#0" expanded="true" />
+                <element signature="e#8466#8848#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -79,8 +105,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lbnode.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-65">
-              <caret line="68" column="5" selection-start-line="68" selection-start-column="5" selection-end-line="68" selection-end-column="5" />
+            <state relative-caret-position="209">
+              <caret line="68" selection-start-line="68" selection-end-line="68" selection-end-column="76" />
             </state>
           </provider>
         </entry>
@@ -93,7 +119,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file:///usr/include/c++/9.2.0/bits/shared_ptr.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
+            <state relative-caret-position="2772">
               <caret line="126" column="16" selection-start-line="126" selection-start-column="16" selection-end-line="126" selection-end-column="16" />
             </state>
           </provider>
@@ -102,7 +128,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lbplot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
+            <state relative-caret-position="22">
               <caret line="2" column="49" selection-start-line="2" selection-start-column="49" selection-end-line="2" selection-end-column="49" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
@@ -114,7 +140,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file:///usr/include/c++/9.2.0/bits/stl_queue.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15024">
+            <state relative-caret-position="13772">
               <caret line="626" column="6" selection-start-line="626" selection-start-column="6" selection-end-line="626" selection-end-column="6" />
             </state>
           </provider>
@@ -132,8 +158,8 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>get_scenario</find>
-      <find>reverse</find>
       <find>cout</find>
+      <find>reverse</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -142,10 +168,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/lbnode.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/lbnode.hpp" />
+        <option value="$PROJECT_DIR$/utils.hpp" />
         <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/lbnode.cpp" />
+        <option value="$PROJECT_DIR$/optimal-cpu-time-0.txt" />
+        <option value="$PROJECT_DIR$/lbnode.hpp" />
       </list>
     </option>
   </component>
@@ -171,7 +199,7 @@
           <expand>
             <path>
               <item name="LB_branch_and_bound" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LB_branch_and_bound" type="462c0819:PsiDirectoryNode" />
+              <item name="lb_exhaustive_search" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -218,10 +246,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="3" y="25" width="3434" height="1349" extended-state="6" />
+    <frame x="3" y="25" width="1914" height="1052" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12329174" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12473233" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -232,10 +260,11 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.36757216" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.26960257" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="CMake" order="11" weight="0.3293718" />
+      <window_info anchor="right" id="make" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -280,47 +309,107 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/CMakeCache.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
+        <state relative-caret-position="88">
           <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Makefile">
+    <entry file="file://$PROJECT_DIR$/CMakeCache.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/lbnode.hpp">
+    <entry file="file:///usr/include/c++/9.2.0/bits/shared_ptr.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="195" column="115" selection-start-line="195" selection-start-column="115" selection-end-line="195" selection-end-column="115" />
+        <state relative-caret-position="2772">
+          <caret line="126" column="16" selection-start-line="126" selection-start-column="16" selection-end-line="126" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lbnode.cpp">
+    <entry file="file://$PROJECT_DIR$/lbplot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-65">
-          <caret line="68" column="5" selection-start-line="68" selection-start-column="5" selection-end-line="68" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="501">
-          <caret line="180" column="21" selection-start-line="180" selection-start-column="21" selection-end-line="180" selection-end-column="21" />
+        <state relative-caret-position="22">
+          <caret line="2" column="49" selection-start-line="2" selection-start-column="49" selection-end-line="2" selection-end-column="49" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/9.2.0/bits/stl_queue.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13772">
+          <caret line="626" column="6" selection-start-line="626" selection-start-column="6" selection-end-line="626" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/optimal-lb.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret selection-end-column="38" />
+          <caret column="2" selection-start-column="2" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Makefile">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lbnode.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="68" selection-start-line="68" selection-end-line="68" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/optimal-cpu-time-0.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" column="9" lean-forward="true" selection-start-line="10" selection-end-line="10" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="91" column="28" selection-start-line="91" selection-start-column="28" selection-end-line="91" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lbnode.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="86" column="51" lean-forward="true" selection-start-line="86" selection-start-column="51" selection-end-line="86" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#2#0" />
+            <element signature="e#121#138#0" expanded="true" />
+            <element signature="e#1363#1868#0" />
+            <element signature="e#1873#2744#0" />
+            <element signature="e#4298#7103#1" />
+            <element signature="e#4927#5249#0" />
+            <element signature="e#5255#5543#0" />
+            <element signature="e#5548#6041#0" />
+            <element signature="e#6047#6418#0" />
+            <element signature="e#6424#6713#0" />
+            <element signature="e#6719#6809#0" />
+            <element signature="e#6814#6904#0" />
+            <element signature="e#6909#7002#0" />
+            <element signature="e#7007#7101#0" />
+            <element signature="e#7692#7813#1" />
+            <element signature="e#7719#7811#0" />
+            <element signature="e#7815#8007#1" />
+            <element signature="e#7849#8005#0" />
+            <element signature="e#8474#8492#0" expanded="true" />
+            <element signature="e#8466#8848#0" />
+          </folding>
         </state>
       </provider>
     </entry>

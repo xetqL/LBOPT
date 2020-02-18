@@ -22,17 +22,14 @@ std::ostream& operator<<(std::ostream& os, const std::shared_ptr<T>& pc) {
 int main(int argc, char** argv) {
     using TNode = LBChainedNode;
     std::vector<std::shared_ptr<TNode>> container;
-    container.reserve(std::pow(2, 20));
+    container.reserve((unsigned long) std::pow(2, 20));
     //using PriorityQueue = std::priority_queue<std::shared_ptr<TNode>, std::vector<std::shared_ptr<TNode>>, CompareLBChainedNode>;
     using PriorityQueue = std::multiset<std::shared_ptr<TNode>, CompareLBChainedNode>;
     PriorityQueue pQueue;
     /* Workload increase rate function, some examples are given below */
     int deltaW_func_id;
-    std::function<double(int)> deltaWf[3] = {
-            [](int i){return (double) 1.0;},
-            [](int i){return (double) 5.0/(1.0+0.2*i);},
-            [](int i){return std::sin((double) i);}
-    };
+    constexpr int NB_INCREASING_WORKLOAD_F = 4;
+
 
     /* Number of solution to get from Branch and Bound */
     int nb_solution_wanted;
@@ -54,15 +51,27 @@ int main(int argc, char** argv) {
     parser.add_opt_version('V', "version", "0.1");
     parser.add_opt_help('h', "help"); // use -h or --help
     parser.add_opt_value('W', "W0",W0, (double) 0, "Initial workload", "DOUBLE").require(); // require this option
-    parser.add_opt_value('d', "deltaW", deltaW_func_id, (int) 0, "Select the workload increase rate function: default (0): dw=1, (1) dw=i, (2) dw=sin(i)", "INT"); // require this option
+
+    std::function<double(int)> deltaWf[NB_INCREASING_WORKLOAD_F] = {
+            [](int i){ return (double) 1.0; },
+            [](int i){ return (double) 5.0/(1.0+0.2*i); },
+            [](int i){ return (double) 1.0 + i * 0.2; },
+            [](int i){ return 1.0 + std::sin(0.2*i); }
+    };
+
+    parser.add_opt_value('d', "deltaW", deltaW_func_id, (int) 0,
+            "Select the workload increase rate function:"
+            " (0) dw=1.0,"
+            " (1) dw=5.0/(1.0+0.2*i,"
+            " (2) dw=1.0 + 0.2*i,"
+            " (3) dw=sin(0.2*i)", "INT"); // require this option
     parser.add_opt_value('p', "processor",  P, (unsigned int) 0, "Number of processors", "INT").require(); // require this option
-    parser.add_opt_value('i', "iteration",  maxI, (unsigned int) maxI, "Number of iteration to simulate", "INT").require(); // require this option
+    parser.add_opt_value('i', "iteration",  maxI, maxI, "Number of iteration to simulate", "INT").require(); // require this option
     parser.add_opt_value('C', "lbcost",     C, (double) 0, "Load balancing cost", "DOUBLE").require(); // require this option
-    parser.add_opt_value('s', "solution", nb_solution_wanted, (int) 1, "Number of output solution from branch and bound, default = 1", "INT"); // require this option
+    parser.add_opt_value('s', "solution",   nb_solution_wanted, (int) 1, "Number of output solution from branch and bound", "INT"); // require this option
 
     bool output;
-    parser.add_opt_flag('o', "out", "Produce output (yes/no)", &output);
-
+    auto& verbose = parser.add_opt_flag('v', "verbose", "(1) output iteration by iteration, (2) produce output ", &output);
     parser.parse(argc, argv);
 
     if (parser.count_error() > 0) {
@@ -71,12 +80,11 @@ int main(int argc, char** argv) {
         exit(-1);
     }
 
-    deltaW_func_id = deltaW_func_id > 2 ? 0 : deltaW_func_id;
-
+    deltaW_func_id = deltaW_func_id > NB_INCREASING_WORKLOAD_F ? 0 : deltaW_func_id;
     deltaW = deltaWf[deltaW_func_id];
 
-    W.resize(maxI+1);
-    for(int i = 0; i < maxI; ++i) W[i] = _W(W0, i, deltaW);
+    W.resize(maxI);
+    for(unsigned int i = 0; i < maxI; ++i) W[i] = std::max(0.0, _W(W0, i, deltaW));
 
     SimParam param {W0, W, C, maxI, P, deltaW};
 
@@ -86,37 +94,22 @@ int main(int argc, char** argv) {
     std::vector<std::shared_ptr<TNode>> solutions;
     std::vector<bool> foundYes (maxI, false);
     do {
-        std::shared_ptr<TNode> currentNode = *pQueue.begin();
-        //std::cout << currentNode.iteration << " " << (currentNode.pnode != nullptr ? currentNode.pnode->iteration:0) << std::endl;
+        auto currentNode = *pQueue.begin();
         pQueue.erase(pQueue.begin());
-
-        //Ok, I found a Yes Node for a given depth of the binary tree, no other Yes node at this depth can be better atm
-        //remove them
-        if(currentNode->apply_lb){
-            auto it = pQueue.begin();
-            const auto end = pQueue.end();
-            while(it != end) {
-                // copy the current iterator then increment it
-                auto current = it++;
-                auto node = *current;
-                if(node->iteration == currentNode->iteration && node->apply_lb){
-                    pQueue.erase(current);
-                }
-            }
+        //Ok, I found a Yes Node for a given depth of the binary tree, no other Yes node at this depth can be better
+        if(currentNode->apply_lb) {
+            prune_similar_nodes(currentNode, pQueue);
             foundYes[currentNode->iteration] = true;
         }
-
         if(currentNode->iteration >= maxI-1) {
             solutions.push_back(currentNode);
         } else {
             auto [ yes, no ] = currentNode->children();
             //if I did not removed a Yes Node at this iteration, it might be better than what already exist
-
             if(!foundYes.at(no->iteration))
                 pQueue.insert(yes);
             pQueue.insert(no);
         }
-        //std::cout << pQueue.size() << std::endl;
     } while(solutions.size() < nb_solution_wanted);
 
     std::cout << std::setfill('=') << std::setw(130) << "\n";
@@ -149,21 +142,28 @@ int main(int argc, char** argv) {
     std::cout << std::left << std::setw (24) << std::fixed << std::setprecision(5) << std::setfill(' ')
               <<  "sqrt(2*C/dW):  "<<"Tau=" << fLB3(1) <<"; "
               << eval(LBNode{0, 0, {0}, apply_lb3, &param}) << std::endl;
-
     std::cout << std::setfill('=') << std::setw(130) << "\n";
 
     std::vector<bool> s(maxI);
     std::vector<bool> apply_lb4 = solutions[0]->get_scenario(s, solutions[0].get());
 
-
     std::cout << std::left << std::setw (24) << std::fixed << std::setprecision(5) << std::setfill(' ')
               <<  "Verification:  "<<"Tau=" <<"; "
               << eval(LBNode{0, 0, {0}, apply_lb4, &param}) << std::endl;
-
     std::cout << std::setfill('=') << std::setw(130) << "\n";
 
+    /* Show the cumulative time (CPU_TIME) of a given solution until a given iteration */
+    if(verbose.get_count() >= 1) {
+        reverse(solutions[0]);
+        auto it = get_lb_iterations(solutions[0]);
+        show_each_iteration(solutions[0], maxI);
+        reverse(solutions[0]);
+        std::ofstream fCpuTime; fCpuTime.open("optimal-lb.txt");
+        std::for_each(it.begin(), it.end(), [&fCpuTime](int i){fCpuTime << (i) << ",";});
+        fCpuTime.close();
+    }
 
-    if(output){
+    if(verbose.get_count() >= 2) {
         std::ofstream fCpuTime;
         for(int i = 0; i < nb_solution_wanted; ++i){
             fCpuTime.open("optimal-cpu-time-"+std::to_string(i)+".txt");
@@ -171,13 +171,5 @@ int main(int argc, char** argv) {
             fCpuTime.close();
         }
     }
-    auto it = get_lb_iterations(solutions[0]);
-    /* Show the cumulative time (CPU_TIME) of a given solution until a given iteration */
-    show_each_iteration(solutions[0], maxI);
-
-
-    std::ofstream fCpuTime; fCpuTime.open("optimal-lb.txt");
-    std::for_each(it.begin(), it.end(), [&fCpuTime](int i){fCpuTime << (i+1) << ",";});
-    fCpuTime.close();
     return 0;
 }

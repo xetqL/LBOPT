@@ -11,6 +11,7 @@
 #include "utils.hpp"
 #include <sstream>
 #include <iomanip>
+#include <cassert>
 
 /*Use LBChainedNode as it consumes less memory*/
 struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
@@ -74,10 +75,10 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
     }
 
     std::vector<double> get_times(std::vector<double>& scenario, const LBChainedNode* n) const {
+        scenario.at(n->iteration) = n->eval();
         if(n->pnode == nullptr) {
             return scenario;
         } else {
-            scenario.at(n->iteration) = (n->eval());
             return get_times(scenario, n->pnode.get());
         }
     }
@@ -94,10 +95,10 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
     /* The node must be evaluated once */
     std::string get_cpu_time() {
         std::ostringstream str;
-        std::vector<double> scenario;
+        std::vector<double> scenario(iteration+1);
         scenario = get_times(scenario, this);
         std::for_each(scenario.cbegin(), scenario.cend(), [&](auto val){str << std::to_string(val) << std::endl;});
-        str << std::to_string(eval());
+        //str << std::to_string(eval());
         return str.str();
     }
 
@@ -181,7 +182,7 @@ std::shared_ptr<LBChainedNode> eval(std::vector<bool> scenario);
 void reverse(std::shared_ptr<LBChainedNode>& node);
 
 /* Show the cumulative time (CPU_TIME) of a given solution until a given iteration */
-void show_each_iteration(std::shared_ptr<LBChainedNode> n, int until);
+void show_each_iteration(std::shared_ptr<const LBChainedNode> n, int until);
 void show_each_iteration(LBNode& n, int until);
 
 std::vector<int> get_lb_iterations(std::shared_ptr<LBChainedNode> n);
@@ -198,6 +199,17 @@ struct CompareLBChainedNode {
     }
 };
 
-
+template<class Container>
+void prune_similar_nodes(const std::shared_ptr<LBChainedNode>& n, Container& c){
+    auto it = c.begin();
+    const auto end = c.end();
+    while(it != end) {
+        auto current = it++; // copy the current iterator then increment it
+        auto node = *current;
+        if(node->iteration == n->iteration && node->apply_lb) {
+            c.erase(current);
+        }
+    }
+}
 
 #endif //LB_BRANCH_AND_BOUND_LBNODE_HPP
