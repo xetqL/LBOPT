@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
 
     SimParam param {W0, W, C, maxI, P, deltaW};
 
-    std::shared_ptr<TNode> initNode = std::make_shared<TNode>(0, 0, 0, false, nullptr, &param);
+    std::shared_ptr<TNode> initNode = std::make_shared<TNode>(0, 0, 0, 0, false, nullptr, &param);
     pQueue.insert(initNode);
 
     std::vector<std::shared_ptr<TNode>> solutions;

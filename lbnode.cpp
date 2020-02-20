@@ -43,7 +43,7 @@ LBChainedNode get_node_at(LBChainedNode&& head, int at){
     return tmp;
 }
 std::shared_ptr<LBChainedNode> eval(std::vector<bool> scenario, SimParam p) {
-    std::shared_ptr<LBChainedNode> node = std::make_shared<LBChainedNode>(0, 0, 0, scenario.at(0), nullptr, &p);
+    std::shared_ptr<LBChainedNode> node = std::make_shared<LBChainedNode>(0, 0, 0, 0, scenario.at(0), nullptr, &p);
     auto size = scenario.size();
     while(node->iteration+1 < size) {
         node = node->next(scenario);

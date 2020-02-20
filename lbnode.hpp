@@ -24,11 +24,11 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
     std::shared_ptr<LBChainedNode> pnode;
     const SimParam * params;
 
-    LBChainedNode(unsigned int iteration, unsigned int prevLb, double cpuTime, bool applyLb,
+    LBChainedNode(unsigned int iteration, unsigned int prevLb, double cpuTime, double Wmax, bool applyLb,
                   std::shared_ptr<LBChainedNode> pnode, const SimParam * params) : iteration(iteration), prev_lb(prevLb),
-                                                          cpu_time(cpuTime),    apply_lb(applyLb), pnode(std::move(pnode)), params(params)
+                                                          cpu_time(cpuTime), Wmax(Wmax), apply_lb(applyLb), pnode(std::move(pnode)), params(params)
     {
-        Wmax = params->W0 / params->P;
+
     }
 
     /* Functions to evaluate the next computing time given the current state */
@@ -53,7 +53,8 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
     std::shared_ptr<LBChainedNode> next(const std::vector<bool>& apply_lb) {
         return std::make_shared<LBChainedNode>(iteration + 1,
                                                get(apply_lb, iteration) ? iteration : prev_lb,
-                                               eval2(iteration),
+                                               eval(iteration),
+                                               Wmax,
                                                get(apply_lb, iteration + 1),
                                                this->shared_from_this(),
                                                params);
@@ -67,6 +68,7 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
                             iteration+1,
                             apply_lb ? iteration : prev_lb,
                             eval2(),
+                            Wmax,
                             true,
                             this->shared_from_this(),
                             params),
@@ -74,6 +76,7 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
                             iteration+1,
                             apply_lb ? iteration : prev_lb,
                             eval2(),
+                            Wmax,
                             false,
                             this->shared_from_this(),
                             params)
