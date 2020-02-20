@@ -50,6 +50,8 @@ std::shared_ptr<LBChainedNode> eval(std::vector<bool> scenario, SimParam p) {
     }
     return node;
 }
+
+// reverse a linked list
 void reverse(std::shared_ptr<LBChainedNode>& node){
     std::shared_ptr<LBChainedNode>
             prev = nullptr,
@@ -59,8 +61,7 @@ void reverse(std::shared_ptr<LBChainedNode>& node){
         curr->pnode = prev;
         prev = curr;
         curr = next;
-        if(next != nullptr)
-            next = next->pnode;
+        if(next != nullptr) next = next->pnode;
     }
     node = prev;
 }

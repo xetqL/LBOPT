@@ -3,6 +3,12 @@ cmake_minimum_required(VERSION 3.14)
 project(LB_branch_and_bound)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_COMPILER "g++")
+
+IF(CMAKE_BUILD_TYPE MATCHES Debug)
+    set(CMAKE_CXX_FLAGS "-pg")
+ENDIF()
+
 find_package (Threads)
 
 add_executable(lb_exhaustive_search main.cpp zupply/src/zupply.cpp lbnode.cpp lbnode.hpp simparam.hpp utils.cpp utils.hpp)

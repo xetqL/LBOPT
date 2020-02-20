@@ -15,35 +15,50 @@
 
 /*Use LBChainedNode as it consumes less memory*/
 struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
+
     unsigned int iteration = 0;
     unsigned int prev_lb   = 0;
     double cpu_time = 0;
+    mutable double Wmax     = 0;
     bool   apply_lb = false;
     std::shared_ptr<LBChainedNode> pnode;
     const SimParam * params;
 
     LBChainedNode(unsigned int iteration, unsigned int prevLb, double cpuTime, bool applyLb,
                   std::shared_ptr<LBChainedNode> pnode, const SimParam * params) : iteration(iteration), prev_lb(prevLb),
-                                                          cpu_time(cpuTime),    apply_lb(applyLb), pnode(std::move(pnode)), params(params) {}
+                                                          cpu_time(cpuTime),    apply_lb(applyLb), pnode(std::move(pnode)), params(params)
+    {
+        Wmax = params->W0 / params->P;
+    }
 
-    /* Functions to evaluate the next computing time given the current scenario */
+    /* Functions to evaluate the next computing time given the current state */
     inline double eval() const { return eval(iteration); }
-    inline double eval(int i) const {
-        double v;
-        v = apply_lb ?
-            cpu_time + (params->W.at(iteration) / params->P) + params->C :
-            cpu_time + (params->W.at(prev_lb == 0 ? 0 : prev_lb) / params->P) + params->deltaW(iteration) * (iteration - prev_lb);
-        return v;
+    inline double eval2() const { return eval(iteration); }
+
+    inline double eval(unsigned int iteration) const {
+        return apply_lb ?
+               cpu_time + (params->W.at(iteration) / params->P) + params->C :
+               cpu_time + (params->W.at(prev_lb)   / params->P) + sum(prev_lb, iteration, params->deltaW);
+    }
+    inline double eval2(unsigned int iteration) const {
+        if(apply_lb) {
+            Wmax = (params->W.at(iteration) / params->P);
+            return cpu_time + Wmax + params->C;
+        } else {
+            Wmax += params->deltaW(iteration);
+            return cpu_time + Wmax;
+        }
     }
 
     std::shared_ptr<LBChainedNode> next(const std::vector<bool>& apply_lb) {
         return std::make_shared<LBChainedNode>(iteration + 1,
                                                get(apply_lb, iteration) ? iteration : prev_lb,
-                                               eval(iteration),
+                                               eval2(iteration),
                                                get(apply_lb, iteration + 1),
                                                this->shared_from_this(),
                                                params);
     }
+
     /* Get the possible children that may appear after the current scenario (apply_lb) */
     inline std::pair<std::shared_ptr<LBChainedNode>, std::shared_ptr<LBChainedNode>> children() {
         return
@@ -51,14 +66,14 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
                     std::make_shared<LBChainedNode>(
                             iteration+1,
                             apply_lb ? iteration : prev_lb,
-                            eval(),
+                            eval2(),
                             true,
                             this->shared_from_this(),
                             params),
                     std::make_shared<LBChainedNode>(
                             iteration+1,
                             apply_lb ? iteration : prev_lb,
-                            eval(),
+                            eval2(),
                             false,
                             this->shared_from_this(),
                             params)
@@ -88,7 +103,7 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
         scenario = node.get_scenario(scenario, &node);
         os << "iteration " << std::right << std::setfill(' ') << std::setw(3) << (node.iteration+1) << " -> { ";
         std::for_each(scenario.begin(), scenario.begin() + node.iteration + 1, [&](auto val){ os << val << " ";});
-        os << "} = " << node.eval();
+        os << "} = " << node.eval2();
         return os;
     }
 
@@ -123,7 +138,7 @@ struct LBNode {
     inline double eval(int i) const {
         auto v = get(apply_lb, i) ?
                  get(cpu_time, i) + (params->W[iteration] / params->P) + params->C:
-                 get(cpu_time, i) + (params->W[prev_lb == 0 ? 0 : prev_lb] / params->P) + params->deltaW(iteration) * (iteration - prev_lb);
+                 get(cpu_time, i) + (params->W[prev_lb]   / params->P) + sum(prev_lb, iteration, params->deltaW);
         return v;
     }
 
@@ -193,9 +208,10 @@ struct CompareLBNode {
         return a.eval() > b.eval();
     }
 };
+
 struct CompareLBChainedNode {
     inline bool operator()(const std::shared_ptr<LBChainedNode>& a, const std::shared_ptr<LBChainedNode>& b) const {
-        return a->eval() < b->eval();
+        return a->eval2() < b->eval2();
     }
 };
 

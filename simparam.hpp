@@ -6,6 +6,7 @@
 #define LB_BRANCH_AND_BOUND_SIMPARAM_HPP
 
 #include <functional>
+#include "utils.hpp"
 
 struct SimParam {
     /* Initial workload */

@@ -20,6 +20,32 @@ std::ostream& operator<<(std::ostream& os, const std::shared_ptr<T>& pc) {
     return os;
 }
 
+std::pair<double, std::vector<bool>> create_scenario_from_criterion(SimParam* params){
+    std::vector<bool> scenario(params->maxI, false);
+    double U = 0;
+    double Wmin, Wmax;
+    Wmax = params->W0 / params->P;
+    Wmin = Wmax;
+    double cpu_time = 0;
+
+    for(int iteration = 0; iteration < params->maxI; ++iteration)
+    {
+        if (U >= params->C){
+            scenario.at(iteration) = true;
+            U = 0.0;
+        }
+        if(scenario.at(iteration)){
+            Wmax = ((params->P-1) * Wmin + Wmax) / params->P;
+            Wmin = Wmax;
+            cpu_time += params->C;
+        }
+        cpu_time += Wmax;
+        Wmax += params->deltaW(iteration);
+        U += (Wmax - Wmin);
+    }
+    return {cpu_time, scenario};
+}
+
 int main(int argc, char** argv) {
     using TNode = LBChainedNode;
     std::vector<std::shared_ptr<TNode>> container;
@@ -62,9 +88,10 @@ int main(int argc, char** argv) {
     parser.add_opt_value('d', "deltaW", deltaW_func_id, (int) 0,
             "Select the workload increase rate function:"
             " (0) dw=1.0,"
-            " (1) dw=5.0/(1.0+0.2*i,"
+            " (1) dw=5.0/(1.0+0.2*i),"
             " (2) dw=1.0 + 0.2*i,"
             " (3) dw=sin(0.2*i)", "INT"); // require this option
+
     parser.add_opt_value('p', "processor",  P, (unsigned int) 0, "Number of processors", "INT").require(); // require this option
     parser.add_opt_value('i', "iteration",  maxI, maxI, "Number of iteration to simulate", "INT").require(); // require this option
     parser.add_opt_value('C', "lbcost",     C, (double) 0, "Load balancing cost", "DOUBLE").require(); // require this option
@@ -153,6 +180,18 @@ int main(int argc, char** argv) {
     std::cout << "Computation using mathematical formulation took " << time_span.count() << " seconds. " << std::endl;
     std::cout << std::setfill('=') << std::setw(130) << "\n";
 
+    std::cout << std::endl << "Results using U(t) >= C: "<< std::endl;
+
+    t1 = high_resolution_clock::now();
+    auto [t, scenario] = create_scenario_from_criterion(&param);
+
+    std::cout << std::left << std::setw (24) << std::fixed << std::setprecision(5) << std::setfill(' ')
+              <<  "U>=C:  "<<"Tau=" << fLB3(1) <<"; "
+              << eval(LBNode{0, 0, {0}, scenario, &param}) << std::endl;
+    t2 = high_resolution_clock::now();
+    time_span = duration_cast<duration<double>>(t2 - t1);
+    std::cout << "Computation using U>=C took " << time_span.count() << " seconds. " << std::endl;
+    std::cout << std::setfill('=') << std::setw(130) << "\n";
 
     /* Show the cumulative time (CPU_TIME) of a given solution until a given iteration */
     if(verbose.get_count() >= 1) {

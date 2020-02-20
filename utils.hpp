@@ -44,7 +44,7 @@ void enumerate(InputIt begin, InputIt end, BinaryOp&& fb){
 }
 
 template<class FMath>
-double sum(int b, int e, FMath& f){
+inline double sum(int b, int e, FMath& f){
     double r = 0;
     for(int i = b; i < e; ++i) r += f(i);
     return r;
