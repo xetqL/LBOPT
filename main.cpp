@@ -230,9 +230,7 @@ int main(int argc, char** argv) {
         }
     }
 
-
     std::vector<bool> s(maxI+1); solutions[0]->get_scenario(s,solutions[0].get());
-
     std::cout << "\nSolution 0: Tcpu computed by 'recuitLoadBalancing.cc:fitness' = " << __Bfitness(s, param) << std::endl;
 
     return 0;
