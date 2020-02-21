@@ -18,21 +18,20 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
     unsigned int iteration = 0;
     unsigned int prev_lb   = 0;
     double cpu_time = 0;
+    double Wmax     = 0;
     bool   apply_lb = false;
     std::shared_ptr<LBChainedNode> pnode;
     const SimParam * params;
 
-    LBChainedNode(unsigned int iteration, unsigned int prevLb, double cpuTime, bool applyLb,
+    LBChainedNode(unsigned int iteration, unsigned int prevLb, double cpuTime, double Wmax, bool applyLb,
                   std::shared_ptr<LBChainedNode> pnode, const SimParam * params) : iteration(iteration), prev_lb(prevLb),
-                                                          cpu_time(cpuTime),    apply_lb(applyLb), pnode(std::move(pnode)), params(params) {}
+                  cpu_time(cpuTime), Wmax(Wmax), apply_lb(applyLb), pnode(std::move(pnode)), params(params) {}
 
     /* Functions to evaluate the next computing time given the current scenario */
     inline double eval() const { return eval(iteration); }
-    inline double eval(int i) const {
-        double v;
-        v = apply_lb ?
-            cpu_time + (params->W.at(iteration) / params->P) + params->C :
-            cpu_time + (params->W.at(prev_lb == 0 ? 0 : prev_lb) / params->P) + params->deltaW(iteration) * (iteration - prev_lb);
+    inline double eval(unsigned int i) const {
+        double v = cpu_time + Wmax;
+        if(apply_lb) v += params->C;
         return v;
     }
 
@@ -40,10 +39,14 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
         return std::make_shared<LBChainedNode>(iteration + 1,
                                                get(apply_lb, iteration) ? iteration : prev_lb,
                                                eval(iteration),
+                                               get(apply_lb, iteration + 1) ?
+                                                 params->W.at(iteration+1) / params->P :
+                                                 Wmax + params->deltaW(iteration),
                                                get(apply_lb, iteration + 1),
                                                this->shared_from_this(),
                                                params);
     }
+
     /* Get the possible children that may appear after the current scenario (apply_lb) */
     inline std::pair<std::shared_ptr<LBChainedNode>, std::shared_ptr<LBChainedNode>> children() {
         return
@@ -52,6 +55,7 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
                             iteration+1,
                             apply_lb ? iteration : prev_lb,
                             eval(),
+                            params->W.at(iteration+1) / params->P,
                             true,
                             this->shared_from_this(),
                             params),
@@ -59,6 +63,7 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
                             iteration+1,
                             apply_lb ? iteration : prev_lb,
                             eval(),
+                            Wmax + params->deltaW(iteration),
                             false,
                             this->shared_from_this(),
                             params)
@@ -98,10 +103,8 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
         std::vector<double> scenario(iteration+1);
         scenario = get_times(scenario, this);
         std::for_each(scenario.cbegin(), scenario.cend(), [&](auto val){str << std::to_string(val) << std::endl;});
-        //str << std::to_string(eval());
         return str.str();
     }
-
 };
 
 /* Structure of LBNode, it contains the full CPU_Time history and the LB history*/
@@ -178,7 +181,7 @@ LBNode eval(LBNode&& n);
 LBNode eval(LBNode&  n, int until);
 LBNode eval(LBNode&& n, int until);
 LBChainedNode get_node_at(LBChainedNode&& head, int at);
-std::shared_ptr<LBChainedNode> eval(std::vector<bool> scenario);
+std::shared_ptr<LBChainedNode> eval(std::vector<bool> scenario, SimParam p);
 void reverse(std::shared_ptr<LBChainedNode>& node);
 
 /* Show the cumulative time (CPU_TIME) of a given solution until a given iteration */

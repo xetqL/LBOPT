@@ -20,6 +20,43 @@ std::ostream& operator<<(std::ostream& os, const std::shared_ptr<T>& pc) {
     return os;
 }
 
+double  __Bfitness(std::vector<bool> s, SimParam p)
+{
+    double Tcpu=0.;  double Wmin=p.W0/p.P; double Wmax=p.W0/p.P;
+    for(int i=0;i<p.maxI;i++){
+        if(s[i]) {  // load balancing
+            Wmin=((p.P-1)*Wmin + Wmax)/p.P;
+            Wmax=Wmin;
+            Tcpu+=p.C;
+        }
+        Tcpu += Wmax;  // add the time of the most loaded proc
+        Wmax += p.deltaW(i);
+    }
+    return Tcpu;
+}
+
+std::pair<double, std::vector<bool>> create_scenario(SimParam p){
+    std::vector<bool> scenario(p.maxI);
+    double U = 0;
+    const auto P = p.P;
+    double Wmax = p.W0 / p.P;
+    double Wmin = Wmax;
+    double Tcpu = 0;
+    for(int iter = 0; iter < p.maxI; ++iter) {
+        U += Wmax - Wmin;
+        if (U >= p.C){ // trigger load balancing
+            U = 0;
+            Wmax = ((P-1) * Wmin + Wmax) / P;
+            Wmin = Wmax;
+            Tcpu += p.C;
+            scenario[iter] = true;
+        }
+        Tcpu += Wmax;
+        Wmax += p.deltaW(iter);
+    }
+    return {Tcpu, scenario};
+}
+
 int main(int argc, char** argv) {
     using TNode = LBChainedNode;
     std::vector<std::shared_ptr<TNode>> container;
@@ -88,7 +125,7 @@ int main(int argc, char** argv) {
 
     SimParam param {W0, W, C, maxI, P, deltaW};
 
-    std::shared_ptr<TNode> initNode = std::make_shared<TNode>(0, 0, 0, false, nullptr, &param);
+    std::shared_ptr<TNode> initNode = std::make_shared<TNode>(0, 0, 0, W0 / P, false, nullptr, &param);
     pQueue.insert(initNode);
 
     std::vector<std::shared_ptr<TNode>> solutions;
@@ -96,6 +133,7 @@ int main(int argc, char** argv) {
 
     using namespace std::chrono;
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
+    /* Branch and bound search with node pruning */
     do {
         auto currentNode = *pQueue.begin();
         pQueue.erase(pQueue.begin());
@@ -114,6 +152,7 @@ int main(int argc, char** argv) {
             pQueue.insert(no);
         }
     } while(solutions.size() < nb_solution_wanted);
+
     high_resolution_clock::time_point t2 = high_resolution_clock::now();
     duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
 
@@ -122,12 +161,15 @@ int main(int argc, char** argv) {
 
     enumerate(solutions.cbegin(), solutions.cend(), [](int i, std::shared_ptr<TNode> val){
         std::cout << std::right << std::setw (22) << std::fixed << std::setprecision(5) << std::setfill(' ')
-        << "Solution " + std::to_string(i) << ": " << std::string(13, ' ') << val << std::endl;
+        << "Solution " + std::to_string(i) << ":  " << std::string(13, ' ') << val << std::endl;
     });
 
     std::cout << std::endl << "Results using mathematical formulation: "<<std::endl;
     t1 = high_resolution_clock::now();
+
+    // compute average increase load based on application workload, dumb linear approximation
     auto average_increase_load = (W[maxI-1] - W[0]) / (maxI-1);
+
     std::vector<bool> apply_lb1(maxI, false);
     auto fLB1 = [&](int cnt){return cnt*std::sqrt(2*C / (average_increase_load*(1-1.0/P)));};
     for(int i = 1, lb = std::round(fLB1(i)); lb <= maxI; ++i, lb = std::round(fLB1(i))) apply_lb1[lb-1] = true;
@@ -150,9 +192,18 @@ int main(int argc, char** argv) {
               << eval(LBNode{0, 0, {0}, apply_lb3, &param}) << std::endl;
     t2 = high_resolution_clock::now();
     time_span = duration_cast<duration<double>>(t2 - t1);
-    std::cout << "Computation using mathematical formulation took " << time_span.count() << " seconds. " << std::endl;
-    std::cout << std::setfill('=') << std::setw(130) << "\n";
+    std::cout << "Computation using mathematical formulation took " << time_span.count() << " seconds. \n " << std::endl;
 
+    std::cout << std::setfill('=') << std::setw(130) << "\n";
+    t1 = high_resolution_clock::now();
+    auto [t, sc] = create_scenario(param);
+    t2 = high_resolution_clock::now();
+    time_span = duration_cast<duration<double>>(t2 - t1);
+    std::cout << "Computation using U>=C criterion took " << time_span.count() << " seconds. " << std::endl;
+
+    std::cout << std::right << std::setw (22) << std::fixed << std::setprecision(5) << std::setfill(' ')
+              << std::left << "U>=C :" << "   " << std::string(13, ' ') << eval(sc, param) << std::endl;
+    std::cout << std::setfill('=') << std::setw(130) << "\n";
 
     /* Show the cumulative time (CPU_TIME) of a given solution until a given iteration */
     if(verbose.get_count() >= 1) {
@@ -178,5 +229,11 @@ int main(int argc, char** argv) {
             fCpuTime.close();
         }
     }
+
+
+    std::vector<bool> s(maxI+1); solutions[0]->get_scenario(s,solutions[0].get());
+
+    std::cout << "\nSolution 0: Tcpu computed by 'recuitLoadBalancing.cc:fitness' = " << __Bfitness(s, param) << std::endl;
+
     return 0;
 }
