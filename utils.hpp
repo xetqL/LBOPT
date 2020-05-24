@@ -6,6 +6,9 @@
 #define LB_BRANCH_AND_BOUND_UTILS_HPP
 
 #include <vector>
+#include <ostream>
+#include <algorithm>
+#include <memory>
 
 /* Append value and create new vector */
 template<class T>
@@ -46,7 +49,7 @@ void enumerate(InputIt begin, InputIt end, BinaryOp&& fb){
 template<class FMath>
 double sum(int b, int e, FMath& f){
     double r = 0;
-    for(int i = b; i < e; ++i) r += f(i);
+    for(int i = b; i < e; ++i) r = std::max(0.0, r+f(i));
     return r;
 }
 
@@ -54,5 +57,18 @@ double sum(int b, int e, FMath& f){
 template<class FMath>
 inline double _W(double W0, unsigned int i, FMath deltaW) {
     return W0 + sum(0, i, deltaW);
+}
+
+template<class T>
+std::ostream &operator<<(std::ostream &os, const std::vector<T> &vec) {
+
+    std::for_each(vec.begin(), vec.end(), [&os](auto val){ os << val << " ";});
+
+    return os;
+}
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const std::shared_ptr<T>& pc) {
+    os << *pc;
+    return os;
 }
 #endif //LB_BRANCH_AND_BOUND_UTILS_HPP

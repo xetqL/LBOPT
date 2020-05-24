@@ -2,8 +2,8 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
-      <config projectName="LB_branch_and_bound" targetName="lb_exhaustive_search" />
       <config projectName="LB_branch_and_bound" targetName="LB_branch_and_bound" />
+      <config projectName="LB_branch_and_bound" targetName="lb" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -13,8 +13,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4c6eeabb-7f92-4328-953b-70f283c55d28" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/LB_branch_and_bound.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/LB_branch_and_bound.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lbnode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/lbnode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lbnode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/lbnode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lbplot.py" beforeDir="false" afterPath="$PROJECT_DIR$/lbplot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/utils.hpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +31,6 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -42,21 +48,51 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/CMakeLists.txt" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager">
-    <configuration name="lb_exhaustive_search" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LB_branch_and_bound" TARGET_NAME="lb_exhaustive_search" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="LB_branch_and_bound" RUN_TARGET_NAME="lb_exhaustive_search">
+  <component name="RunManager" selected="Python.lbplot">
+    <configuration name="lb" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LB_branch_and_bound" TARGET_NAME="lb" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="LB_branch_and_bound" RUN_TARGET_NAME="lb">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="lbplot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="LB_branch_and_bound" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lbplot.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.lb" />
+      <item itemvalue="Python.lbplot" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.lbplot" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -80,9 +116,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -101,15 +135,49 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="621" y="311" key="SettingsEditor" timestamp="1582277802935">
-      <screen x="67" y="27" width="2130" height="1300" />
+    <state width="1613" height="345" key="GridCell.Tab.0.bottom" timestamp="1587836415293">
+      <screen x="67" y="27" width="3357" height="1300" />
+    </state>
+    <state width="2901" height="346" key="GridCell.Tab.0.bottom/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860848" />
+    <state width="1613" height="345" key="GridCell.Tab.0.bottom/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415293" />
+    <state width="2901" height="346" key="GridCell.Tab.0.bottom/67.27.3373.1316@67.27.3373.1316" timestamp="1587810234729" />
+    <state width="1613" height="345" key="GridCell.Tab.0.center" timestamp="1587836415292">
+      <screen x="67" y="27" width="3357" height="1300" />
+    </state>
+    <state width="2901" height="346" key="GridCell.Tab.0.center/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860847" />
+    <state width="1613" height="345" key="GridCell.Tab.0.center/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415292" />
+    <state width="2901" height="346" key="GridCell.Tab.0.center/67.27.3373.1316@67.27.3373.1316" timestamp="1587810234728" />
+    <state width="1613" height="345" key="GridCell.Tab.0.left" timestamp="1587836415291">
+      <screen x="67" y="27" width="3357" height="1300" />
+    </state>
+    <state width="2901" height="346" key="GridCell.Tab.0.left/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860846" />
+    <state width="1613" height="345" key="GridCell.Tab.0.left/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415291" />
+    <state width="2901" height="346" key="GridCell.Tab.0.left/67.27.3373.1316@67.27.3373.1316" timestamp="1587810234727" />
+    <state width="1613" height="345" key="GridCell.Tab.0.right" timestamp="1587836415292">
+      <screen x="67" y="27" width="3357" height="1300" />
+    </state>
+    <state width="2901" height="346" key="GridCell.Tab.0.right/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860847" />
+    <state width="1613" height="345" key="GridCell.Tab.0.right/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415292" />
+    <state width="2901" height="346" key="GridCell.Tab.0.right/67.27.3373.1316@67.27.3373.1316" timestamp="1587810234729" />
+    <state x="940" y="311" key="SettingsEditor" timestamp="1587825334300">
+      <screen x="67" y="27" width="3357" height="1300" />
     </state>
     <state x="621" y="311" key="SettingsEditor/67.27.2130.1300@67.27.2130.1300" timestamp="1582277802935" />
+    <state x="940" y="311" key="SettingsEditor/67.27.3357.1300@67.27.3357.1300" timestamp="1587825334300" />
     <state x="601" y="503" key="com.intellij.ide.util.TipDialog" timestamp="1582277772933">
       <screen x="67" y="27" width="2130" height="1300" />
     </state>
     <state x="601" y="503" key="com.intellij.ide.util.TipDialog/67.27.2130.1300@67.27.2130.1300" timestamp="1582277772933" />
+    <state x="618" y="573" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587807374895">
+      <screen x="67" y="27" width="1651" height="1300" />
+    </state>
+    <state x="618" y="573" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/67.27.1651.1300@67.27.1651.1300" timestamp="1587807374895" />
+    <state x="480" y="292" width="840" height="1034" key="search.everywhere.popup" timestamp="1587841714261">
+      <screen x="67" y="27" width="3357" height="1300" />
+    </state>
+    <state x="480" y="292" width="840" height="1034" key="search.everywhere.popup/67.27.3357.1300@67.27.3357.1300" timestamp="1587841714261" />
   </component>
 </project>

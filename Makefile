@@ -39,10 +39,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /snap/cmake/252/bin/cmake
+CMAKE_COMMAND = /snap/clion/112/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /snap/cmake/252/bin/cmake -E remove -f
+RM = /snap/clion/112/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/xetql/lb_exhaustive_search
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/snap/cmake/252/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/snap/clion/112/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/snap/cmake/252/bin/cmake-gui -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/snap/clion/112/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named lb_exhaustive_search
+# Target rules for targets named lb
 
 # Build rule for target.
-lb_exhaustive_search: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lb_exhaustive_search
-.PHONY : lb_exhaustive_search
+lb: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lb
+.PHONY : lb
 
 # fast build rule for target.
-lb_exhaustive_search/fast:
-	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/build
-.PHONY : lb_exhaustive_search/fast
+lb/fast:
+	$(MAKE) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/build
+.PHONY : lb/fast
 
 lbnode.o: lbnode.cpp.o
 
@@ -129,7 +129,7 @@ lbnode.o: lbnode.cpp.o
 
 # target to build an object file
 lbnode.cpp.o:
-	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/lbnode.cpp.o
+	$(MAKE) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/lbnode.cpp.o
 .PHONY : lbnode.cpp.o
 
 lbnode.i: lbnode.cpp.i
@@ -138,7 +138,7 @@ lbnode.i: lbnode.cpp.i
 
 # target to preprocess a source file
 lbnode.cpp.i:
-	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/lbnode.cpp.i
+	$(MAKE) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/lbnode.cpp.i
 .PHONY : lbnode.cpp.i
 
 lbnode.s: lbnode.cpp.s
@@ -147,7 +147,7 @@ lbnode.s: lbnode.cpp.s
 
 # target to generate assembly for a file
 lbnode.cpp.s:
-	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/lbnode.cpp.s
+	$(MAKE) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/lbnode.cpp.s
 .PHONY : lbnode.cpp.s
 
 main.o: main.cpp.o
@@ -156,7 +156,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -165,7 +165,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -174,7 +174,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 utils.o: utils.cpp.o
@@ -183,7 +183,7 @@ utils.o: utils.cpp.o
 
 # target to build an object file
 utils.cpp.o:
-	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/utils.cpp.o
+	$(MAKE) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/utils.cpp.o
 .PHONY : utils.cpp.o
 
 utils.i: utils.cpp.i
@@ -192,7 +192,7 @@ utils.i: utils.cpp.i
 
 # target to preprocess a source file
 utils.cpp.i:
-	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/utils.cpp.i
+	$(MAKE) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/utils.cpp.i
 .PHONY : utils.cpp.i
 
 utils.s: utils.cpp.s
@@ -201,7 +201,7 @@ utils.s: utils.cpp.s
 
 # target to generate assembly for a file
 utils.cpp.s:
-	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/utils.cpp.s
+	$(MAKE) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/utils.cpp.s
 .PHONY : utils.cpp.s
 
 zupply/src/zupply.o: zupply/src/zupply.cpp.o
@@ -210,7 +210,7 @@ zupply/src/zupply.o: zupply/src/zupply.cpp.o
 
 # target to build an object file
 zupply/src/zupply.cpp.o:
-	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/zupply/src/zupply.cpp.o
+	$(MAKE) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/zupply/src/zupply.cpp.o
 .PHONY : zupply/src/zupply.cpp.o
 
 zupply/src/zupply.i: zupply/src/zupply.cpp.i
@@ -219,7 +219,7 @@ zupply/src/zupply.i: zupply/src/zupply.cpp.i
 
 # target to preprocess a source file
 zupply/src/zupply.cpp.i:
-	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/zupply/src/zupply.cpp.i
+	$(MAKE) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/zupply/src/zupply.cpp.i
 .PHONY : zupply/src/zupply.cpp.i
 
 zupply/src/zupply.s: zupply/src/zupply.cpp.s
@@ -228,7 +228,7 @@ zupply/src/zupply.s: zupply/src/zupply.cpp.s
 
 # target to generate assembly for a file
 zupply/src/zupply.cpp.s:
-	$(MAKE) -f CMakeFiles/lb_exhaustive_search.dir/build.make CMakeFiles/lb_exhaustive_search.dir/zupply/src/zupply.cpp.s
+	$(MAKE) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/zupply/src/zupply.cpp.s
 .PHONY : zupply/src/zupply.cpp.s
 
 # Help Target
@@ -238,8 +238,8 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... lb_exhaustive_search"
 	@echo "... edit_cache"
+	@echo "... lb"
 	@echo "... lbnode.o"
 	@echo "... lbnode.i"
 	@echo "... lbnode.s"
