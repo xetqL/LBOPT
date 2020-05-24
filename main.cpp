@@ -43,6 +43,7 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_menon
     double C = p.C;
     for(int iter = 0; iter < p.maxI; ++iter) {
         U += Wmax - Wavg;
+        imb_time[iter] = U;
         if (U > C) { // trigger load balancing
             U = 0;
             Wmax = ((P-1) * Wavg + Wmax) / P;
@@ -50,8 +51,36 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_menon
             Tcpu += C;
             scenario[iter] = true;
         }
-        imb_time[iter] = U;
+        Tcpu += Wmax;
+        double delta = p.deltaW(iter);
+        Wavg = std::max(0.0, Wavg + delta / P);
+        Wmax = std::max(0.0, Wmax + delta);
+        if(Wmax < Wavg) {
+            Wmax = Wavg;
+        }
+    }
+    return {Tcpu, scenario, imb_time};
+}
 
+std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_eff(SimParam p){
+    std::vector<bool> scenario(p.maxI);
+    std::vector<double> imb_time(p.maxI);
+    double U = 0;
+    double P = p.P;
+    double Wmax = p.W0 / p.P;
+    double Wavg = Wmax;
+    double Tcpu = 0;
+    double C = p.C;
+    for(int iter = 0; iter < p.maxI; ++iter) {
+        U += Wmax - Wavg;
+        imb_time[iter] = U;
+        if (U > C) { // trigger load balancing
+            U = 0;
+            Wmax = ((P-1) * Wavg + Wmax) / P;
+            Wavg = Wmax;
+            Tcpu += C;
+            scenario[iter] = true;
+        }
         Tcpu += Wmax;
         double delta = p.deltaW(iter);
         Wavg = std::max(0.0, Wavg + delta / P);
@@ -74,13 +103,13 @@ std::pair<double, std::vector<double>> compute_tcpu(const std::vector<bool>& sce
     for(int iter = 0; iter < p.maxI; ++iter) {
         bool dec = scenario[iter];
         U += Wmax - Wavg;
+        imb_time[iter] = U;
         if (dec) { // trigger load balancing
             U = 0;
             Wmax = ((P-1) * Wavg + Wmax) / P;
             Wavg = Wmax;
             Tcpu += C;
         }
-        imb_time[iter] = U;
         Tcpu += Wmax;
         double delta = p.deltaW(iter);
         Wavg = std::max(0.0, Wavg + delta / P);
@@ -193,7 +222,7 @@ int main(int argc, char** argv) {
         uniformLoad[i]  = uniform_dist(rng);
         gaussianLoad[i] = normal_dist(rng);
         sinLoad[i]      = 1.0 + std::sin(0.2 * i);
-        cosLoad[i]      = std::cos(i*20.0 * M_PI / 180.0);
+        cosLoad[i]      = std::cos(i*5.0 * M_PI / 180.0)- 0.1;
         nothing[i]      = 0.0;
         minus1[i]       = i < maxI/2 ? -1.0 : 1.0;
     }

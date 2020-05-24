@@ -49,14 +49,16 @@ void enumerate(InputIt begin, InputIt end, BinaryOp&& fb){
 template<class FMath>
 double sum(int b, int e, FMath& f){
     double r = 0;
-    for(int i = b; i < e; ++i) r = std::max(0.0, r+f(i));
+    for(int i = b; i < e; ++i) r += f(i);
     return r;
 }
 
 /* Function to compute the application workload at a given iteration */
 template<class FMath>
 inline double _W(double W0, unsigned int i, FMath deltaW) {
-    return W0 + sum(0, i, deltaW);
+   auto r = W0;
+   for(int k = 0; k < i; ++k) r = std::max(0.0, r + deltaW(k));
+   return r;
 }
 
 template<class T>
