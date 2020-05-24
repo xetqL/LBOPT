@@ -12,17 +12,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4c6eeabb-7f92-4328-953b-70f283c55d28" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/LB_branch_and_bound.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/LB_branch_and_bound.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lbnode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/lbnode.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lbnode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/lbnode.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lbplot.py" beforeDir="false" afterPath="$PROJECT_DIR$/lbplot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/utils.hpp" afterDir="false" />
-    </list>
+    <list default="true" id="4c6eeabb-7f92-4328-953b-70f283c55d28" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
