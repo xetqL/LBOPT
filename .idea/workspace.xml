@@ -14,8 +14,10 @@
   <component name="ChangeListManager">
     <list default="true" id="4c6eeabb-7f92-4328-953b-70f283c55d28" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lbnode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/lbnode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lbplot.py" beforeDir="false" afterPath="$PROJECT_DIR$/lbplot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/utils.hpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +27,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -48,10 +51,10 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/CMakeLists.txt" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../yalbb/CMakeLists.txt" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.lbplot">
+  <component name="RunManager" selected="CMake Application.lb">
     <configuration name="lb" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LB_branch_and_bound" TARGET_NAME="lb" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="LB_branch_and_bound" RUN_TARGET_NAME="lb">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -80,14 +83,9 @@
     </configuration>
     <list>
       <item itemvalue="CMake Application.lb" />
-      <item itemvalue="Python.lbplot" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.lbplot" />
-      </list>
-    </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -132,46 +130,66 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1613" height="345" key="GridCell.Tab.0.bottom" timestamp="1587836415293">
+    <state x="1476" y="381" width="530" height="598" key="FileChooserDialogImpl" timestamp="1591607579402">
       <screen x="67" y="27" width="3357" height="1300" />
+    </state>
+    <state x="1476" y="381" key="FileChooserDialogImpl/67.27.3357.1300@67.27.3357.1300" timestamp="1591607579402" />
+    <state x="1483" y="385" width="530" height="598" key="FileChooserDialogImpl/67.27.3373.1316@67.27.3373.1316" timestamp="1590420877088" />
+    <state width="3317" height="433" key="GridCell.Tab.0.bottom" timestamp="1595516137989">
+      <screen x="67" y="27" width="3373" height="1316" />
     </state>
     <state width="2901" height="346" key="GridCell.Tab.0.bottom/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860848" />
     <state width="1613" height="345" key="GridCell.Tab.0.bottom/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415293" />
-    <state width="2901" height="346" key="GridCell.Tab.0.bottom/67.27.3373.1316@67.27.3373.1316" timestamp="1587810234729" />
-    <state width="1613" height="345" key="GridCell.Tab.0.center" timestamp="1587836415292">
-      <screen x="67" y="27" width="3357" height="1300" />
+    <state width="3317" height="433" key="GridCell.Tab.0.bottom/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137989" />
+    <state width="3317" height="433" key="GridCell.Tab.0.center" timestamp="1595516137978">
+      <screen x="67" y="27" width="3373" height="1316" />
     </state>
     <state width="2901" height="346" key="GridCell.Tab.0.center/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860847" />
     <state width="1613" height="345" key="GridCell.Tab.0.center/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415292" />
-    <state width="2901" height="346" key="GridCell.Tab.0.center/67.27.3373.1316@67.27.3373.1316" timestamp="1587810234728" />
-    <state width="1613" height="345" key="GridCell.Tab.0.left" timestamp="1587836415291">
-      <screen x="67" y="27" width="3357" height="1300" />
+    <state width="3317" height="433" key="GridCell.Tab.0.center/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137978" />
+    <state width="3317" height="433" key="GridCell.Tab.0.left" timestamp="1595516137977">
+      <screen x="67" y="27" width="3373" height="1316" />
     </state>
     <state width="2901" height="346" key="GridCell.Tab.0.left/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860846" />
     <state width="1613" height="345" key="GridCell.Tab.0.left/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415291" />
-    <state width="2901" height="346" key="GridCell.Tab.0.left/67.27.3373.1316@67.27.3373.1316" timestamp="1587810234727" />
-    <state width="1613" height="345" key="GridCell.Tab.0.right" timestamp="1587836415292">
-      <screen x="67" y="27" width="3357" height="1300" />
+    <state width="3317" height="433" key="GridCell.Tab.0.left/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137977" />
+    <state width="3317" height="433" key="GridCell.Tab.0.right" timestamp="1595516137979">
+      <screen x="67" y="27" width="3373" height="1316" />
     </state>
     <state width="2901" height="346" key="GridCell.Tab.0.right/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860847" />
     <state width="1613" height="345" key="GridCell.Tab.0.right/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415292" />
-    <state width="2901" height="346" key="GridCell.Tab.0.right/67.27.3373.1316@67.27.3373.1316" timestamp="1587810234729" />
+    <state width="3317" height="433" key="GridCell.Tab.0.right/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137979" />
+    <state width="3317" height="433" key="GridCell.Tab.1.bottom" timestamp="1595516137993">
+      <screen x="67" y="27" width="3373" height="1316" />
+    </state>
+    <state width="3317" height="433" key="GridCell.Tab.1.bottom/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137993" />
+    <state width="3317" height="433" key="GridCell.Tab.1.center" timestamp="1595516137991">
+      <screen x="67" y="27" width="3373" height="1316" />
+    </state>
+    <state width="3317" height="433" key="GridCell.Tab.1.center/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137991" />
+    <state width="3317" height="433" key="GridCell.Tab.1.left" timestamp="1595516137989">
+      <screen x="67" y="27" width="3373" height="1316" />
+    </state>
+    <state width="3317" height="433" key="GridCell.Tab.1.left/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137989" />
+    <state width="3317" height="433" key="GridCell.Tab.1.right" timestamp="1595516137992">
+      <screen x="67" y="27" width="3373" height="1316" />
+    </state>
+    <state width="3317" height="433" key="GridCell.Tab.1.right/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137992" />
     <state x="940" y="311" key="SettingsEditor" timestamp="1587825334300">
       <screen x="67" y="27" width="3357" height="1300" />
     </state>
-    <state x="621" y="311" key="SettingsEditor/67.27.2130.1300@67.27.2130.1300" timestamp="1582277802935" />
     <state x="940" y="311" key="SettingsEditor/67.27.3357.1300@67.27.3357.1300" timestamp="1587825334300" />
-    <state x="601" y="503" key="com.intellij.ide.util.TipDialog" timestamp="1582277772933">
-      <screen x="67" y="27" width="2130" height="1300" />
-    </state>
-    <state x="601" y="503" key="com.intellij.ide.util.TipDialog/67.27.2130.1300@67.27.2130.1300" timestamp="1582277772933" />
     <state x="618" y="573" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587807374895">
       <screen x="67" y="27" width="1651" height="1300" />
     </state>
     <state x="618" y="573" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/67.27.1651.1300@67.27.1651.1300" timestamp="1587807374895" />
-    <state x="480" y="292" width="840" height="1034" key="search.everywhere.popup" timestamp="1587841714261">
+    <state x="1325" y="313" width="840" height="1034" key="run.anything.popup" timestamp="1591389051851">
+      <screen x="67" y="27" width="3357" height="1307" />
+    </state>
+    <state x="1325" y="313" width="840" height="1034" key="run.anything.popup/67.27.3357.1307@67.27.3357.1307" timestamp="1591389051851" />
+    <state x="480" y="292" width="840" height="1034" key="search.everywhere.popup" timestamp="1591524772693">
       <screen x="67" y="27" width="3357" height="1300" />
     </state>
-    <state x="480" y="292" width="840" height="1034" key="search.everywhere.popup/67.27.3357.1300@67.27.3357.1300" timestamp="1587841714261" />
+    <state x="480" y="292" width="840" height="1034" key="search.everywhere.popup/67.27.3357.1300@67.27.3357.1300" timestamp="1591524772693" />
   </component>
 </project>
