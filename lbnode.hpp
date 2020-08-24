@@ -114,15 +114,17 @@ void prune_similar_nodes_except(const std::shared_ptr<LBChainedNode>& n, Contain
     while(it != end) {
         auto current = it++; // copy the current iterator then increment it
         auto node = *current;
-
         if(node->iteration == n->iteration && node->apply_lb) {
-            if(!except) c.erase(current); else except--;
+            if(!except)
+                c.erase(current);
+            else
+                except--;
         }
     }
 }
 
-template<class DataGetter>
-void write_data(std::ostream& str, LBChainedNode* node, DataGetter getField, const char* separator = "\n"){
+template<class DataGetter, class NodeType>
+void write_data(std::ostream& str, NodeType* node, DataGetter getField, const char* separator = "\n"){
     auto data = getField(node);
     std::for_each(data.cbegin(), data.cend(), [&](auto val){ str << val << separator;});
     str << std::endl;

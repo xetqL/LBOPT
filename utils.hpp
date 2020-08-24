@@ -10,8 +10,10 @@
 #include <iostream>
 #include <algorithm>
 #include <memory>
+
 #define debug(x) std::cout << #x <<"\t"<< x << std::endl;
-#define dump(i, x) std::cout << (i) << ": " << (#x) <<"\t"<< (x) << std::endl
+#define dump(i, x) std::cout << (i) << ": " << (#x) <<"\t" << (x) << std::endl
+
 /* Append value and create new vector */
 template<class T>
 inline std::vector<T> append(const std::vector<T>& prev, T v){
@@ -109,11 +111,12 @@ void transfer_bound(double& ub, double& lb, double mb, double dt, Comp comp, Mod
         m  = !m;
     }
 }
+
 template<class WorkloadIncreaseFunction>
 void update_workloads(unsigned int iter, unsigned int P, WorkloadIncreaseFunction deltaW, State& s){
     double delta = deltaW(iter);
     auto&[model, Wmax, Wavg, Wmin] = s;
-    switch(model){
+    switch(model) {
         case Balanced:
             if(delta > 0) {
                 Wmax += delta;
@@ -130,10 +133,8 @@ void update_workloads(unsigned int iter, unsigned int P, WorkloadIncreaseFunctio
             transfer_bound(Wmin, Wmax, Wavg, delta, std::less_equal<>(), model);
             break;
     }
-
     Wmin = std::max(0.0, Wmin);
     Wmax = std::max(0.0, Wmax);
-    Wavg = std::max(0.0, Wavg + delta / P );
-
+    Wavg = std::max(0.0, Wavg + delta / P);
 }
 #endif //LB_BRANCH_AND_BOUND_UTILS_HPP
