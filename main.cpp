@@ -12,6 +12,7 @@
 #include <random>
 
 #include "lbnode.hpp"
+#include "utils.hpp"
 
 using namespace zz;
 
@@ -20,7 +21,7 @@ double  __Bfitness(std::vector<bool> s, SimParam p)
     double Tcpu=0.;  double Wmin=p.W0/p.P; double Wmax=p.W0/p.P;
     for(int i=0;i<p.maxI;i++){
         if(s[i]) {  // load balancing
-            Wmin=((p.P-1)*Wmin + Wmax)/p.P;
+            Wmin=((p.P-1) * Wmin + Wmax)/p.P;
             Wmax=Wmin;
             Tcpu+=p.C;
         }
@@ -33,20 +34,25 @@ double  __Bfitness(std::vector<bool> s, SimParam p)
 std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_freq(SimParam p, int freq){
     std::vector<bool> scenario(p.maxI);
     std::vector<double> imb_time(p.maxI);
+    std::vector<double> it_max(p.maxI);
+    std::vector<double> it_avg(p.maxI);
     double U = 0;
     double P = p.P;
     double Wmax = p.W0 / p.P;
+    double Wmin = p.W0 / p.P;
     double Wavg = Wmax;
     double Tcpu = 0;
     double C = p.C;
+    Model model = Balanced;
+    State state {model, Wmax, Wavg, Wmin};
     for(int iter = 0; iter < p.maxI; ++iter) {
+        auto&[model, Wmax, Wavg, Wmin] = state;
         // Based on the previous iteration, should I rebalance ?
         if ((iter % freq) == 0 && iter > 0) { // trigger load balancing
             // Reset cumulative LB
             U = 0;
             // partitioning and mapping -> load balancing
-            Wmax = ((P-1) * Wavg + Wmax) / P;
-            Wavg = Wmax;
+            rebalance(state);
             // Account for the LB cost
             Tcpu += C;
             // This iteration is balanced
@@ -55,38 +61,59 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_freq(
 
         // Compute the iteration
         Tcpu += Wmax;
+        it_max[iter] = Wmax;
+        it_avg[iter] = Wavg;
         // Measure load imbalance
-        U += Wmax - Wavg;
+        U += compute_U(Wmax, Wavg);
         // Store cumulative load imbalance
         imb_time[iter] = U;
         // Apply the workload increase rate function
-        double delta = p.deltaW(iter);
-        Wavg = std::max(0.0, Wavg + delta / P);
-        Wmax = std::max(0.0, Wmax + delta);
-        if(Wmax < Wavg) {
-            Wmax = Wavg;
-        }
+        update_workloads(iter, p.P, p.deltaW, state);
+
     }
+
+    std::ofstream f;
+    auto sol = generate_solution_from_scenario(scenario, p);
+    f.open("freq-100-solution.txt");
+    f << p.maxI << std::endl;
+    f << p.W << std::endl;
+    f << std::fixed << std::setprecision(6);
+    f << sol->eval() << std::endl;
+    f << imb_time << std::endl;
+    write_data(f, sol.get(), get_scenario, " ");
+    write_data(f, sol.get(), get_times, " ");
+    f << p.C << std::endl;
+    f << it_max << std::endl;
+    f << it_avg << std::endl;
+    f.close();
+
     return {Tcpu, scenario, imb_time};
 }
 
 std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_menon1(SimParam p){
     std::vector<bool> scenario(p.maxI);
     std::vector<double> imb_time(p.maxI);
+    std::vector<double> it_max(p.maxI);
+    std::vector<double> it_avg(p.maxI);
     double U = 0;
     double P = p.P;
     double Wmax = p.W0 / p.P;
     double Wavg = Wmax;
+    double Wmin = Wmax;
     double Tcpu = 0;
     double C = p.C;
+    Model model = Balanced;
+    State state {model, Wmax, Wavg, Wmin};
     for(int iter = 0; iter < p.maxI; ++iter) {
+        auto&[model, Wmax, Wavg, Wmin] = state;
+
         // Based on the previous iteration, should I rebalance ?
         if (U > C) { // trigger load balancing
             // Reset cumulative LB
             U = 0;
             // partitioning and mapping -> load balancing
-            Wmax = ((P-1) * Wavg + Wmax) / P;
-            Wavg = Wmax;
+            // partitioning and mapping -> load balancing
+            rebalance(state);
             // Account for the LB cost
             Tcpu += C;
             // This iteration is balanced
@@ -95,61 +122,90 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_menon
 
         // Compute the iteration
         Tcpu += Wmax;
+        it_max[iter] = Wmax;
+        it_avg[iter] = Wavg;
         // Measure load imbalance
-        U += Wmax - Wavg;
+        U += compute_U(Wmax, Wavg);
         // Store cumulative load imbalance
         imb_time[iter] = U;
         // Apply the workload increase rate function
-        double delta = p.deltaW(iter);
-        Wavg = std::max(0.0, Wavg + delta / P);
-        Wmax = std::max(0.0, Wmax + delta);
-        if(Wmax < Wavg) {
-            Wmax = Wavg;
-        }
+        update_workloads(iter, p.P, p.deltaW, state);
+
     }
+
+    std::ofstream f;
+    auto sol = generate_solution_from_scenario(scenario, p);
+    f.open("menon-solution.txt");
+    f << p.maxI << std::endl;
+    f << p.W << std::endl;
+    f << std::fixed << std::setprecision(6);
+    f << sol->eval() << std::endl;
+    f << imb_time << std::endl;
+    write_data(f, sol.get(), get_scenario, " ");
+    write_data(f, sol.get(), get_times, " ");
+    f << p.C << std::endl;
+    f << it_max << std::endl;
+    f << it_avg << std::endl;
+    f.close();
+
     return {Tcpu, scenario, imb_time};
 }
 
 std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_menon_minus_one(SimParam p){
     std::vector<bool> scenario(p.maxI);
     std::vector<double> imb_time(p.maxI);
+    std::vector<double> it_max(p.maxI);
+    std::vector<double> it_avg(p.maxI);
     double U = 0;
     double P = p.P;
     double Wmax = p.W0 / p.P;
     double Wavg = Wmax;
+    double Wmin = Wmax;
     double Tcpu = 0;
     double C = p.C;
-    double prev_dw = 0.0;
+    Model model = Balanced;
+    State state {model, Wmax, Wavg, Wmin};
     for(int iter = 0; iter < p.maxI; ++iter) {
+        auto&[model, Wmax, Wavg, Wmin] = state;
         // Based on the previous iteration, should I rebalance ?
-        auto worse_than_before = (Wmax-Wavg) < prev_dw;
-        if (U+(Wmax - Wavg) > C) { // trigger load balancing
+        if (U + (Wmax - Wavg) > C) { // trigger load balancing
             // Reset cumulative LB
             U = 0;
             // partitioning and mapping -> load balancing
-            Wmax = ((P-1) * Wavg + Wmax) / P;
-            Wavg = Wmax;
+            rebalance(state);
             // Account for the LB cost
             Tcpu += C;
             // This iteration is balanced
             scenario[iter] = true;
         }
-
         // Compute the iteration
         Tcpu += Wmax;
+        it_max[iter] = Wmax;
+        it_avg[iter] = Wavg;
         // Measure load imbalance
-        U += Wmax - Wavg;
-        prev_dw = Wmax-Wavg;
+        U += compute_U(Wmax, Wavg);
         // Store cumulative load imbalance
         imb_time[iter] = U;
         // Apply the workload increase rate function
-        double delta = p.deltaW(iter);
-        Wavg = std::max(0.0, Wavg + delta / P);
-        Wmax = std::max(0.0, Wmax + delta);
-        if(Wmax < Wavg) {
-            Wmax = Wavg;
-        }
+        update_workloads(iter, p.P, p.deltaW, state);
+
     }
+
+    std::ofstream f;
+    auto sol = generate_solution_from_scenario(scenario, p);
+    f.open("menon-solution-1.txt");
+    f << p.maxI << std::endl;
+    f << p.W << std::endl;
+    f << std::fixed << std::setprecision(6);
+    f << sol->eval() << std::endl;
+    f << imb_time << std::endl;
+    write_data(f, sol.get(), get_scenario, " ");
+    write_data(f, sol.get(), get_times, " ");
+    f << p.C << std::endl;
+    f << it_max << std::endl;
+    f << it_avg << std::endl;
+    f.close();
+
     return {Tcpu, scenario, imb_time};
 }
 
@@ -160,100 +216,142 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_eff(S
     double P = p.P;
     double Wmax = p.W0 / p.P;
     double Wavg = Wmax;
+    double Wmin = Wmax;
     double Tcpu = 0;
     double C = p.C;
+    Model model = Balanced;
+    State state {model, Wmax, Wavg, Wmin};
     for(int iter = 0; iter < p.maxI; ++iter) {
-        U += Wmax - Wavg;
+        auto&[model, Wmax, Wavg, Wmin] = state;
+        U += compute_U(Wmax, Wavg);
         imb_time[iter] = U;
         if (U > C) { // trigger load balancing
             U = 0;
-            Wmax = ((P-1) * Wavg + Wmax) / P;
-            Wavg = Wmax;
+            // partitioning and mapping -> load balancing
+            rebalance(state);
             Tcpu += C;
             scenario[iter] = true;
         }
         Tcpu += Wmax;
-        double delta = p.deltaW(iter);
-        Wavg = std::max(0.0, Wavg + delta / P);
-        Wmax = std::max(0.0, Wmax + delta);
-        if(Wmax < Wavg) {
-            Wmax = Wavg;
-        }
+
+        update_workloads(iter, p.P, p.deltaW, state);
     }
     return {Tcpu, scenario, imb_time};
 }
 
-std::pair<double, std::vector<double>> compute_tcpu(const std::vector<bool>& scenario, SimParam p){
+std::pair<double, std::vector<double>> compute_tcpu(const std::vector<bool>& scenario, SimParam p, std::string fname){
     std::vector<double> imb_time(p.maxI);
+    std::vector<double> it_max(p.maxI);
+    std::vector<double> it_avg(p.maxI);
     double U = 0;
     double P = p.P;
     double Wmax = p.W0 / p.P;
     double Wavg = Wmax;
+    double Wmin = Wmax;
     double Tcpu = 0;
     double C = p.C;
+    Model model = Balanced;
+    State state {model, Wmax, Wavg, Wmin};
+
     for(int iter = 0; iter < p.maxI; ++iter) {
+        auto&[model, Wmax, Wavg, Wmin] = state;
         bool dec = scenario[iter];
 
         if (dec) { // trigger load balancing
             U = 0;
-            Wmax = ((P-1) * Wavg + Wmax) / P;
-            Wavg = Wmax;
+            // partitioning and mapping -> load balancing
+            rebalance(state);
             Tcpu += C;
         }
 
         Tcpu += Wmax;
+        it_max[iter] = Wmax;
+        it_avg[iter] = Wavg;
+        U += compute_U(Wmax, Wavg);
 
-        U += Wmax - Wavg;
         imb_time[iter] = U;
 
-        double delta = p.deltaW(iter);
-        Wavg = std::max(0.0, Wavg + delta / P);
-        Wmax = std::max(0.0, Wmax + delta);
-        if(Wmax < Wavg) {
-            Wmax = Wavg;
-        }
+        update_workloads(iter, p.P, p.deltaW, state);
+
     }
+
+    std::ofstream f;
+    auto sol = generate_solution_from_scenario(scenario, p);
+    f.open(fname.c_str());
+    f << p.maxI << std::endl;
+    f << p.W << std::endl;
+    f << std::fixed << std::setprecision(6);
+    f << sol->eval() << std::endl;
+    f << imb_time << std::endl;
+    write_data(f, sol.get(), get_scenario, " ");
+    write_data(f, sol.get(), get_times, " ");
+    f << p.C << std::endl;
+    f << it_max << std::endl;
+    f << it_avg << std::endl;
+    f.close();
+
     return {Tcpu, imb_time};
 }
 template<class LBEfficiencyF>
 std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_procassini(SimParam p, double desired_speedup, LBEfficiencyF&& getLBEfficiency){
     std::vector<bool> scenario(p.maxI);
     std::vector<double> imb_time(p.maxI);
+    std::vector<double> it_max(p.maxI);
+    std::vector<double> it_avg(p.maxI);
     double t_prime = 0;
     double U = 0;
     double cur_eff = 0, lb_eff = 0;
     double P = p.P;
     double Wmax = p.W0 / p.P;
     double Wavg = Wmax;
+    double Wmin = Wmax;
     double Tcpu = 0;
     double C = p.C;
+    double t;
+    Model model = Balanced;
+    State state {model, Wmax, Wavg, Wmin};
     for(int iter = 0; iter < p.maxI; ++iter) {
+        auto&[model, Wmax, Wavg, Wmin] = state;
+
+        if (t_prime < t) { // trigger load balancing
+            U = 0;
+            // partitioning and mapping -> load balancing
+            rebalance(state);
+            Tcpu += C;
+            scenario[iter] = true;
+        }
 
         Tcpu += Wmax;
-        U += Wmax - Wavg;
+        it_max[iter] = Wmax;
+        it_avg[iter] = Wavg;
+        U += compute_U(Wmax, Wavg);
         imb_time[iter] = U;
 
         cur_eff = Wavg / Wmax;
         lb_eff  = getLBEfficiency();
         t_prime = Wmax * cur_eff/lb_eff + C;
-        auto t = Wmax;
+        t = Wmax;
 
-        double delta = p.deltaW(iter);
-        Wavg = std::max(0.0, Wavg + delta / P);
-        Wmax = std::max(0.0, Wmax + delta);
+        update_workloads(iter, p.P, p.deltaW, state);
 
-        if(Wmax < Wavg) {
-            Wmax = Wavg;
-        }
 
-        if (t_prime < t) { // trigger load balancing
-            U = 0;
-            Wmax = ((P-1) * Wavg + Wmax) / P;
-            Wavg = Wmax;
-            Tcpu += C;
-            scenario[iter] = true;
-        }
     }
+
+    std::ofstream f;
+    auto sol = generate_solution_from_scenario(scenario, p);
+    f.open("proca-solution.txt");
+    f << p.maxI << std::endl;
+    f << p.W << std::endl;
+    f << std::fixed << std::setprecision(6);
+    f << sol->eval() << std::endl;
+    f << imb_time << std::endl;
+    write_data(f, sol.get(), get_scenario, " ");
+    write_data(f, sol.get(), get_times, " ");
+    f << p.C << std::endl;
+    f << it_max << std::endl;
+    f << it_avg << std::endl;
+    f.close();
+
     return {Tcpu, scenario, imb_time};
 }
 
@@ -325,7 +423,7 @@ int main(int argc, char** argv) {
     std::uniform_real_distribution<double> uniform_dist_derivative(0, W0 / 20);
     std::normal_distribution<double> normal_dist_derivative(2.0, 10.0);
     std::uniform_real_distribution<double> random_staircase(0.1, 1.1);
-    std::normal_distribution<double> normal_dist(0.3, 1.3);
+    std::normal_distribution<double> normal_dist(1.0, 3.0);
 
     std::vector<double> customLoad(maxI);
     std::vector<double> uniformLoad(maxI);
@@ -337,6 +435,7 @@ int main(int argc, char** argv) {
     std::vector<double> randomPositiveDerivativeUniform(maxI);
     std::vector<double> randomPositiveDerivativeNormal(maxI);
     std::vector<double> exponential(maxI);
+    std::vector<double> min_exponential(maxI);
 
     for (int i = 49; i < maxI; i += 50) {
         customLoad[i] = random_staircase(rng);
@@ -352,9 +451,10 @@ int main(int argc, char** argv) {
         nothing[i] = 0.0;
         minus1[i] = i < maxI / 2 ? -1.0 : 1.0;
         exponential[i] = std::exp(i / (maxI * 0.1));
+        min_exponential[i] = 1 - std::exp(i / (maxI * 1.0));
     }
 
-    constexpr int NB_INCREASING_WORKLOAD_F = 13;
+    constexpr int NB_INCREASING_WORKLOAD_F = 15;
 
     std::function<double(int)> deltaWf[NB_INCREASING_WORKLOAD_F] = {
             [W0, P](int i) { return (double) 0.5 * W0 / P; },
@@ -372,6 +472,8 @@ int main(int argc, char** argv) {
                 return (double) std::max(1.0, randomPositiveDerivativeNormal[i]);
             },
             [&exponential, W0, P](int i) { return (double) exponential[i]; },
+            [&min_exponential, W0, P](int i) { return (double) min_exponential[i]; },
+            [&min_exponential, W0, P, maxI](int i) {  auto x = (i/100)*100; if((i/100)%2==0) {return (double) 1.0/std::sqrt(2.0*M_PI) * std::exp(- std::pow((i-x)/10.0-5.0, 2.0)/4.0);} else return (double) 1.0 - std::exp((i-x) / (maxI * 1.5)); },
     };
 
     deltaW_func_id = deltaW_func_id > NB_INCREASING_WORKLOAD_F ? 0 : deltaW_func_id;
@@ -379,9 +481,9 @@ int main(int argc, char** argv) {
 
     W.resize(maxI);
     for (unsigned int i = 0; i < maxI; ++i) W[i] = std::max(0.0, _W(W0, i, deltaW));
-
-    std::cout << W << std::endl;
-    SimParam param{W0, W, C, maxI, P, deltaW};
+    if(verbose.get_count())
+        std::cout << W << std::endl;
+    SimParam param {W0, W, C, maxI, P, deltaW};
 
     std::shared_ptr<TNode> initNode = std::make_shared<TNode>(&param);
     pQueue.insert(initNode);
@@ -422,7 +524,7 @@ int main(int argc, char** argv) {
 
     enumerate(solutions.cbegin(), solutions.cend(), [](int i, std::shared_ptr<TNode> val) {
         std::cout << "BaB :" << std::string(13, ' ') << val << " "
-                  << std::get<0>(compute_tcpu(get_scenario(val.get()), *val->params)) << std::endl;
+                  << std::get<0>(compute_tcpu(get_scenario(val.get()), *val->params, "s1.txt")) << std::endl;
     });
     std::cout << std::endl << "Results using mathematical formulation: " << std::endl;
     t1 = high_resolution_clock::now();
@@ -432,90 +534,32 @@ int main(int argc, char** argv) {
     auto[tmenon, sc1, imb] = create_scenario_menon1(param);
 
     auto menon_criterion_sol1 = generate_solution_from_scenario(sc1, param);
+    auto[a,sc,c] = create_scenario_menon_minus_one(param);
 
-    std::cout << "U>C: " << std::string(13, ' ') << menon_criterion_sol1 << " " << tmenon << std::endl;
+    std::cout << "---- " << std::endl;
+    std::cout << param << std::endl;
+    std::cout << menon_criterion_sol1->eval() << std::endl;
+    std::cout << generate_solution_from_scenario(sc, param)->eval() << std::endl;
+    std::cout << solutions[0]->eval() << std::endl;
+    std::cout << "---- " << std::endl;
+
+    std::cout << "U>C: " << std::string(13, ' ') << menon_criterion_sol1->eval() << " " << tmenon << std::endl;
+    std::cout << "U+1>C: " << std::string(11, ' ') << generate_solution_from_scenario(sc, param)->eval() << " " << a << std::endl;
 
     /* Show the cumulative time (CPU_TIME) of a given solution up to a given iteration */
 
     if (verbose.get_count() >= 1) {
         std::cout << " Branch and Bound solutions: " << std::endl;
         show_each_iteration(solutions[0]);
-        std::cout << " Menon solution  (U>C): " << std::endl;
-        show_each_iteration(menon_criterion_sol1);
+        std::cout << " Menon solution  (U>C)adsd: " << std::endl;
+        show_each_iteration(generate_solution_from_scenario(sc, param));
     }
 
-    std::ofstream fMenon;
-    auto menon_criterion_sol = generate_solution_from_scenario(sc1, param);
-    fMenon.open("menon-solution.txt");
-    fMenon << param.maxI << std::endl;
-    fMenon << param.W << std::endl;
-    fMenon << std::fixed << std::setprecision(6);
-    fMenon << menon_criterion_sol->eval() << std::endl;
-    fMenon << imb << std::endl;
-    write_data(fMenon, menon_criterion_sol.get(), get_scenario, " ");
-    write_data(fMenon, menon_criterion_sol.get(), get_times, " ");
-    fMenon << param.C << std::endl;
-    fMenon.close();
-
-    {
-        std::ofstream fMenon;
-        auto[tmenon, sc1, imb] = create_scenario_menon_minus_one(param);
-        auto menon_criterion_sol = generate_solution_from_scenario(sc1, param);
-        fMenon.open("menon-solution-1.txt");
-        fMenon << param.maxI << std::endl;
-        fMenon << param.W << std::endl;
-        fMenon << std::fixed << std::setprecision(6);
-        fMenon << menon_criterion_sol->eval() << std::endl;
-        fMenon << imb << std::endl;
-        write_data(fMenon, menon_criterion_sol.get(), get_scenario, " ");
-        write_data(fMenon, menon_criterion_sol.get(), get_times, " ");
-        fMenon << param.C << std::endl;
-        fMenon.close();
-    }
-
-    {
-        std::ofstream fFreq100;
-        auto[tfreq, scfreq, imb_freq] = create_scenario_freq(param, 100);
-        auto freq_criterion_sol = generate_solution_from_scenario(scfreq, param);
-        fFreq100.open("freq-100-solution.txt");
-        fFreq100 << param.maxI << std::endl;
-        fFreq100 << param.W << std::endl;
-        fFreq100 << std::fixed << std::setprecision(6);
-        fFreq100 << freq_criterion_sol->eval() << std::endl;
-        fFreq100 << imb_freq << std::endl;
-        write_data(fFreq100, freq_criterion_sol.get(), get_scenario, " ");
-        write_data(fFreq100, freq_criterion_sol.get(), get_times, " ");
-        fFreq100 << param.C << std::endl;
-        fFreq100.close();
-    }
-    {
-        std::ofstream fProca;
-        auto[tproca, sc2, imb_proca] = create_scenario_procassini(param, 0.9, [](){return 0.96;});
-        auto proca_criterion_sol = generate_solution_from_scenario(sc2, param);
-        fProca.open("proca-solution.txt");
-        fProca << param.maxI << std::endl;
-        fProca << param.W << std::endl;
-        fProca << std::fixed << std::setprecision(6);
-        fProca << proca_criterion_sol->eval() << std::endl;
-        fProca << imb_proca << std::endl;
-        write_data(fProca, proca_criterion_sol.get(), get_scenario, " ");
-        write_data(fProca, proca_criterion_sol.get(), get_times, " ");
-        fProca << param.C << std::endl;
-        fProca.close();
-    }
-    std::ofstream fOpti;
+    create_scenario_freq(param, 100);
+    create_scenario_procassini(param, 0.9, [](){return 0.96;});
     for(int i = 0; i < nb_solution_wanted; ++i) {
-        auto[t, imb] = compute_tcpu(get_scenario(solutions[i].get()), param);
-        fOpti.open("optimal-solution-"+std::to_string(i)+".txt");
-        fOpti << param.maxI << std::endl;
-        fOpti << param.W << std::endl;
-        fOpti << std::fixed << std::setprecision(6);
-        fOpti << t << std::endl;
-        fOpti << imb << std::endl;
-        write_data(fOpti, solutions[i].get(), get_scenario," ");
-        write_data(fOpti, solutions[i].get(), get_times," ");
-        fOpti << param.C << std::endl;
-        fOpti.close();
+        std::cout << std::get<0>(compute_tcpu(get_scenario(solutions[i].get()), param, "optimal-solution-"+std::to_string(i)+".txt")) << std::endl;
+        std::cout << solutions[i]->eval() << std::endl;
     }
 
     return 0;

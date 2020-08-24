@@ -15,9 +15,17 @@
     <list default="true" id="4c6eeabb-7f92-4328-953b-70f283c55d28" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-exp-interesting.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/bab-histogram-tau-exp-interesting.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exp-interesting.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/exp-interesting.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lbnode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/lbnode.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lbnode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/lbnode.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lbplot.py" beforeDir="false" afterPath="$PROJECT_DIR$/lbplot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/men-histogram-tau-exp-interesting.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/men-histogram-tau-exp-interesting.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simparam.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/simparam.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/utils.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/utils.hpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +66,11 @@
     <configuration name="lb" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LB_branch_and_bound" TARGET_NAME="lb" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="LB_branch_and_bound" RUN_TARGET_NAME="lb">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="lbplot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -130,6 +143,12 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="586" y="633" width="569" height="697" key="#com.intellij.ide.util.MemberChooser" timestamp="1597400204700">
+      <screen x="67" y="27" width="1651" height="1307" />
+    </state>
+    <state x="586" y="633" width="569" height="697" key="#com.intellij.ide.util.MemberChooser/67.27.1651.1307@67.27.1651.1307" timestamp="1597400204700" />
+    <state x="1122" y="630" width="1595" height="697" key="#com.intellij.ide.util.MemberChooser/67.27.3357.1300@67.27.3357.1300" timestamp="1597137401398" />
+    <state x="1127" y="637" key="#com.intellij.ide.util.MemberChooser/67.27.3373.1316@67.27.3373.1316" timestamp="1597325277854" />
     <state x="1476" y="381" width="530" height="598" key="FileChooserDialogImpl" timestamp="1591607579402">
       <screen x="67" y="27" width="3357" height="1300" />
     </state>
@@ -138,26 +157,18 @@
     <state width="3317" height="433" key="GridCell.Tab.0.bottom" timestamp="1595516137989">
       <screen x="67" y="27" width="3373" height="1316" />
     </state>
-    <state width="2901" height="346" key="GridCell.Tab.0.bottom/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860848" />
-    <state width="1613" height="345" key="GridCell.Tab.0.bottom/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415293" />
     <state width="3317" height="433" key="GridCell.Tab.0.bottom/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137989" />
     <state width="3317" height="433" key="GridCell.Tab.0.center" timestamp="1595516137978">
       <screen x="67" y="27" width="3373" height="1316" />
     </state>
-    <state width="2901" height="346" key="GridCell.Tab.0.center/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860847" />
-    <state width="1613" height="345" key="GridCell.Tab.0.center/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415292" />
     <state width="3317" height="433" key="GridCell.Tab.0.center/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137978" />
     <state width="3317" height="433" key="GridCell.Tab.0.left" timestamp="1595516137977">
       <screen x="67" y="27" width="3373" height="1316" />
     </state>
-    <state width="2901" height="346" key="GridCell.Tab.0.left/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860846" />
-    <state width="1613" height="345" key="GridCell.Tab.0.left/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415291" />
     <state width="3317" height="433" key="GridCell.Tab.0.left/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137977" />
     <state width="3317" height="433" key="GridCell.Tab.0.right" timestamp="1595516137979">
       <screen x="67" y="27" width="3373" height="1316" />
     </state>
-    <state width="2901" height="346" key="GridCell.Tab.0.right/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860847" />
-    <state width="1613" height="345" key="GridCell.Tab.0.right/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415292" />
     <state width="3317" height="433" key="GridCell.Tab.0.right/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137979" />
     <state width="3317" height="433" key="GridCell.Tab.1.bottom" timestamp="1595516137993">
       <screen x="67" y="27" width="3373" height="1316" />
@@ -175,14 +186,10 @@
       <screen x="67" y="27" width="3373" height="1316" />
     </state>
     <state width="3317" height="433" key="GridCell.Tab.1.right/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137992" />
-    <state x="940" y="311" key="SettingsEditor" timestamp="1587825334300">
-      <screen x="67" y="27" width="3357" height="1300" />
+    <state x="1063" y="350" width="759" height="668" key="find.popup" timestamp="1597326112011">
+      <screen x="67" y="27" width="3373" height="1316" />
     </state>
-    <state x="940" y="311" key="SettingsEditor/67.27.3357.1300@67.27.3357.1300" timestamp="1587825334300" />
-    <state x="618" y="573" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587807374895">
-      <screen x="67" y="27" width="1651" height="1300" />
-    </state>
-    <state x="618" y="573" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/67.27.1651.1300@67.27.1651.1300" timestamp="1587807374895" />
+    <state x="1063" y="350" width="759" height="668" key="find.popup/67.27.3373.1316@67.27.3373.1316" timestamp="1597326112011" />
     <state x="1325" y="313" width="840" height="1034" key="run.anything.popup" timestamp="1591389051851">
       <screen x="67" y="27" width="3357" height="1307" />
     </state>

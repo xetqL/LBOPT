@@ -7,7 +7,7 @@
 #include "utils.hpp"
 
 std::shared_ptr<LBChainedNode> generate_solution_from_scenario(const std::vector<bool>& scenario, SimParam p) {
-    std::shared_ptr<LBChainedNode> node = std::make_shared<LBChainedNode>(0, scenario.at(0), 0, p.W0 / p.P, p.W0 / p.P,scenario.at(0), nullptr, &p);
+    std::shared_ptr<LBChainedNode> node = std::make_shared<LBChainedNode>(&p);
     for(auto it = (std::begin(scenario)+1); it != std::end(scenario); it++) {
         node = make_next(node.get(), *it);
     }
@@ -46,27 +46,23 @@ void show_each_iteration(std::shared_ptr<LBChainedNode> n) {
     reverse(n);
 }
 
-std::shared_ptr<LBChainedNode> make_next(LBChainedNode* parent, bool nextDecision){
-    double nextIterationTime;
-    int P = parent->params->P;
-    auto nextIteration = parent->iteration+1;
-    auto previous_lb_call = parent->apply_lb ? parent->iteration : parent->prev_lb;
-    double delta = parent->params->deltaW(parent->iteration);
-    double Wavg = std::max(0.0, parent->Wavg + delta / P);
-    double Wmax = std::max(0.0, parent->Wmax + delta);
 
-    if(Wmax < Wavg) {
-        Wmax = Wavg;
-    }
+
+std::shared_ptr<LBChainedNode> make_next(LBChainedNode* parent, bool nextDecision){
+    auto P = parent->params->P;
+
+    auto nextIteration = parent->iteration+1;
+
+    auto previous_lb_call = parent->apply_lb ? parent->iteration : parent->prev_lb;
+
+    State s = parent->s;
+    update_workloads(parent->iteration, P, parent->params->deltaW, s);
 
     if(nextDecision) {
-        nextIterationTime = ((P-1) * Wavg + Wmax) / P;
-        Wavg=nextIterationTime;
-    } else {
-        nextIterationTime = Wmax;
+        rebalance(s);
     }
 
-    return std::make_shared<LBChainedNode>(nextIteration, previous_lb_call, parent->eval(), nextIterationTime, Wavg, nextDecision, parent->shared_from_this(), parent->params);
+    return std::make_shared<LBChainedNode>(nextIteration, previous_lb_call, parent->eval(), s, nextDecision, parent->shared_from_this(), parent->params);
 }
 
 std::vector<int>    get_lb_iterations(LBChainedNode* parent) {
@@ -104,7 +100,7 @@ std::vector<double> get_imbalance_time(const LBChainedNode* n) {
     std::vector<double> cpu_times;
     auto curr = n;
     while(curr != nullptr){
-        cpu_times.push_back(curr->Wmax - curr->Wavg);
+        cpu_times.push_back(curr->s.max - curr->s.avg);
         curr = curr->pnode.get();
     }
     std::reverse(cpu_times.begin(), cpu_times.end());

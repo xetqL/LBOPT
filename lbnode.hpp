@@ -28,22 +28,26 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
     const unsigned int iteration;
     const unsigned int prev_lb;
     const double cpu_time;
-    const double Wmax, Wavg;
+
     const bool   apply_lb = false;
     std::shared_ptr<LBChainedNode> pnode;
     const SimParam * params;
-
-    LBChainedNode(unsigned int iteration, unsigned int prevLb, double cpuTime, double Wmax, double Wavg, bool applyLb,
+    const State s;
+    LBChainedNode(unsigned int iteration, unsigned int prevLb, double cpuTime, State s, bool applyLb,
                   std::shared_ptr<LBChainedNode> pnode, const SimParam * params) :
-                  iteration(iteration), prev_lb(prevLb), cpu_time(cpuTime), Wmax(Wmax), Wavg(Wavg), apply_lb(applyLb), pnode(std::move(pnode)), params(params) {}
+                  iteration(iteration), prev_lb(prevLb), cpu_time(cpuTime), s(s), apply_lb(applyLb), pnode(std::move(pnode)), params(params) {
+    }
 public:
     LBChainedNode(const SimParam * params):
         iteration(0), prev_lb(0), cpu_time(0),
-        Wmax(params->W0 / params->P), Wavg(Wmax),
+        s(Balanced, params->W0 / params->P,params->W0 / params->P,params->W0 / params->P),
         apply_lb(false), params(params) {}
 
-    inline double eval() const {
-        return apply_lb ? cpu_time + Wmax + params->C : cpu_time + Wmax;
+    double eval() const {
+        if (apply_lb)
+            return cpu_time + s.max + params->C;
+        else
+            return cpu_time + s.max;
     }
 
     /* Get the possible children that may appear after the current scenario (apply_lb) */
@@ -52,9 +56,6 @@ public:
     }
 
     bool get_decision() const { return apply_lb; }
-
-
-
     friend std::shared_ptr<LBChainedNode> make_next(LBChainedNode* parent, bool nextDecision);
     friend std::vector<bool> get_scenario(const LBChainedNode* n);
     friend std::vector<double>  get_times(const LBChainedNode* n);
@@ -62,7 +63,6 @@ public:
     friend std::vector<double> get_cumulative_imbalance_time(const LBChainedNode* n);
     friend std::vector<double> get_cumulative_time(const LBChainedNode* n);
     friend void write_cpu_times(std::ostream&, LBChainedNode*, const char*);
-
 };
 
 template<class T, class GetDataF>
@@ -124,7 +124,7 @@ void prune_similar_nodes_except(const std::shared_ptr<LBChainedNode>& n, Contain
 template<class DataGetter>
 void write_data(std::ostream& str, LBChainedNode* node, DataGetter getField, const char* separator = "\n"){
     auto data = getField(node);
-    std::for_each(data.cbegin(), data.cend(), [&](auto val){str << val << separator;});
+    std::for_each(data.cbegin(), data.cend(), [&](auto val){ str << val << separator;});
     str << std::endl;
 }
 

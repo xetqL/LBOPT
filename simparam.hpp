@@ -6,6 +6,7 @@
 #define LB_BRANCH_AND_BOUND_SIMPARAM_HPP
 
 #include <functional>
+#include <ostream>
 
 struct SimParam {
     /* Initial workload */
@@ -20,6 +21,11 @@ struct SimParam {
     const unsigned int P;
     /* Workload increase load function */
     const std::function<double(int)> deltaW;
+
+    friend std::ostream &operator<<(std::ostream &os, const SimParam &param) {
+        os << "W0: " << param.W0 << " C: " << param.C << " maxI: " << param.maxI << " P: " << param.P;
+        return os;
+    }
 };
 
 #endif //LB_BRANCH_AND_BOUND_SIMPARAM_HPP
