@@ -1,4 +1,4 @@
-# lb_exhaustive_search
+# LBOPT
 Lightning fast code for computing load balancing scenario from application parameters
 
 # install
