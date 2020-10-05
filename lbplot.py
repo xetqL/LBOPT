@@ -39,12 +39,12 @@ def compute_performance_diff(a, b):
 def get_params(fname):
     with open(fname) as f:
         I, W, t, cum, dec, tim, C, max, avg = f.readlines()
-        W =   [float(x) for x in W.strip().split(' ')]
-        cum2= [float(x) for x in cum.strip().split(' ')]
+        W =   np.asarray([float(x) for x in   W.strip().split(' ')])
+        cum2= np.asarray([float(x) for x in cum.strip().split(' ')])
         dec2= np.asarray([int(x)   for x in dec.strip().split(' ')])
-        time2=[float(x) for x in tim.strip().split(' ')]
-        max=[float(x) for x in max.strip().split(' ')]
-        avg=[float(x) for x in avg.strip().split(' ')]
+        time2=np.asarray([float(x) for x in tim.strip().split(' ')])
+        max=  np.asarray([float(x) for x in max.strip().split(' ')])
+        avg=  np.asarray([float(x) for x in avg.strip().split(' ')])
 
     return int(I), W, float(t), cum2, dec2, time2, float(C), max, avg
 
@@ -61,8 +61,8 @@ fig, ax = plt.subplots(4,1, figsize=(8.27, 11.69))
 
 I, W, tmen, cummen, decmen, timemen, C, max, avg = get_params(fmenon)
 I, W, tmen1, cummen1, decmen1, timemen1, C, max, avg = get_params(fmenon1)
-ax[3].plot(max, ls='-', label='max m1')
-ax[3].plot(avg, ls='-', label='avg m1')
+ax[3].plot(max, c='C2', ls='-', label='max U>C')
+ax[3].plot(avg, c='r', ls='-', label='avg curve')
 I, W, tpro, cumpro, decpro, timepro, C, max, avg = get_params(fpro)
 I, W, t100, cum100, dec100, time100, C, max, avg = get_params(ffreq100)
 
@@ -92,16 +92,18 @@ ax[0].legend()
 
 for i, fbab in enumerate(babfiles):
     I, W, tbab, cumbab, decbab, timebab, C, max, avg = get_params(fbab)
-    ax[1].plot(timebab, label='Branch and Bound %d' % i)
+    ax[1].plot(-compute_performance_diff(timebab, timebab), label='Branch and Bound %d' % i)
     ax[2].plot(cumbab, ls='-', label='Branch and Bound %d' % i)
-    ax[3].plot(max, ls='-', label='max %d' % i)
-    ax[3].plot(avg, ls='-', label='avg %d' % i)
+    ax[3].plot(max, c='C0', ls='-', label='BaB max %d' % i)
+    #ax[3].plot(avg, c='r', ls='-', label='avg curve')
 
     print("Bab", i, "is", compute_performance_diff(timebab[-1], timemen[-1]), "% faster than U>C")
-    print("Bab", i, "is", compute_performance_diff(timebab[-1], timemen1[-1]), "% faster than U>C -1")
+    print("Bab", i, "is", compute_performance_diff(timebab[-1], timemen1[-1]),"% faster than U>C -1")
     print("Bab", i, "is", compute_performance_diff(timebab[-1], timepro[-1]), "% faster than procassini")
     print("Bab", i, "is", compute_performance_diff(timebab[-1], time100[-1]), "% faster than rebalancing every 100 it")
+
     # print("  Absolute difference is: ", (timemen[-1] - timebab[-1]), "(Bab =", timebab[-1], ")")
+
     # print(np.sum(np.asarray(cumbab)) + np.sum(decbab) * C)
 ax[3].legend()
 print(np.sum(np.asarray(cummen)) + np.sum(decmen) * C)
@@ -119,16 +121,16 @@ for p, c in common_sub_seqs:
     tb.append(timemen[p:c])
 
 #ax[1].plot(timepro, label='procassini')
-ax[1].plot(timemen, label='U > C')
-ax[1].plot(timemen1, label='U + $\Delta_{i+1}$ > C')
+ax[1].plot(-compute_performance_diff(timebab, timemen), label='U > C')
+ax[1].plot(-compute_performance_diff(timebab, timemen1), label='U + $\Delta_{i+1}$ > C')
 
-ax[1].set_ylabel('CPU Time')
+
+ax[1].set_ylabel('Relative performance')
 ax[1].legend()
 
 #ax[2].plot(cumpro,  ls='dotted', label='procassini ($t\' < t$)' )
 ax[2].plot(cummen,  ls='dotted',  label='U>C')
 ax[2].plot(cummen1, ls='dashdot', label='U + $\Delta_{i+1}$ > C')
-
 
 ax[2].plot([C]*I, label='C')
 
