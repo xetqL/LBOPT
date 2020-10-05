@@ -2,8 +2,8 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
-      <config projectName="LB_branch_and_bound" targetName="LB_branch_and_bound" />
-      <config projectName="LB_branch_and_bound" targetName="lb" />
+      <config projectName="LBOPT" targetName="LB_branch_and_bound" />
+      <config projectName="LBOPT" targetName="lb" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -13,81 +13,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4c6eeabb-7f92-4328-953b-70f283c55d28" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/io.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/io.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scenario.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scenario.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/LB_branch_and_bound.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/LB_branch_and_bound.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/W5p100i3000C40d10s1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-W5p100i3000C40d10s1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-exp-interesting.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-exp1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-exp2.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-normal_pos1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-normal_pos1_lin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-normal_pos2_lin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-normal_pos3_lin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-normal_positive_err_lin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-normal_positive_lin_with_proca.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-test_layout.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-unifo_pos1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-uniform_positive_lin_with_proca.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-uniform_positive_lin_with_proca2.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/exp-interesting.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/exp1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/exp2.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/histogram-tau-W5p100i3000C40d10s1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lbnode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/lbnode.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-W5p100i3000C40d10s1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-exp-interesting.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-exp1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-exp2.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-normal_pos1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-normal_pos1_lin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-normal_pos2_lin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-normal_pos3_lin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-normal_positive_err_lin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-normal_positive_lin_with_proca.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-test_layout.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-unifo_pos1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-uniform_positive_lin_with_proca.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-uniform_positive_lin_with_proca2.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/normal_pos1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/normal_pos2_lin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/normal_pos3_lin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/normal_positive_err_lin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/normal_positive_lin_with_proca.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/positive-but-wrong-result.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/result-positive-high-variance.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/result-positive-low-variance.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/result_U_gt_C_is_optimal.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/result_random_positive_normal_high_variance.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_layout.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unifo_pos1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uniform-positive.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uniform_positive_lin_with_proca.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uniform_positive_lin_with_proca2.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/utils.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/utils.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/w10p100i1500c0_nothing.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/w10p100i1500c1000_normal.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/w10p100i1500c1000_sin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/w10p100i1500c100_cos-strange.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/w10p100i1500c100_cos.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/w10p100i1500c100_linear.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/w10p100i1500c100_normal.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/w10p100i1500c100_quadratic.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/w10p100i1500c100_sin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/w10p100i1500c100_staircase.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/w10p100i1500c100_uniform.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-test.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake_install.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/io.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/io.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lbnode.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lbnode.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lbplot.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/men-histogram-tau-test.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenario.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenario.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/simparam.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/toy_case_decrease_1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/toy_case_increase_decrease.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/toy_case_increase_decrease_sigmoid_exp.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/toy_case_increase_decrease_sin.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.hpp" beforeDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/CMakeFiles/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -97,130 +46,6 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release" />
-  <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7">
-              <caret line="143" column="37" selection-start-line="143" selection-start-column="37" selection-end-line="143" selection-end-column="37" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scenario.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="39" column="17" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
-              <folding>
-                <element signature="e#1587#3119#0" />
-                <element signature="e#3120#4619#0" />
-                <element signature="e#4620#5526#0" />
-                <element signature="e#5527#6617#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scenario.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="16" column="67" selection-start-line="16" selection-start-column="67" selection-end-line="16" selection-end-column="67" />
-              <folding>
-                <element signature="e#122#139#0" expanded="true" />
-                <element signature="e#1905#1926#0" expanded="true" />
-                <element signature="e#123#1558#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="658">
-              <caret line="129" column="83" lean-forward="true" selection-start-line="129" selection-start-column="83" selection-end-line="129" selection-end-column="83" />
-              <folding>
-                <element signature="e#119#136#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="20" column="30" lean-forward="true" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/simparam.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
-              <caret line="28" column="2" selection-start-line="28" selection-start-column="2" selection-end-line="28" selection-end-column="2" />
-              <folding>
-                <element signature="e#125#146#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/io.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="9" column="36" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
-              <folding>
-                <element signature="e#39#56#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lbnode.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="29" column="26" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
-              <folding>
-                <element signature="e#4100#4117#0" expanded="true" />
-                <element signature="e#4551#4585#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="6" column="26" lean-forward="true" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/io.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
-              <folding>
-                <element signature="e#110#130#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -230,22 +55,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/simparam.hpp" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/io.hpp" />
-        <option value="$PROJECT_DIR$/lbnode.hpp" />
-        <option value="$PROJECT_DIR$/io.cpp" />
-        <option value="$PROJECT_DIR$/scenario.hpp" />
-        <option value="$PROJECT_DIR$/scenario.cpp" />
-        <option value="$PROJECT_DIR$/utils.cpp" />
-        <option value="$PROJECT_DIR$/utils.hpp" />
-        <option value="$PROJECT_DIR$/main.cpp" />
-      </list>
-    </option>
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="oCknIMAr" />
@@ -258,25 +67,6 @@
   </component>
   <component name="ProjectId" id="1XbiaCSn54OI2RRxeygyJiovk68" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="LB_branch_and_bound" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lb_exhaustive_search" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
-  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -288,22 +78,20 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../yalbb/CMakeLists.txt" />
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager" selected="Application.lb">
-    <configuration name="lb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LB_branch_and_bound" TARGET_NAME="lb" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="LB_branch_and_bound" RUN_TARGET_NAME="lb">
+  <component name="RunManager" selected="CMake Application.lb">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="lb" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LBOPT" TARGET_NAME="lb" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="LBOPT" RUN_TARGET_NAME="lb">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="lbplot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -328,11 +116,10 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.lb" />
-      <item itemvalue="Python.lbplot" />
+      <item itemvalue="CMake Application.lb" />
     </list>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -347,31 +134,6 @@
     </task>
     <servers />
   </component>
-  <component name="ToolWindowManager">
-    <frame x="3" y="25" width="955" height="1052" extended-state="6" />
-    <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.5137514" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.63480127" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="CMake" weight="0.32975295" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Database" />
-      <window_info anchor="right" id="make" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
@@ -380,14 +142,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -406,36 +161,30 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1476" y="381" width="530" height="598" key="FileChooserDialogImpl" timestamp="1591607579402">
-      <screen x="67" y="27" width="3357" height="1300" />
+    <state x="642" y="381" width="446" height="598" key="FileChooserDialogImpl" timestamp="1598705437767">
+      <screen x="67" y="27" width="1369" height="1300" />
     </state>
+    <state x="642" y="381" width="446" height="598" key="FileChooserDialogImpl/67.27.1369.1300@67.27.1369.1300" timestamp="1598705437767" />
     <state x="1476" y="381" key="FileChooserDialogImpl/67.27.3357.1300@67.27.3357.1300" timestamp="1591607579402" />
     <state x="1483" y="385" width="530" height="598" key="FileChooserDialogImpl/67.27.3373.1316@67.27.3373.1316" timestamp="1590420877088" />
     <state width="3317" height="433" key="GridCell.Tab.0.bottom" timestamp="1595516137989">
       <screen x="67" y="27" width="3373" height="1316" />
     </state>
-    <state width="2901" height="346" key="GridCell.Tab.0.bottom/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860848" />
-    <state width="1613" height="345" key="GridCell.Tab.0.bottom/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415293" />
     <state width="3317" height="433" key="GridCell.Tab.0.bottom/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137989" />
     <state width="3317" height="433" key="GridCell.Tab.0.center" timestamp="1595516137978">
       <screen x="67" y="27" width="3373" height="1316" />
     </state>
-    <state width="2901" height="346" key="GridCell.Tab.0.center/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860847" />
-    <state width="1613" height="345" key="GridCell.Tab.0.center/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415292" />
     <state width="3317" height="433" key="GridCell.Tab.0.center/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137978" />
     <state width="3317" height="433" key="GridCell.Tab.0.left" timestamp="1595516137977">
       <screen x="67" y="27" width="3373" height="1316" />
     </state>
-    <state width="2901" height="346" key="GridCell.Tab.0.left/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860846" />
-    <state width="1613" height="345" key="GridCell.Tab.0.left/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415291" />
     <state width="3317" height="433" key="GridCell.Tab.0.left/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137977" />
     <state width="3317" height="433" key="GridCell.Tab.0.right" timestamp="1595516137979">
       <screen x="67" y="27" width="3373" height="1316" />
     </state>
-    <state width="2901" height="346" key="GridCell.Tab.0.right/67.27.2957.1300@67.27.2957.1300" timestamp="1587717860847" />
-    <state width="1613" height="345" key="GridCell.Tab.0.right/67.27.3357.1300@67.27.3357.1300" timestamp="1587836415292" />
     <state width="3317" height="433" key="GridCell.Tab.0.right/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137979" />
     <state width="3317" height="433" key="GridCell.Tab.1.bottom" timestamp="1595516137993">
       <screen x="67" y="27" width="3373" height="1316" />
@@ -453,14 +202,14 @@
       <screen x="67" y="27" width="3373" height="1316" />
     </state>
     <state width="3317" height="433" key="GridCell.Tab.1.right/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137992" />
-    <state x="940" y="311" key="SettingsEditor" timestamp="1587825334300">
-      <screen x="67" y="27" width="3357" height="1300" />
+    <state width="800" height="255" key="ImportCMakeProjectWizard.bottomPanel" timestamp="1598705445614">
+      <screen x="67" y="27" width="1369" height="1300" />
     </state>
-    <state x="940" y="311" key="SettingsEditor/67.27.3357.1300@67.27.3357.1300" timestamp="1587825334300" />
-    <state x="618" y="573" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587807374895">
-      <screen x="67" y="27" width="1651" height="1300" />
+    <state width="800" height="255" key="ImportCMakeProjectWizard.bottomPanel/67.27.1369.1300@67.27.1369.1300" timestamp="1598705445614" />
+    <state width="800" height="595" key="ImportCMakeProjectWizard.topPanel" timestamp="1598705445613">
+      <screen x="67" y="27" width="1369" height="1300" />
     </state>
-    <state x="618" y="573" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/67.27.1651.1300@67.27.1651.1300" timestamp="1587807374895" />
+    <state width="800" height="595" key="ImportCMakeProjectWizard.topPanel/67.27.1369.1300@67.27.1369.1300" timestamp="1598705445613" />
     <state x="1325" y="313" width="840" height="1034" key="run.anything.popup" timestamp="1591389051851">
       <screen x="67" y="27" width="3357" height="1307" />
     </state>
@@ -469,107 +218,5 @@
       <screen x="67" y="27" width="3357" height="1300" />
     </state>
     <state x="480" y="292" width="840" height="1034" key="search.everywhere.popup/67.27.3357.1300@67.27.3357.1300" timestamp="1591524772693" />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/io.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
-          <folding>
-            <element signature="e#110#130#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lbnode.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="29" column="26" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
-          <folding>
-            <element signature="e#4100#4117#0" expanded="true" />
-            <element signature="e#4551#4585#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/simparam.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="28" column="2" selection-start-line="28" selection-start-column="2" selection-end-line="28" selection-end-column="2" />
-          <folding>
-            <element signature="e#125#146#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/io.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="9" column="36" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
-          <folding>
-            <element signature="e#39#56#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scenario.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="16" column="67" selection-start-line="16" selection-start-column="67" selection-end-line="16" selection-end-column="67" />
-          <folding>
-            <element signature="e#122#139#0" expanded="true" />
-            <element signature="e#1905#1926#0" expanded="true" />
-            <element signature="e#123#1558#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="6" column="26" lean-forward="true" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scenario.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="39" column="17" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
-          <folding>
-            <element signature="e#1587#3119#0" />
-            <element signature="e#3120#4619#0" />
-            <element signature="e#4620#5526#0" />
-            <element signature="e#5527#6617#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="20" column="30" lean-forward="true" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="658">
-          <caret line="129" column="83" lean-forward="true" selection-start-line="129" selection-start-column="83" selection-end-line="129" selection-end-column="83" />
-          <folding>
-            <element signature="e#119#136#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7">
-          <caret line="143" column="37" selection-start-line="143" selection-start-column="37" selection-end-line="143" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
   </component>
 </project>

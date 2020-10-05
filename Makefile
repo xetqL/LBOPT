@@ -59,10 +59,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /snap/clion/123/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /home/xetql/clion-2020.2.2/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /snap/clion/123/bin/cmake/linux/bin/cmake -E rm -f
+RM = /home/xetql/clion-2020.2.2/bin/cmake/linux/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -79,7 +79,7 @@ CMAKE_BINARY_DIR = /home/xetql/lb_exhaustive_search
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/snap/clion/123/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/xetql/clion-2020.2.2/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -90,7 +90,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/snap/clion/123/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/xetql/clion-2020.2.2/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -143,140 +143,140 @@ lb/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/build
 .PHONY : lb/fast
 
-io.o: io.cpp.o
+src/io.o: src/io.cpp.o
 
-.PHONY : io.o
-
-# target to build an object file
-io.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/io.cpp.o
-.PHONY : io.cpp.o
-
-io.i: io.cpp.i
-
-.PHONY : io.i
-
-# target to preprocess a source file
-io.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/io.cpp.i
-.PHONY : io.cpp.i
-
-io.s: io.cpp.s
-
-.PHONY : io.s
-
-# target to generate assembly for a file
-io.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/io.cpp.s
-.PHONY : io.cpp.s
-
-lbnode.o: lbnode.cpp.o
-
-.PHONY : lbnode.o
+.PHONY : src/io.o
 
 # target to build an object file
-lbnode.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/lbnode.cpp.o
-.PHONY : lbnode.cpp.o
+src/io.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/io.cpp.o
+.PHONY : src/io.cpp.o
 
-lbnode.i: lbnode.cpp.i
+src/io.i: src/io.cpp.i
 
-.PHONY : lbnode.i
+.PHONY : src/io.i
 
 # target to preprocess a source file
-lbnode.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/lbnode.cpp.i
-.PHONY : lbnode.cpp.i
+src/io.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/io.cpp.i
+.PHONY : src/io.cpp.i
 
-lbnode.s: lbnode.cpp.s
+src/io.s: src/io.cpp.s
 
-.PHONY : lbnode.s
+.PHONY : src/io.s
 
 # target to generate assembly for a file
-lbnode.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/lbnode.cpp.s
-.PHONY : lbnode.cpp.s
+src/io.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/io.cpp.s
+.PHONY : src/io.cpp.s
 
-main.o: main.cpp.o
+src/lbnode.o: src/lbnode.cpp.o
 
-.PHONY : main.o
+.PHONY : src/lbnode.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/main.cpp.o
-.PHONY : main.cpp.o
+src/lbnode.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/lbnode.cpp.o
+.PHONY : src/lbnode.cpp.o
 
-main.i: main.cpp.i
+src/lbnode.i: src/lbnode.cpp.i
 
-.PHONY : main.i
+.PHONY : src/lbnode.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/main.cpp.i
-.PHONY : main.cpp.i
+src/lbnode.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/lbnode.cpp.i
+.PHONY : src/lbnode.cpp.i
 
-main.s: main.cpp.s
+src/lbnode.s: src/lbnode.cpp.s
 
-.PHONY : main.s
+.PHONY : src/lbnode.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/main.cpp.s
-.PHONY : main.cpp.s
+src/lbnode.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/lbnode.cpp.s
+.PHONY : src/lbnode.cpp.s
 
-scenario.o: scenario.cpp.o
+src/main.o: src/main.cpp.o
 
-.PHONY : scenario.o
+.PHONY : src/main.o
 
 # target to build an object file
-scenario.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/scenario.cpp.o
-.PHONY : scenario.cpp.o
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
 
-scenario.i: scenario.cpp.i
+src/main.i: src/main.cpp.i
 
-.PHONY : scenario.i
+.PHONY : src/main.i
 
 # target to preprocess a source file
-scenario.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/scenario.cpp.i
-.PHONY : scenario.cpp.i
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
 
-scenario.s: scenario.cpp.s
+src/main.s: src/main.cpp.s
 
-.PHONY : scenario.s
+.PHONY : src/main.s
 
 # target to generate assembly for a file
-scenario.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/scenario.cpp.s
-.PHONY : scenario.cpp.s
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
-utils.o: utils.cpp.o
+src/scenario.o: src/scenario.cpp.o
 
-.PHONY : utils.o
+.PHONY : src/scenario.o
 
 # target to build an object file
-utils.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/utils.cpp.o
-.PHONY : utils.cpp.o
+src/scenario.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/scenario.cpp.o
+.PHONY : src/scenario.cpp.o
 
-utils.i: utils.cpp.i
+src/scenario.i: src/scenario.cpp.i
 
-.PHONY : utils.i
+.PHONY : src/scenario.i
 
 # target to preprocess a source file
-utils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/utils.cpp.i
-.PHONY : utils.cpp.i
+src/scenario.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/scenario.cpp.i
+.PHONY : src/scenario.cpp.i
 
-utils.s: utils.cpp.s
+src/scenario.s: src/scenario.cpp.s
 
-.PHONY : utils.s
+.PHONY : src/scenario.s
 
 # target to generate assembly for a file
-utils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/utils.cpp.s
-.PHONY : utils.cpp.s
+src/scenario.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/scenario.cpp.s
+.PHONY : src/scenario.cpp.s
+
+src/utils.o: src/utils.cpp.o
+
+.PHONY : src/utils.o
+
+# target to build an object file
+src/utils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/utils.cpp.o
+.PHONY : src/utils.cpp.o
+
+src/utils.i: src/utils.cpp.i
+
+.PHONY : src/utils.i
+
+# target to preprocess a source file
+src/utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/utils.cpp.i
+.PHONY : src/utils.cpp.i
+
+src/utils.s: src/utils.cpp.s
+
+.PHONY : src/utils.s
+
+# target to generate assembly for a file
+src/utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lb.dir/build.make CMakeFiles/lb.dir/src/utils.cpp.s
+.PHONY : src/utils.cpp.s
 
 zupply/src/zupply.o: zupply/src/zupply.cpp.o
 
@@ -314,21 +314,21 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... lb"
-	@echo "... io.o"
-	@echo "... io.i"
-	@echo "... io.s"
-	@echo "... lbnode.o"
-	@echo "... lbnode.i"
-	@echo "... lbnode.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
-	@echo "... scenario.o"
-	@echo "... scenario.i"
-	@echo "... scenario.s"
-	@echo "... utils.o"
-	@echo "... utils.i"
-	@echo "... utils.s"
+	@echo "... src/io.o"
+	@echo "... src/io.i"
+	@echo "... src/io.s"
+	@echo "... src/lbnode.o"
+	@echo "... src/lbnode.i"
+	@echo "... src/lbnode.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
+	@echo "... src/scenario.o"
+	@echo "... src/scenario.i"
+	@echo "... src/scenario.s"
+	@echo "... src/utils.o"
+	@echo "... src/utils.i"
+	@echo "... src/utils.s"
 	@echo "... zupply/src/zupply.o"
 	@echo "... zupply/src/zupply.i"
 	@echo "... zupply/src/zupply.s"
