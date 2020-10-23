@@ -13,29 +13,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4c6eeabb-7f92-4328-953b-70f283c55d28" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/include/workload.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/workloads.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bab-histogram-tau-test.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake_install.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/io.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/io.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lbnode.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lbnode.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lbplot.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/men-histogram-tau-test.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenario.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenario.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/simparam.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/toy_case_decrease_1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/toy_case_increase_decrease.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/toy_case_increase_decrease_sigmoid_exp.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/toy_case_increase_decrease_sin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.hpp" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,20 +59,25 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../yalbb/CMakeLists.txt" />
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/include" />
+    </key>
+  </component>
   <component name="RunManager" selected="CMake Application.lb">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="lb" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LBOPT" TARGET_NAME="lb" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="LBOPT" RUN_TARGET_NAME="lb">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="lb" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LBOPT" TARGET_NAME="lb" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="LBOPT" RUN_TARGET_NAME="lb">
       <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="lbplot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
