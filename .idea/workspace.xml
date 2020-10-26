@@ -13,10 +13,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4c6eeabb-7f92-4328-953b-70f283c55d28" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/include/workload.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/workloads.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/lb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/workload.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/workload.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/freq-100-solution.txt" beforeDir="false" afterPath="$PROJECT_DIR$/results/freq-100-solution.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/menon-solution-1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/results/menon-solution-1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/menon-solution.txt" beforeDir="false" afterPath="$PROJECT_DIR$/results/menon-solution.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/optimal-solution-0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/results/optimal-solution-0.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/proca-solution.txt" beforeDir="false" afterPath="$PROJECT_DIR$/results/proca-solution.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/s1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/results/s1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

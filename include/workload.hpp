@@ -80,11 +80,16 @@ namespace workload {
             return wir[x];
         }
     };
-
+    struct XorY {
+        double a, b;
+        double operator()(unsigned x) {
+            return x % 2 ? a : b;
+        }
+    };
     namespace {
-        using  __WorkloadIncreaseRate = std::variant<Constant, Sublinear, Linear, Quadratic, Log, Exp, Sine, Uniform, Normal>;
+        using  __WorkloadIncreaseRate = std::variant<Constant, XorY, Sublinear, Linear, Quadratic, Log, Exp, Sine, Uniform, Normal>;
     }
-    using  Perturbator                = std::variant<Uniform, Normal>;
+    using  Perturbator                = std::variant<Uniform, Normal, XorY>;
 
     struct Perturbation {
         __WorkloadIncreaseRate wir;
@@ -93,7 +98,8 @@ namespace workload {
             return std::visit([x](auto& w){return w(x); }, wir) + std::visit([x](auto& p){return p(x); }, alg) + std::visit([x](auto& p){return p(x); }, sys);
         }
     };
-    using  WorkloadIncreaseRate = std::variant<Constant, Sublinear, Linear, Quadratic, Log, Exp, Sine, Uniform, Normal, Perturbation>;
+
+    using  WorkloadIncreaseRate = std::variant<Constant, XorY, Sublinear, Linear, Quadratic, Log, Exp, Sine, Uniform, Normal, Perturbation>;
 }
 
 #endif //LBOPT_WORKLOAD_HPP

@@ -126,7 +126,11 @@ int main(int argc, char** argv) {
             workload::Sublinear{5.0, 0.2, 1.0},
             workload::Uniform(maxI, -0.5, 0.5),
             workload::Normal{maxI, 0.0, 0.5},
-            workload::Perturbation{workload::Sine{0.05}, workload::Uniform(maxI, -0.5, 0.5), workload::Normal(maxI, 0.0, 0.5)}
+            workload::Perturbation{
+                workload::Sine{0.012},
+                workload::Uniform{maxI, 10, -10},
+                workload::Normal(maxI, 0.0, 0.0)
+            }
     };
 
     deltaW_func_id = deltaW_func_id > NB_INCREASING_WORKLOAD_F ? 0 : deltaW_func_id;
