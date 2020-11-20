@@ -2,5 +2,7 @@
 CMakeCache.txt
 LB_branch_and_bound
 lb_exhaustive_search
+results
+result-asym
 CMakeFiles
 optimal-cpu*
