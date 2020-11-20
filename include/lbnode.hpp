@@ -35,7 +35,8 @@ struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
     const State s;
     LBChainedNode(unsigned int iteration, unsigned int prevLb, double cpuTime, State s, bool applyLb,
                   std::shared_ptr<LBChainedNode> pnode, const SimParam * params) :
-                  iteration(iteration), prev_lb(prevLb), cpu_time(cpuTime), s(s), apply_lb(applyLb), pnode(std::move(pnode)), params(params) {
+                  iteration(iteration),
+                  prev_lb(prevLb), cpu_time(cpuTime), s(s), apply_lb(applyLb), pnode(std::move(pnode)), params(params) {
     }
 public:
     LBChainedNode(const SimParam * params):
@@ -43,7 +44,11 @@ public:
         s(Balanced, params->W0 / params->P,params->W0 / params->P,params->W0 / params->P),
         apply_lb(false), params(params) {}
 
-    double eval() const {
+    double predict() const {
+        return eval() + params->h.at(iteration);
+    }
+
+    double eval()   const {
         if (apply_lb)
             return cpu_time + s.max + params->C;
         else
@@ -90,7 +95,7 @@ std::vector<int> get_lb_iterations(LBChainedNode* parent);
 
 struct CompareLBChainedNode {
     inline bool operator()(const std::shared_ptr<LBChainedNode>& a, const std::shared_ptr<LBChainedNode>& b) const {
-        return a->eval() < b->eval();
+        return a->predict() < b->predict();
     }
 };
 

@@ -3,7 +3,6 @@
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
       <config projectName="LBOPT" targetName="LB_branch_and_bound" />
-      <config projectName="LBOPT" targetName="lb" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -14,7 +13,11 @@
   <component name="ChangeListManager">
     <list default="true" id="4c6eeabb-7f92-4328-953b-70f283c55d28" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/lb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/lb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/lbnode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/lbnode.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/simparam.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/simparam.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/workload.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/workload.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/results/freq-100-solution.txt" beforeDir="false" afterPath="$PROJECT_DIR$/results/freq-100-solution.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/results/menon-solution-1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/results/menon-solution-1.txt" afterDir="false" />
@@ -22,7 +25,7 @@
       <change beforePath="$PROJECT_DIR$/results/optimal-solution-0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/results/optimal-solution-0.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/results/proca-solution.txt" beforeDir="false" afterPath="$PROJECT_DIR$/results/proca-solution.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/results/s1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/results/s1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +35,6 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -46,12 +48,6 @@
   <component name="MacroExpansionManager">
     <option name="directoryName" value="oCknIMAr" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="3" />
-    <option name="y" value="25" />
-    <option name="width" value="955" />
-    <option name="height" value="1052" />
-  </component>
   <component name="ProjectId" id="1XbiaCSn54OI2RRxeygyJiovk68" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -59,10 +55,11 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../yalbb/CMakeLists.txt" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
   <component name="RecentsManager">
@@ -70,20 +67,15 @@
       <recent name="$PROJECT_DIR$/include" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.lb">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager">
     <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="lb" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LBOPT" TARGET_NAME="lb" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="LBOPT" RUN_TARGET_NAME="lb">
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="lbplot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -107,9 +99,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="CMake Application.lb" />
-    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -160,40 +149,6 @@
       <screen x="67" y="27" width="1369" height="1300" />
     </state>
     <state x="642" y="381" width="446" height="598" key="FileChooserDialogImpl/67.27.1369.1300@67.27.1369.1300" timestamp="1598705437767" />
-    <state x="1476" y="381" key="FileChooserDialogImpl/67.27.3357.1300@67.27.3357.1300" timestamp="1591607579402" />
-    <state x="1483" y="385" width="530" height="598" key="FileChooserDialogImpl/67.27.3373.1316@67.27.3373.1316" timestamp="1590420877088" />
-    <state width="3317" height="433" key="GridCell.Tab.0.bottom" timestamp="1595516137989">
-      <screen x="67" y="27" width="3373" height="1316" />
-    </state>
-    <state width="3317" height="433" key="GridCell.Tab.0.bottom/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137989" />
-    <state width="3317" height="433" key="GridCell.Tab.0.center" timestamp="1595516137978">
-      <screen x="67" y="27" width="3373" height="1316" />
-    </state>
-    <state width="3317" height="433" key="GridCell.Tab.0.center/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137978" />
-    <state width="3317" height="433" key="GridCell.Tab.0.left" timestamp="1595516137977">
-      <screen x="67" y="27" width="3373" height="1316" />
-    </state>
-    <state width="3317" height="433" key="GridCell.Tab.0.left/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137977" />
-    <state width="3317" height="433" key="GridCell.Tab.0.right" timestamp="1595516137979">
-      <screen x="67" y="27" width="3373" height="1316" />
-    </state>
-    <state width="3317" height="433" key="GridCell.Tab.0.right/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137979" />
-    <state width="3317" height="433" key="GridCell.Tab.1.bottom" timestamp="1595516137993">
-      <screen x="67" y="27" width="3373" height="1316" />
-    </state>
-    <state width="3317" height="433" key="GridCell.Tab.1.bottom/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137993" />
-    <state width="3317" height="433" key="GridCell.Tab.1.center" timestamp="1595516137991">
-      <screen x="67" y="27" width="3373" height="1316" />
-    </state>
-    <state width="3317" height="433" key="GridCell.Tab.1.center/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137991" />
-    <state width="3317" height="433" key="GridCell.Tab.1.left" timestamp="1595516137989">
-      <screen x="67" y="27" width="3373" height="1316" />
-    </state>
-    <state width="3317" height="433" key="GridCell.Tab.1.left/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137989" />
-    <state width="3317" height="433" key="GridCell.Tab.1.right" timestamp="1595516137992">
-      <screen x="67" y="27" width="3373" height="1316" />
-    </state>
-    <state width="3317" height="433" key="GridCell.Tab.1.right/67.27.3373.1316@67.27.3373.1316" timestamp="1595516137992" />
     <state width="800" height="255" key="ImportCMakeProjectWizard.bottomPanel" timestamp="1598705445614">
       <screen x="67" y="27" width="1369" height="1300" />
     </state>
@@ -202,13 +157,9 @@
       <screen x="67" y="27" width="1369" height="1300" />
     </state>
     <state width="800" height="595" key="ImportCMakeProjectWizard.topPanel/67.27.1369.1300@67.27.1369.1300" timestamp="1598705445613" />
-    <state x="1325" y="313" width="840" height="1034" key="run.anything.popup" timestamp="1591389051851">
-      <screen x="67" y="27" width="3357" height="1307" />
+    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1605807112154">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="1325" y="313" width="840" height="1034" key="run.anything.popup/67.27.3357.1307@67.27.3357.1307" timestamp="1591389051851" />
-    <state x="480" y="292" width="840" height="1034" key="search.everywhere.popup" timestamp="1591524772693">
-      <screen x="67" y="27" width="3357" height="1300" />
-    </state>
-    <state x="480" y="292" width="840" height="1034" key="search.everywhere.popup/67.27.3357.1300@67.27.3357.1300" timestamp="1591524772693" />
+    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1605807112154" />
   </component>
 </project>

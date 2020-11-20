@@ -4,8 +4,6 @@
 
 #include "utils.hpp"
 
-
-
 double compute_U(double ub, double lb){
     return std::abs(ub - lb);
 }

@@ -54,10 +54,10 @@ namespace workload {
     };
     struct Uniform {
         std::vector<double> wir{};
-        Uniform(unsigned maxi, double min, double max){
+        Uniform(unsigned maxi, double min, double max) {
             std::uniform_real_distribution<double> dist {min, max};
             std::random_device rd{};
-            std::mt19937 generator{rd()};
+            std::mt19937 generator { rd() };
             wir.reserve(maxi);
             for(auto i = 0; i < maxi; ++i)
                 wir.push_back(dist(generator));
@@ -71,7 +71,7 @@ namespace workload {
         Normal(unsigned maxi, double mu, double stddev){
             std::normal_distribution<double> dist{mu, stddev};
             std::random_device rd{};
-            std::mt19937 generator{(rd())};
+            std::mt19937 generator{0};
             wir.reserve(maxi);
             for(auto i = 0; i < maxi; ++i)
                 wir.push_back(dist(generator));
