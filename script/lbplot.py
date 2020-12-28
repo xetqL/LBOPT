@@ -46,7 +46,7 @@ def get_params(fname):
         max=  np.asarray([float(x) for x in max.strip().split(' ')])
         avg=  np.asarray([float(x) for x in avg.strip().split(' ')])
 
-    return int(I), W, float(t), cum2, dec2, time2, float(C), max, avg
+    return {'I': int(I), 'W': W, 't': float(t), 'cumli': cum2, 'decision': dec2, 'time': time2, 'C': float(C), 'max': max, 'avg': avg}
 
 dir    = "results/"
 fmenon = dir + "menon-solution.txt"
@@ -57,84 +57,75 @@ babfiles  = list( [dir + fname for fname in os.listdir(dir) if "optimal-solution
 
 sort_nicely(babfiles)
 
-fpro   = dir + "proca-solution.txt"
-ffreq100=dir + "freq-100-solution.txt"
+configs = {
+    #'menon': {'fname': "menon-solution.txt", 'data': []},
+    #'menon1': {'fname': "menon-solution-1.txt", 'data': []},
+    #'procassini': {'fname': "proca-solution.txt", 'data': []},
+    'static': {'fname': "static-solution.txt", 'data': []},
+    #'freq100': {'fname': "freq-100-solution.txt", 'data': []},
+    #'freq50': {'fname': "freq-50-solution.txt", 'data': []},
+    #'freq25': {'fname': "freq-25-solution.txt", 'data': []},
+}
 
-fig, ax = plt.subplots(4,1, figsize=(8.27, 11.69))
+for k, cfg in configs.items():
+    configs[k]['data'] = get_params(dir + cfg['fname'])
 
-I, W, tmen, cummen, decmen, timemen, C, max, avg = get_params(fmenon)
-I, W, tmen1, cummen1, decmen1, timemen1, C, max, avg = get_params(fmenon1)
-ax[3].plot(max, c='C2', ls='-', label='max U>C')
-ax[3].plot(avg, c='r', ls='-', label='avg curve')
-I, W, tpro, cumpro, decpro, timepro, C, max, avg = get_params(fpro)
-I, W, t100, cum100, dec100, time100, C, max, avg = get_params(ffreq100)
+fig, ax = plt.subplots(3, 1, figsize=(8.27, 11.69))
 
-# if len(sys.argv) > 2:
-#     data = np.asarray([len(x[1:]) for x in np.split(decmen, np.where(decmen == 1)[0].astype(int))])
-#     bins = np.arange(0, data.max() + 1.5) - 0.5
-#     plt.hist(data, bins=bins)
-#     plt.title('Distribution of distance between two load balancings')
-#     plt.savefig('men-histogram-tau-'+sys.argv[2])
-#     plt.close()
-#
-# if len(sys.argv) > 2:
-#     I, W, tbab, cumbab, decbab, timebab, C = get_params(babfiles[0])
-#     data = np.asarray([len(x[1:]) for x in np.split(decbab, np.where(decbab == 1)[0].astype(int))])
-#     bins = np.arange(0, data.max() + 1.5) - 0.5
-#     plt.hist(data, bins=bins)
-#     plt.title('Distribution of distance between two load balancings')
-#     plt.savefig('bab-histogram-tau-'+sys.argv[2])
-#     plt.close()
+#ax[3].plot(max, c='C2', ls='-', label='max U>C')
+#ax[3].plot(avg, c='r', ls='-', label='avg curve')
+
+#I, W, tpro, cumpro, decpro, timepro, C, max, avg = get_params(fpro)
+#I, W, tstatic, cumstatic, decstatic, timestatic, C, max, avg = get_params(fstatic)
+#I, W, t100, cum100, dec100, time100, C, max, avg = get_params(ffreq100)
 
 ax[0].set_title(sys.argv[1])
 
-ax[0].plot(W, label='Workload')
+ax[0].plot(configs['static']['data']['W'], label='Workload')
 #ax[0].plot(np.array(W) /100.0, label='AVG Workload')
 ax[0].set_ylabel('Application Workload')
 ax[0].legend()
 
 for i, fbab in enumerate(babfiles):
-    I, W, tbab, cumbab, decbab, timebab, C, max, avg = get_params(fbab)
-    ax[1].plot(-compute_performance_diff(timebab, timebab), label='Branch and Bound %d' % i)
-    ax[2].plot(cumbab, ls='-', label='Branch and Bound %d' % i)
-    ax[3].plot(max, c='C0', ls='-', label='BaB max %d' % i)
-    #ax[3].plot(avg, c='r', ls='-', label='avg curve')
+    babcfg = get_params(fbab)
+    ax[1].plot(babcfg['time'], label='Optimum')
+    ax[2].plot(babcfg['max']/babcfg['avg'], ls='-', label='Optimum')
 
-    print("Bab", i, "is", compute_performance_diff(timebab[-1], timemen[-1]), "% faster than U>C")
-    print("Bab", i, "is", compute_performance_diff(timebab[-1], timemen1[-1]),"% faster than U>C -1")
-    print("Bab", i, "is", compute_performance_diff(timebab[-1], timepro[-1]), "% faster than procassini")
-    print("Bab", i, "is", compute_performance_diff(timebab[-1], time100[-1]), "% faster than rebalancing every 100 it")
+    for name, cfg in configs.items():
+        print("Bab", i, "is", compute_performance_diff(babcfg['time'][-1], float(cfg['data']['time'][-1])), "% faster than", name)
 
-    # print("  Absolute difference is: ", (timemen[-1] - timebab[-1]), "(Bab =", timebab[-1], ")")
+    #print("Bab", i, "is", compute_performance_diff(timebab[-1], timemen1[-1]),"% faster than U>C -1")
+    #print("Bab", i, "is", compute_performance_diff(timebab[-1], timepro[-1]), "% faster than procassini")
+    #print("Bab", i, "is", compute_performance_diff(timebab[-1], time100[-1]), "% faster than rebalancing every 100 it")
 
-    # print(np.sum(np.asarray(cumbab)) + np.sum(decbab) * C)
-ax[3].legend()
-print(np.sum(np.asarray(cummen)) + np.sum(decmen) * C)
-common_sub_seqs = get_longest_common_lb_sequence(decbab, decmen)
-sa, sb = [], []
-ca, cb = [], []
-ta, tb = [], []
-
-for p, c in common_sub_seqs:
-    sa.append(decbab[p:c])
-    sb.append(decmen[p:c])
-    ca.append(cumbab[p:c])
-    cb.append(cummen[p:c])
-    ta.append(timebab[p:c])
-    tb.append(timemen[p:c])
+#ax[3].legend()
+#print(np.sum(np.asarray(cummen)) + np.sum(decmen) * C)
+#common_sub_seqs = get_longest_common_lb_sequence(decbab, decmen)
+#sa, sb = [], []
+#ca, cb = [], []
+#ta, tb = [], []
+#
+#for p, c in common_sub_seqs:
+#    sa.append(decbab[p:c])
+#    sb.append(decmen[p:c])
+#    ca.append(cumbab[p:c])
+#    cb.append(cummen[p:c])
+#    ta.append(timebab[p:c])
+#    tb.append(timemen[p:c])
 
 #ax[1].plot(timepro, label='procassini')
-ax[1].plot(-compute_performance_diff(timebab, timemen), label='U > C')
-ax[1].plot(-compute_performance_diff(timebab, timemen1), label='U + $\Delta_{i+1}$ > C')
+for name, cfg in configs.items():
+    ax[1].plot(cfg['data']['time'], label=name)
+
+#ax[2].plot(configs['menon']['data']['cumli'],label='menon')
+#ax[2].plot(configs['menon1']['data']['cumli'],label='menon++')
+
+#ax[1].plot(-compute_performance_diff(timebab, timemen1), label='U + $\Delta_{i+1}$ > C')
 
 ax[1].set_ylabel('Relative performance')
 ax[1].legend()
 
-#ax[2].plot(cumpro,  ls='dotted', label='procassini ($t\' < t$)' )
-ax[2].plot(cummen,  ls='dotted',  label='U>C')
-ax[2].plot(cummen1, ls='dashdot', label='U + $\Delta_{i+1}$ > C')
-
-ax[2].plot([C]*I, label='C')
+ax[2].plot([configs['static']['data']['C']]*configs['static']['data']['I'], label='C')
 
 ax[2].set_xlabel('iteration')
 ax[2].set_ylabel('Cumulative imbalance time')
@@ -144,6 +135,7 @@ if len(sys.argv) > 2:
     plt.savefig(sys.argv[2])
 else:
     plt.show()
+
 """
 fig, ax = plt.subplots(len(sa), 1, sharex=True)
 if len(sa) > 1:

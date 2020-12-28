@@ -15,6 +15,34 @@
 #define debug(x) std::cout << #x <<"\t"<< x << std::endl;
 #define dump(i, x) std::cout << (i) << ": " << (#x) <<"\t" << (x) << std::endl
 
+template<typename T>
+constexpr auto convert(T&& t) {
+    if constexpr (std::is_same<std::remove_cv_t<std::remove_reference_t<T>>, std::string>::value) {
+        return std::forward<T>(t).c_str();
+    } else {
+        return std::forward<T>(t);
+    }
+}
+
+/**
+ * printf like formatting for C++ with std::string
+ * Original source: https://stackoverflow.com/a/26221725/11722
+ */
+template<typename ... Args>
+std::string stringFormatInternal(const std::string& format, Args&& ... args)
+{
+    size_t size = snprintf(nullptr, 0, format.c_str(), std::forward<Args>(args) ...) + 1;
+    if( size <= 0 ){ throw std::runtime_error( "Error during formatting." ); }
+    std::unique_ptr<char[]> buf(new char[size]);
+    snprintf(buf.get(), size, format.c_str(), args ...);
+    return std::string(buf.get(), buf.get() + size - 1);
+}
+
+template<typename ... Args>
+std::string fmt(std::string fmt, Args&& ... args) {
+    return stringFormatInternal(fmt, convert(std::forward<Args>(args))...);
+}
+
 /* Append value and create new vector */
 template<class T>
 inline std::vector<T> append(const std::vector<T>& prev, T v){
@@ -68,7 +96,9 @@ inline double compute_application_workload(double W0, unsigned int i, FMath delt
 
 inline double compute_application_workload(double W0, unsigned int i, workload::WorkloadIncreaseRate deltaW) {
     auto r = W0;
-    for(int k = 0; k < i; ++k) r = std::max(0.0, r + std::visit([k](auto& wir){return wir(k);}, deltaW));
+    for(unsigned k = 0; k < i; ++k) {
+        r = std::max(0.0, r + std::visit([k](auto& wir){return wir(k);}, deltaW));
+    }
     return r;
 }
 

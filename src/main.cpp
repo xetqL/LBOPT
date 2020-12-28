@@ -120,26 +120,37 @@ int main(int argc, char** argv) {
     }
 
     constexpr int NB_INCREASING_WORKLOAD_F = 15;
-    workload::WorkloadIncreaseRate deltaWf[6] = {
-            workload::Constant{0.01 * W0 / P},
-            workload::Constant{-0.01 * W0 / P},
-            workload::Sublinear{5.0, 0.2, 1.0},
-            workload::Uniform(maxI, -0.5, 0.5),
-            workload::Normal{maxI, 0.0, 0.5},
-            workload::Perturbation{
-                workload::Sine{0.012},
-                workload::Uniform{maxI, 10, -10},
-                workload::Normal(maxI, 0.0, 0.0)
-            }
+
+    workload::WorkloadIncreaseRate deltaWf[NB_INCREASING_WORKLOAD_F] = {
+            workload::Constant  {0.2* W0 / P},
+            workload::Sublinear { 0.1, 0.5, 10.},
+            workload::Linear    {0.00001, 0.0},
+            workload::Quadratic {0.1, 0.1, 0},
+            workload::SymmetricLinear {(int) maxI / 2, 0, 0.2*W0/P},
     };
 
-    deltaW_func_id = deltaW_func_id > NB_INCREASING_WORKLOAD_F ? 0 : deltaW_func_id;
+//    workload::WorkloadIncreaseRate deltaWf[6] = {
+//            workload::Constant{0.01 * W0 / P},
+//            workload::Constant{-0.01 * W0 / P},
+//            workload::Sublinear{5.0, 0.2, 1.0},
+//            workload::Uniform(maxI, -0.5, 0.5),
+//            workload::Normal{maxI, 0.0, 0.5},
+//            workload::Perturbation{
+//                workload::Sine{0.012},
+//                workload::Uniform{maxI, 10, -10},
+//                workload::Normal(maxI, 0.0, 0.0)
+//            }
+//    };
+
     deltaW = deltaWf[deltaW_func_id];
 
     W.resize(maxI);
-    for (unsigned int i = 0; i < maxI; ++i) W[i] = std::max(0.0, compute_application_workload(W0, i, deltaW));
-    if(verbose.get_count())
-        std::cout << W << std::endl;
+    for (unsigned int i = 0; i < maxI; ++i) {
+        W[i] = std::max(0.0, compute_application_workload(W0, i, deltaW));
+    }
+
+    if(verbose.get_count()) std::cout << W << std::endl;
+
     SimParam param {W0, W, C, maxI, P, deltaW};
 
     std::shared_ptr<TNode> initNode = std::make_shared<TNode>(&param);
@@ -176,8 +187,7 @@ int main(int argc, char** argv) {
     duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
 
     std::cout << std::setfill('=') << std::setw(130) << "\n";
-    std::cout << "Results from search using branch and bound: (it took " << time_span.count() << " seconds)"
-              << std::endl;
+    std::cout << "Results from search using branch and bound: (it took " << time_span.count() << " seconds)" << std::endl;
 
     enumerate(solutions.cbegin(), solutions.cend(), [](int i, std::shared_ptr<TNode> val) {
         std::cout << "BaB :" << std::string(13, ' ') << val << " "
@@ -190,9 +200,9 @@ int main(int argc, char** argv) {
     std::cout << std::setfill('=') << std::setw(130) << "\n";
 
     auto[tmenon, sc1, imb] = create_scenario_menon1(param);
-
     auto menon_criterion_sol1 = generate_solution_from_scenario(sc1, param);
-    auto[a,sc,c] = create_scenario_menon_minus_one(param);
+
+    auto[a, sc, c] = create_scenario_menon_minus_one(param);
 
     std::cout << "---- " << std::endl;
     std::cout << param << std::endl;
@@ -200,8 +210,7 @@ int main(int argc, char** argv) {
     std::cout << generate_solution_from_scenario(sc, param)->eval() << std::endl;
     std::cout << solutions[0]->eval() << std::endl;
     std::cout << "---- " << std::endl;
-
-    std::cout << "U>C: " << std::string(13, ' ') << menon_criterion_sol1->eval() << " " << tmenon << std::endl;
+    std::cout << "U>C: "   << std::string(13, ' ') << menon_criterion_sol1->eval() << " " << tmenon << std::endl;
     std::cout << "U+1>C: " << std::string(11, ' ') << generate_solution_from_scenario(sc, param)->eval() << " " << a << std::endl;
 
     /* Show the cumulative time (CPU_TIME) of a given solution up to a given iteration */
@@ -213,8 +222,15 @@ int main(int argc, char** argv) {
         show_each_iteration(generate_solution_from_scenario(sc, param));
     }
 
+    //create_scenario_freq(param, 1000);
     create_scenario_freq(param, 100);
-    create_scenario_procassini(param, 0.9, [](){return 0.96;});
+    create_scenario_freq(param, 50);
+    create_scenario_freq(param, 25);
+
+    create_scenario_static(param);
+
+    create_scenario_procassini(param, 0.9, [](){return 1.0;});
+
     for(int i = 0; i < nb_solution_wanted; ++i) {
         std::cout << std::get<0>(compute_tcpu(get_scenario(solutions[i].get()), param, "results/optimal-solution-"+std::to_string(i)+".txt")) << std::endl;
         std::cout << solutions[i]->eval() << std::endl;

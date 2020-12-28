@@ -3,8 +3,38 @@
 //
 
 #include "scenario.hpp"
+std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_static(SimParam p){
+    std::vector<bool>   scenario(p.maxI);
+    std::vector<double> imb_time(p.maxI);
+    std::vector<double> it_max(p.maxI);
+    std::vector<double> it_avg(p.maxI);
+    double U = 0;
+    double P = p.P;
+    double Wmax = p.W0 / p.P;
+    double Wmin = p.W0 / p.P;
+    double Wavg = Wmax;
+    double Tcpu = 0;
+    double C = p.C;
+    Model model = Balanced;
+    State state {model, Wmax, Wavg, Wmin};
+    for(unsigned int iter = 0; iter < p.maxI; ++iter) {
+        auto&[model, Wmax, Wavg, Wmin] = state;
+        // Compute the iteration
+        Tcpu += Wmax;
+        it_max[iter] = Wmax;
+        it_avg[iter] = Wavg;
+        // Measure load imbalance
+        U += compute_U(Wmax, Wavg);
+        // Store cumulative load imbalance
+        imb_time[iter] = U;
+        // Apply the workload increase rate function
+        update_workloads(iter, p.P, p.deltaW, state);
+    }
+    save_results(fmt("%s/static-solution.txt", dir), scenario, p, imb_time, it_max, it_avg);
+    return {Tcpu, scenario, imb_time};
+}
 std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_freq(SimParam p, int freq){
-    std::vector<bool> scenario(p.maxI);
+    std::vector<bool>   scenario(p.maxI);
     std::vector<double> imb_time(p.maxI);
     std::vector<double> it_max(p.maxI);
     std::vector<double> it_avg(p.maxI);
@@ -43,7 +73,7 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_freq(
         update_workloads(iter, p.P, p.deltaW, state);
     }
 
-    save_results(dir+"freq-100-solution.txt", scenario, p, imb_time, it_max, it_avg);
+    save_results(fmt("%s/freq-%d-solution.txt", dir, freq), scenario, p, imb_time, it_max, it_avg);
 
     return {Tcpu, scenario, imb_time};
 }
@@ -167,6 +197,7 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_eff(S
     }
     return {Tcpu, scenario, imb_time};
 }
+
  std::pair<double, std::vector<double>> compute_tcpu(const std::vector<bool>& scenario, SimParam p, std::string fname){
     std::vector<double> imb_time(p.maxI);
     std::vector<double> it_max(p.maxI);

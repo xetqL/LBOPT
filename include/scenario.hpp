@@ -16,6 +16,8 @@ using Time      = double;
 using Scenario  = std::vector<double>;
 using Imbalance = std::vector<double>;
 
+std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_static(SimParam p);
+
 std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_freq(SimParam p, int freq);
 
 std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_menon_minus_one(SimParam p);

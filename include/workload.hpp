@@ -8,6 +8,7 @@
 #include <cmath>
 #include <random>
 #include <variant>
+#include <iostream>
 namespace workload {
 
     struct Constant {
@@ -17,9 +18,12 @@ namespace workload {
         }
     };
     struct Sublinear {
-        double a = 1, b = 1, c = 0;
+        double a,b,c;
+
+        Sublinear(double a, double b, double c) : a(a), b(b), c(c) {}
+
         double operator()(unsigned x) {
-            return a/(c+b*x);
+            return a / (b*x + c);
         }
     };
     struct Linear {
@@ -31,7 +35,7 @@ namespace workload {
     struct Quadratic {
         double a = 1, b = 0, c = 0;
         double operator()(unsigned x) {
-            return a*x*x+b*x+c;
+            return a*x*x + b*x +c;
         }
     };
     struct Exp {
@@ -99,7 +103,25 @@ namespace workload {
         }
     };
 
-    using  WorkloadIncreaseRate = std::variant<Constant, XorY, Sublinear, Linear, Quadratic, Log, Exp, Sine, Uniform, Normal, Perturbation>;
+    struct GaussianPDF {
+        double sigma, mu;
+        double operator()(unsigned x) {
+            auto y = static_cast<double>(x);
+            return std::pow((1. / (sigma * std::sqrt(2. * M_PI))),
+                            std::exp(-0.5 * std::pow((y - mu) / sigma, 2.) ) );
+        }
+    };
+
+    struct SymmetricLinear {
+        int i;
+        double a, b;
+        double operator()(unsigned x) {
+            return x > i ? -(a*x + b) : a*x+b;
+        }
+    };
+
+
+    using  WorkloadIncreaseRate = std::variant<Constant, XorY, Sublinear, Linear, Quadratic, Log, Exp, Sine, Uniform, Normal, Perturbation, GaussianPDF, SymmetricLinear>;
 }
 
 #endif //LBOPT_WORKLOAD_HPP
