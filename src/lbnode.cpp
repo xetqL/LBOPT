@@ -49,20 +49,19 @@ void show_each_iteration(std::shared_ptr<LBChainedNode> n) {
 
 
 std::shared_ptr<LBChainedNode> make_next(LBChainedNode* parent, bool nextDecision){
-    auto P = parent->params->P;
-
     auto nextIteration = parent->iteration+1;
 
     auto previous_lb_call = parent->apply_lb ? parent->iteration : parent->prev_lb;
 
-    State s = parent->s;
-    update_workloads(parent->iteration, P, parent->params->deltaW, s);
+    Application app = parent->app;
+
+    update_workloads(nextIteration, previous_lb_call, parent->params->deltaImbalance, app);
 
     if(nextDecision) {
-        rebalance(s);
+        rebalance(app);
     }
 
-    return std::make_shared<LBChainedNode>(nextIteration, previous_lb_call, parent->eval(), s, nextDecision, parent->shared_from_this(), parent->params);
+    return std::make_shared<LBChainedNode>(nextIteration, previous_lb_call, parent->eval(), app, nextDecision, parent->shared_from_this(), parent->params);
 }
 
 std::vector<int>    get_lb_iterations(LBChainedNode* parent) {
@@ -100,7 +99,7 @@ std::vector<double> get_imbalance_time(const LBChainedNode* n) {
     std::vector<double> cpu_times;
     auto curr = n;
     while(curr != nullptr){
-        cpu_times.push_back(curr->s.max - curr->s.avg);
+        cpu_times.push_back(curr->app.max - curr->app.avg);
         curr = curr->pnode.get();
     }
     std::reverse(cpu_times.begin(), cpu_times.end());

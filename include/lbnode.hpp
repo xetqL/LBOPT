@@ -25,34 +25,34 @@ void write_cpu_times(std::ostream&, LBChainedNode*, const char*);
 
 /*Use LBChainedNode as it consumes less memory*/
 struct LBChainedNode : std::enable_shared_from_this<LBChainedNode> {
-    const unsigned int iteration;
-    const unsigned int prev_lb;
+    const unsigned int iteration, prev_lb;
     const double cpu_time;
-
     const bool   apply_lb = false;
+
     std::shared_ptr<LBChainedNode> pnode;
     const SimParam * params;
-    const State s;
-    LBChainedNode(unsigned int iteration, unsigned int prevLb, double cpuTime, State s, bool applyLb,
+    const Application app;
+    LBChainedNode(unsigned int iteration, unsigned int prevLb, double cpuTime, Application app, bool applyLb,
                   std::shared_ptr<LBChainedNode> pnode, const SimParam * params) :
                   iteration(iteration),
-                  prev_lb(prevLb), cpu_time(cpuTime), s(s), apply_lb(applyLb), pnode(std::move(pnode)), params(params) {
+                  prev_lb(prevLb), cpu_time(cpuTime), app(std::move(app)), apply_lb(applyLb), pnode(std::move(pnode)), params(params) {
     }
 public:
-    LBChainedNode(const SimParam * params):
+    explicit LBChainedNode(const SimParam* params):
         iteration(0), prev_lb(0), cpu_time(0),
-        s(Balanced, params->W0 / params->P,params->W0 / params->P,params->W0 / params->P),
+        app(Application{params->P, params->W, params->W0 / params->P,params->W0 / params->P, 1.}),
         apply_lb(false), params(params) {}
 
     double predict() const {
         return eval() + params->h.at(iteration);
     }
 
-    double eval()   const {
+    double eval()  const {
+        double w;
+        w = cpu_time + app.max;
         if (apply_lb)
-            return cpu_time + s.max + params->C;
-        else
-            return cpu_time + s.max;
+            w += params->C;
+        return w;
     }
 
     /* Get the possible children that may appear after the current scenario (apply_lb) */
@@ -61,6 +61,7 @@ public:
     }
 
     bool get_decision() const { return apply_lb; }
+
     friend std::shared_ptr<LBChainedNode> make_next(LBChainedNode* parent, bool nextDecision);
     friend std::vector<bool> get_scenario(const LBChainedNode* n);
     friend std::vector<double>  get_times(const LBChainedNode* n);
@@ -86,6 +87,7 @@ std::vector<T> get_value(const LBChainedNode* n, GetDataF&& f) {
 std::ostream &operator<<(std::ostream &os, const LBChainedNode &node);
 
 std::shared_ptr<LBChainedNode> generate_solution_from_scenario(const std::vector<bool>& scenario, SimParam p);
+
 void reverse(std::shared_ptr<LBChainedNode>& node);
 
 /* Show the cumulative time (CPU_TIME) of a given solution until a given iteration */

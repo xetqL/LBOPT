@@ -10,10 +10,7 @@
 #include "workload.hpp"
 
 struct SimParam {
-    /* Initial workload */
-    const double W0;
-    /* Application workload at each iteration */
-    const std::vector<double> W;
+
     /* Load balancing cost */
     const double C;
     /* Number of iteration to simulate */
@@ -21,20 +18,22 @@ struct SimParam {
     /* Number of processors */
     const unsigned int P;
     /* Workload increase load function */
-    const workload::WorkloadIncreaseRate deltaW;
-    std::vector<double> mu {};
-    std::vector<double> h  {};
-    SimParam(double W0, std::vector<double>& W, double C, unsigned maxI, unsigned P, workload::WorkloadIncreaseRate dW):
-    W0(W0), W(W), C(C), maxI(maxI), P(P), deltaW(dW)
-    {
+    const std::unique_ptr<workload::Function>& deltaImbalance;
+    /* Initial workload */
+    const double W0;
+    /* Application workload at each iteration */
+    const std::vector<double> W;
+
+    std::vector<double> mu {}, h {};
+    SimParam(double W0, const std::vector<double>& W, double C, unsigned maxI, unsigned P, const std::unique_ptr<workload::Function>& dW):
+    W0(W0), W(W), C(C), maxI(maxI), P(P), deltaImbalance(dW) {
         mu = W;
         const auto S = mu.size();
-        std::for_each(mu.begin(), mu.end(), [P] ( auto& mu) {mu /= P;});
+        std::for_each(mu.begin(), mu.end(), [P](auto& v) {v /= P;});
         h.resize(mu.size());
         for(int i = 0; i < S; ++i) {
             h.at(i) = std::accumulate(mu.begin() + i, mu.end(), 0.0);
         }
-
     }
 
     friend std::ostream &operator<<(std::ostream &os, const SimParam &param) {

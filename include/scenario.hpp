@@ -26,6 +26,8 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_menon
 
 std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_eff(SimParam p);
 
+std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_bastien(SimParam p);
+
 template<class LBEfficiencyF>
 std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_procassini(SimParam p, double desired_speedup, LBEfficiencyF&& getLBEfficiency){
     std::vector<bool> scenario(p.maxI);
@@ -42,15 +44,16 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_proca
     double Tcpu = 0;
     double C = p.C;
     double t;
-    Model model = Balanced;
-    State state {model, Wmax, Wavg, Wmin};
+
+    Application app{p.P, p.W, p.W0 / p.P, p.W0 / p.P, 1.};
     for(int iter = 0; iter < p.maxI; ++iter) {
-        auto&[model, Wmax, Wavg, Wmin] = state;
+
+        auto&[P, W0, Wmax, Wavg, Wmin, d] = app;
 
         if (t_prime < t) { // trigger load balancing
             U = 0;
             // partitioning and mapping -> load balancing
-            rebalance(state);
+            rebalance(app);
             Tcpu += C;
             scenario[iter] = true;
         }
@@ -66,7 +69,7 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_proca
         t_prime = Wmax * cur_eff/lb_eff + C;
         t = Wmax;
 
-        update_workloads(iter, p.P, p.deltaW, state);
+        //update_workloads(iter, p.P, p.deltaW, state);
     }
 
     save_results(dir+"proca-solution.txt", scenario, p, imb_time, it_max, it_avg);

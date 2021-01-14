@@ -15,14 +15,17 @@
     <list default="true" id="4c6eeabb-7f92-4328-953b-70f283c55d28" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/lb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/lb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/lbnode.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/lbnode.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/scenario.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/scenario.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/simparam.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/simparam.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/utils.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/utils.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/workload.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/workload.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script/lbplot.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/lbplot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lbnode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/lbnode.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scenario.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenario.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +59,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/CMakeLists.txt" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../NoRCB/CMakeLists.txt" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -65,9 +68,9 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.lbplot">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="lb" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LBOPT" TARGET_NAME="lb" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="LBOPT" RUN_TARGET_NAME="lb">

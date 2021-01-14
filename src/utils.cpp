@@ -16,35 +16,27 @@ Model operator!(Model a){
     }
 }
 
-State::State(Model model, Workload max, Workload avg, Workload min) : model(model), max(max), avg(avg), min(min) {}
+State::State(Model m, Workload max, Workload avg, Workload min) : model(model), max(max), avg(avg), min(min) {}
 
-void rebalance(State& state) {
-    state.model = Balanced;
-    state.max   = state.avg;
-    state.min   = state.avg;
+void rebalance(Application& app) {
+    app.max = app.avg;
+    app.imbalance = 1.;
 }
 
-void update_workloads(unsigned int iter, unsigned int P, workload::WorkloadIncreaseRate deltaW, State& s){
-    double delta = std::visit([iter](auto& wir){return wir(iter);}, deltaW);
-    auto&[model, Wmax, Wavg, Wmin] = s;
-    switch(model) {
-        case Balanced:
-            if(delta > 0) {
-                Wmax += delta;
-                model = Increasing;
-            } else if(delta < 0) {
-                Wmin += delta;
-                model = Decreasing;
-            }
-            break;
-        case Increasing:
-            transfer_bound(Wmax, Wmin, Wavg, delta, std::greater_equal<>(), model);
-            break;
-        case Decreasing:
-            transfer_bound(Wmin, Wmax, Wavg, delta, std::less_equal<>(), model);
-            break;
+void update_workloads(unsigned iter, unsigned tau, const std::unique_ptr<workload::Function>& deltaImbalance, Application& s){
+    double delta = deltaImbalance->operator()(iter, tau);
+    auto&[P, W, max, avg, I, d] = s;
+
+    avg = W.at(iter) / P;
+
+    if(1. <= I+d*delta && I+d*delta <= P){
+        I += d*delta;
+    } else {
+        I += d*delta;
+        I = std::min((double) P, I);
+        I = std::max(1., I);
+        d = -d;
     }
-    Wmin = std::max(0.0, Wmin);
-    Wmax = std::max(0.0, Wmax);
-    Wavg = std::max(0.0, Wavg + delta / P);
+
+    max = I * avg;
 }

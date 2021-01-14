@@ -94,21 +94,20 @@ inline double compute_application_workload(double W0, unsigned int i, FMath delt
    return r;
 }
 
-inline double compute_application_workload(double W0, unsigned int i, workload::WorkloadIncreaseRate deltaW) {
+inline double compute_application_workload(double W0, unsigned int i, const std::unique_ptr<workload::Function>& deltaW) {
     auto r = W0;
     for(unsigned k = 0; k < i; ++k) {
-        r = std::max(0.0, r + std::visit([k](auto& wir){return wir(k);}, deltaW));
+        r = std::max(0.0, r + deltaW->operator()(k));
     }
     return r;
 }
 
 template<class T>
 std::ostream &operator<<(std::ostream &os, const std::vector<T> &vec) {
-
     std::for_each(vec.begin(), vec.end(), [&os](auto val){ os << val << " ";});
-
     return os;
 }
+
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const std::shared_ptr<T>& pc) {
     os << *pc;
@@ -128,15 +127,20 @@ enum Model {Increasing=0, Decreasing=1, Balanced=2};
 Model operator!(Model a);
 
 struct State {
-    State(Model model, Workload max, Workload avg, Workload min);
-
-    Model model  = Balanced;
-    Workload max = 0.0,
-             avg = 0.0,
-             min = 0.0;
+    State(Model m, Workload max, Workload avg, Workload min);
+    Model model;
+    Workload max = 0.0, avg = 0.0, min=0.;
 };
 
-void rebalance(State& state);
+struct Application {
+    unsigned P;
+    std::vector<Workload> W{};
+    Workload max, avg;
+    double imbalance;
+    int d = 1;
+};
+
+void rebalance(Application& app);
 
 template<class Comp>
 void transfer_bound(double& ub, double& lb, double mb, double dt, Comp comp, Model& m) {
@@ -148,32 +152,7 @@ void transfer_bound(double& ub, double& lb, double mb, double dt, Comp comp, Mod
         m  = !m;
     }
 }
-void update_workloads(unsigned int iter, unsigned int P, workload::WorkloadIncreaseRate deltaW, State& s);
 
-template<class WorkloadIncreaseFunction>
-void update_workloads(unsigned int iter, unsigned int P, WorkloadIncreaseFunction deltaW, State& s){
-    double delta = deltaW(iter);
-    auto&[model, Wmax, Wavg, Wmin] = s;
-    switch(model) {
-        case Balanced:
-            if(delta > 0) {
-                Wmax += delta;
-                model = Increasing;
-            } else if(delta < 0) {
-                Wmin += delta;
-                model = Decreasing;
-            }
-            break;
-        case Increasing:
-            transfer_bound(Wmax, Wmin, Wavg, delta, std::greater_equal<>(), model);
-            break;
-        case Decreasing:
-            transfer_bound(Wmin, Wmax, Wavg, delta, std::less_equal<>(), model);
-            break;
-    }
-    Wmin = std::max(0.0, Wmin);
-    Wmax = std::max(0.0, Wmax);
-    Wavg = std::max(0.0, Wavg + delta / P);
-}
+void update_workloads(unsigned iter, unsigned tau, const std::unique_ptr<workload::Function>& deltaImbalance, Application& s);
 
 #endif //LB_BRANCH_AND_BOUND_UTILS_HPP

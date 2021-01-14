@@ -28,13 +28,14 @@ int main(int argc, char** argv) {
     using PriorityQueue = std::multiset<std::shared_ptr<TNode>, CompareLBChainedNode>;
     PriorityQueue pQueue;
     /* Workload increase rate function, some examples are given below */
-    int deltaW_func_id;
+    int deltaW_func_id, imbalancef_func_id;
     /* Number of solution to get from Branch and Bound */
     int nb_solution_wanted;
     /* Initial workload */
     double W0;
     /* Workload increase load function */
-    workload::WorkloadIncreaseRate deltaW;
+    std::unique_ptr<workload::Function> deltaW;
+    std::unique_ptr<workload::Function> deltaImb;
     /* Load balancing cost */
     double C;
     /* Number of iteration to simulate */
@@ -50,12 +51,20 @@ int main(int argc, char** argv) {
     parser.add_opt_help('h', "help"); // use -h or --help
     parser.add_opt_value('W', "W0", W0, (double) 0, "Initial workload", "DOUBLE").require(); // require this option
 
-    parser.add_opt_value('d', "deltaW", deltaW_func_id, (int) 0,
-                         "Select the workload increase rate function (11):"
-                         " (0) dw=1.0,"
-                         " (1) dw=5.0/(1.0+0.2*i,"
-                         " (2) dw=1.0 + 0.2*i,"
-                         " (3) dw=sin(0.2*i)", "INT"); // require this option
+    parser.add_opt_value('w', "workloadf", deltaW_func_id, (int) 0,
+                         "Select the workload increase rate function (4):"
+                         " (0) constant"
+                         " (1) sublinear"
+                         " (2) linear"
+                         " (3) quadratic"
+                         " (4) increase/flat/increase", "INT"); // require this option
+    parser.add_opt_value('u', "imbalancef", imbalancef_func_id, (int) 0,
+                         "Select the workload increase rate function (4):"
+                         " (0) constant"
+                         " (1) sublinear"
+                         " (2) linear"
+                         " (3) quadratic"
+                         " (4) increase/flat/increase", "INT"); // require this option
     parser.add_opt_value('p', "processor", P, (unsigned int) 0, "Number of processors",
                          "INT").require(); // require this option
     parser.add_opt_value('i', "iteration", maxI, maxI, "Number of iteration to simulate",
@@ -119,41 +128,39 @@ int main(int argc, char** argv) {
         min_exponential[i] = 1 - std::exp(i / (maxI * 1.0));
     }
 
-    constexpr int NB_INCREASING_WORKLOAD_F = 15;
+    constexpr int NB_INCREASING_WORKLOAD_F = 5;
 
-    workload::WorkloadIncreaseRate deltaWf[NB_INCREASING_WORKLOAD_F] = {
-            workload::Constant  {0.2* W0 / P},
-            workload::Sublinear { 0.1, 0.5, 10.},
-            workload::Linear    {0.00001, 0.0},
-            workload::Quadratic {0.1, 0.1, 0},
-            workload::SymmetricLinear {(int) maxI / 2, 0, 0.2*W0/P},
+    std::array<std::unique_ptr<workload::Function>,NB_INCREASING_WORKLOAD_F> deltaWf = {
+            std::make_unique<workload::Constant>(0.0),
+            std::make_unique<workload::Sublinear>( 0.1, 0.5, 10.),
+            std::make_unique<workload::Linear>   (0.00001, 0.0),
+            std::make_unique<workload::Quadratic> (0.1, 0.1, 0),
+            std::make_unique<workload::SymmetricLinear> ((int) maxI / 2, 0, 0.2*W0/P),
     };
 
-//    workload::WorkloadIncreaseRate deltaWf[6] = {
-//            workload::Constant{0.01 * W0 / P},
-//            workload::Constant{-0.01 * W0 / P},
-//            workload::Sublinear{5.0, 0.2, 1.0},
-//            workload::Uniform(maxI, -0.5, 0.5),
-//            workload::Normal{maxI, 0.0, 0.5},
-//            workload::Perturbation{
-//                workload::Sine{0.012},
-//                workload::Uniform{maxI, 10, -10},
-//                workload::Normal(maxI, 0.0, 0.0)
-//            }
-//    };
+    std::array<std::unique_ptr<workload::Function>,NB_INCREASING_WORKLOAD_F> imbalancef = {
+            std::make_unique<workload::Constant>(1.0),
+            std::make_unique<workload::Log>( 1, 1.),
+            std::make_unique<workload::Linear>   (0.1, 0.0),
+            std::make_unique<workload::Quadratic> (0.00001, 0.0001, 0),
+            std::make_unique<workload::Symmetric<workload::Quadratic>> ((int) maxI / 2, workload::Quadratic(0.00001, 0.0001, 0)),
+    };
 
-    deltaW = deltaWf[deltaW_func_id];
+    deltaW   = std::move(   deltaWf[deltaW_func_id]);
+    deltaImb = std::move(imbalancef[imbalancef_func_id]);
 
     W.resize(maxI);
     for (unsigned int i = 0; i < maxI; ++i) {
         W[i] = std::max(0.0, compute_application_workload(W0, i, deltaW));
     }
 
-    if(verbose.get_count()) std::cout << W << std::endl;
+    if(verbose.get_count())
+        std::cout << W << std::endl;
 
-    SimParam param {W0, W, C, maxI, P, deltaW};
+    SimParam param {W0, W, C, maxI, P, deltaImb};
 
     std::shared_ptr<TNode> initNode = std::make_shared<TNode>(&param);
+
     pQueue.insert(initNode);
 
     std::vector<std::shared_ptr<TNode>> solutions;
@@ -172,7 +179,7 @@ int main(int argc, char** argv) {
                 foundYes[currentNode->iteration] = true;
             }
 
-            if (currentNode->iteration >= maxI - 1) {
+            if (currentNode->iteration == maxI-1) {
                 solutions.push_back(currentNode);
             } else {
                 auto[yes, no] = currentNode->children();
@@ -202,7 +209,7 @@ int main(int argc, char** argv) {
     auto[tmenon, sc1, imb] = create_scenario_menon1(param);
     auto menon_criterion_sol1 = generate_solution_from_scenario(sc1, param);
 
-    auto[a, sc, c] = create_scenario_menon_minus_one(param);
+    auto[a, sc, c] = create_scenario_bastien(param);
 
     std::cout << "---- " << std::endl;
     std::cout << param << std::endl;
@@ -218,7 +225,7 @@ int main(int argc, char** argv) {
     if (verbose.get_count() >= 1) {
         std::cout << " Branch and Bound solutions: " << std::endl;
         show_each_iteration(solutions[0]);
-        std::cout << " Menon solution  (U>C)adsd: " << std::endl;
+        std::cout << " Menon solution  (U>C): " << std::endl;
         show_each_iteration(generate_solution_from_scenario(sc, param));
     }
 

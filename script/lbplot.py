@@ -58,8 +58,8 @@ babfiles  = list( [dir + fname for fname in os.listdir(dir) if "optimal-solution
 sort_nicely(babfiles)
 
 configs = {
-    #'menon': {'fname': "menon-solution.txt", 'data': []},
-    #'menon1': {'fname': "menon-solution-1.txt", 'data': []},
+    'menon': {'fname': "menon-solution.txt", 'data': []},
+    'menon1': {'fname': "menon-solution-1.txt", 'data': []},
     #'procassini': {'fname': "proca-solution.txt", 'data': []},
     'static': {'fname': "static-solution.txt", 'data': []},
     #'freq100': {'fname': "freq-100-solution.txt", 'data': []},
@@ -70,7 +70,7 @@ configs = {
 for k, cfg in configs.items():
     configs[k]['data'] = get_params(dir + cfg['fname'])
 
-fig, ax = plt.subplots(3, 1, figsize=(8.27, 11.69))
+fig, ax = plt.subplots(4, 1, figsize=(8.27, 11.69))
 
 #ax[3].plot(max, c='C2', ls='-', label='max U>C')
 #ax[3].plot(avg, c='r', ls='-', label='avg curve')
@@ -89,7 +89,8 @@ ax[0].legend()
 for i, fbab in enumerate(babfiles):
     babcfg = get_params(fbab)
     ax[1].plot(babcfg['time'], label='Optimum')
-    ax[2].plot(babcfg['max']/babcfg['avg'], ls='-', label='Optimum')
+    ax[2].plot(babcfg['cumli'], ls='-', label='Optimum')
+    ax[3].plot(babcfg['max']-babcfg['avg'], label="Optimum")
 
     for name, cfg in configs.items():
         print("Bab", i, "is", compute_performance_diff(babcfg['time'][-1], float(cfg['data']['time'][-1])), "% faster than", name)
@@ -115,14 +116,17 @@ for i, fbab in enumerate(babfiles):
 
 #ax[1].plot(timepro, label='procassini')
 for name, cfg in configs.items():
-    ax[1].plot(cfg['data']['time'], label=name)
+    if name != 'none':
+        ax[1].plot(cfg['data']['time'], label=name)
+        ax[2].plot(cfg['data']['cumli'], label=name)
+        ax[3].plot(cfg['data']['max']-cfg['data']['avg'], label=name)
 
 #ax[2].plot(configs['menon']['data']['cumli'],label='menon')
 #ax[2].plot(configs['menon1']['data']['cumli'],label='menon++')
 
 #ax[1].plot(-compute_performance_diff(timebab, timemen1), label='U + $\Delta_{i+1}$ > C')
 
-ax[1].set_ylabel('Relative performance')
+ax[1].set_ylabel('CPU time')
 ax[1].legend()
 
 ax[2].plot([configs['static']['data']['C']]*configs['static']['data']['I'], label='C')
