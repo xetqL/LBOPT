@@ -120,7 +120,6 @@ namespace workload {
         }
     };
 
-
     using  WorkloadIncreaseRate = std::variant<Constant, XorY, Sublinear, Linear, Quadratic, Log, Exp, Sine, Uniform, Normal, Perturbation, GaussianPDF, SymmetricLinear>;
 }
 

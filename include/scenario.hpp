@@ -25,7 +25,7 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_menon
 std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_menon1(SimParam p);
 
 std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_eff(SimParam p);
-
+std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_bastien(SimParam p);
 template<class LBEfficiencyF>
 std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_procassini(SimParam p, double desired_speedup, LBEfficiencyF&& getLBEfficiency){
     std::vector<bool> scenario(p.maxI);

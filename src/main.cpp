@@ -124,8 +124,8 @@ int main(int argc, char** argv) {
     workload::WorkloadIncreaseRate deltaWf[NB_INCREASING_WORKLOAD_F] = {
             workload::Constant  {0.2* W0 / P},
             workload::Sublinear { 0.1, 0.5, 10.},
-            workload::Linear    {0.00001, 0.0},
-            workload::Quadratic {0.1, 0.1, 0},
+            workload::Linear    {-2., 18.},
+            workload::Quadratic {-1, 18, 0},
             workload::SymmetricLinear {(int) maxI / 2, 0, 0.2*W0/P},
     };
 
@@ -202,7 +202,7 @@ int main(int argc, char** argv) {
     auto[tmenon, sc1, imb] = create_scenario_menon1(param);
     auto menon_criterion_sol1 = generate_solution_from_scenario(sc1, param);
 
-    auto[a, sc, c] = create_scenario_menon_minus_one(param);
+    auto[a, sc, c] = create_scenario_bastien(param);
 
     std::cout << "---- " << std::endl;
     std::cout << param << std::endl;

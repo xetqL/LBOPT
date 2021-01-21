@@ -138,7 +138,7 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_basti
     double C = p.C;
 
     Model model = Balanced;
-    State state {model, Wmax, Wavg, Wmin}
+    State state {model, Wmax, Wavg, Wmin};
 
     int last_lb_it = 0;
     double last_Ui = 0;
@@ -171,7 +171,7 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_basti
         // Apply the workload increase rate function
         update_workloads(iter, p.P, p.deltaW, state);
     }
-    save_results(dir+"menon-solution-1.txt", scenario, p, imb_time, it_max, it_avg);
+    save_results(dir+"bastien-solution.txt", scenario, p, imb_time, it_max, it_avg);
     return {Tcpu, scenario, imb_time};
 }
 
