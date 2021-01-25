@@ -90,9 +90,9 @@ for i, fbab in enumerate(babfiles):
     babcfg = get_params(fbab)
     ax[1].plot(babcfg['time'], label='Optimum')
     ax[2].plot(babcfg['cumli'], ls='-', label='Optimum')
-
+    ax[3].plot(babcfg['max'], label='opt')
     for name, cfg in configs.items():
-        print("Bab", i, "is", compute_performance_diff(babcfg['time'][-1], float(cfg['data']['time'][-1])), "% faster than", name)
+        print("Bab", i, "with", babcfg['time'][-1], "is", compute_performance_diff(babcfg['time'][-1], float(cfg['data']['time'][-1])), "% faster than", name, "with", float(cfg['data']['time'][-1]) )
 
     #print("Bab", i, "is", compute_performance_diff(timebab[-1], timemen1[-1]),"% faster than U>C -1")
     #print("Bab", i, "is", compute_performance_diff(timebab[-1], timepro[-1]), "% faster than procassini")
@@ -118,7 +118,7 @@ for name, cfg in configs.items():
     if name != 'static':
         ax[1].plot(cfg['data']['time'], label=name)
         ax[2].plot(cfg['data']['cumli'], label=name)
-    ax[3].plot(cfg['data']['max'])
+        ax[3].plot(cfg['data']['max'], label=name)
 
 
 #ax[2].plot(configs['menon']['data']['cumli'],label='menon')
@@ -134,6 +134,7 @@ ax[2].plot([configs['static']['data']['C']]*configs['static']['data']['I'], labe
 ax[2].set_xlabel('iteration')
 ax[2].set_ylabel('Cumulative imbalance time')
 ax[2].legend()
+ax[3].legend()
 plt.tight_layout()
 if len(sys.argv) > 2:
     plt.savefig(sys.argv[2])

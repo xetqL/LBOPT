@@ -91,6 +91,7 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_menon
     double C = p.C;
     Model model = Balanced;
     State state {model, Wmax, Wavg, Wmin};
+    unsigned last_lb_it = 0;
     for(int iter = 0; iter < p.maxI; ++iter) {
         auto&[model, Wmax, Wavg, Wmin] = state;
 
@@ -105,6 +106,7 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_menon
             Tcpu += C;
             // This iteration is balanced
             scenario[iter] = true;
+            last_lb_it = iter;
         }
 
         // Compute the iteration
@@ -116,7 +118,7 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_menon
         // Store cumulative load imbalance
         imb_time[iter] = U;
         // Apply the workload increase rate function
-        update_workloads(iter, p.P, p.deltaW, state);
+        update_workloads(last_lb_it, iter, p.P, p.deltaW, state);
 
     }
 
@@ -142,14 +144,20 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_basti
 
     int last_lb_it = 0;
     double last_Ui = 0;
+    U = 0;
+    auto global_U = 0.;
     for(int iter = 0; iter < p.maxI; ++iter) {
         auto&[model, Wmax, Wavg, Wmin] = state;
-        auto tau = iter-last_lb_it;
+
+        auto tau = iter - last_lb_it;
+        double V = (tau * last_Ui) - U;
+
+        //std::cout << fmt("V %f", V) << std::endl;
         // Based on the previous iteration, should I rebalance ?
-        if ((tau*last_Ui) - U > C) { // trigger load balancing
+        if (V > C) { // trigger load balancing
             // Reset cumulative LB
             U = 0;
-            // partitioning and mapping -> load balancing
+            global_U = 0;
             // partitioning and mapping -> load balancing
             rebalance(state);
             // Account for the LB cost
@@ -158,18 +166,23 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_basti
             scenario[iter] = true;
             last_lb_it = iter;
         }
-
         // Compute the iteration
         Tcpu += Wmax;
         it_max[iter] = Wmax;
         it_avg[iter] = Wavg;
+
         // Measure load imbalance
         U += compute_U(Wmax, Wavg);
+
         last_Ui = compute_U(Wmax, Wavg);
+        global_U += compute_U(Wmax, Wavg);
+
+        std::cout << fmt("U = %f at %d", U, iter) << std::endl;
         // Store cumulative load imbalance
-        imb_time[iter] = U;
+        imb_time[iter] = global_U;
         // Apply the workload increase rate function
-        update_workloads(iter, p.P, p.deltaW, state);
+        update_workloads(last_lb_it, iter, p.P, p.deltaW, state);
+
     }
     save_results(dir+"bastien-solution.txt", scenario, p, imb_time, it_max, it_avg);
     return {Tcpu, scenario, imb_time};
@@ -282,7 +295,6 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_eff(S
         imb_time[iter] = U;
 
         update_workloads(iter, p.P, p.deltaW, state);
-
     }
 
     save_results(fname, scenario, p, imb_time, it_max, it_avg);

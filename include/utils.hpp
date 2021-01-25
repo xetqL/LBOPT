@@ -10,10 +10,11 @@
 #include <iostream>
 #include <algorithm>
 #include <memory>
-#include "workload.hpp"
 
 #define debug(x) std::cout << #x <<"\t"<< x << std::endl;
 #define dump(i, x) std::cout << (i) << ": " << (#x) <<"\t" << (x) << std::endl
+
+template<class T> using ptr_t = std::unique_ptr<T>;
 
 template<typename T>
 constexpr auto convert(T&& t) {
@@ -94,13 +95,6 @@ inline double compute_application_workload(double W0, unsigned int i, FMath delt
    return r;
 }
 
-inline double compute_application_workload(double W0, unsigned int i, workload::WorkloadIncreaseRate deltaW) {
-    auto r = W0;
-    for(unsigned k = 0; k < i; ++k) {
-        r = std::max(0.0, r + std::visit([k](auto& wir){return wir(k);}, deltaW));
-    }
-    return r;
-}
 
 template<class T>
 std::ostream &operator<<(std::ostream &os, const std::vector<T> &vec) {
@@ -129,7 +123,6 @@ Model operator!(Model a);
 
 struct State {
     State(Model model, Workload max, Workload avg, Workload min);
-
     Model model  = Balanced;
     Workload max = 0.0,
              avg = 0.0,
@@ -148,32 +141,6 @@ void transfer_bound(double& ub, double& lb, double mb, double dt, Comp comp, Mod
         m  = !m;
     }
 }
-void update_workloads(unsigned int iter, unsigned int P, workload::WorkloadIncreaseRate deltaW, State& s);
 
-template<class WorkloadIncreaseFunction>
-void update_workloads(unsigned int iter, unsigned int P, WorkloadIncreaseFunction deltaW, State& s){
-    double delta = deltaW(iter);
-    auto&[model, Wmax, Wavg, Wmin] = s;
-    switch(model) {
-        case Balanced:
-            if(delta > 0) {
-                Wmax += delta;
-                model = Increasing;
-            } else if(delta < 0) {
-                Wmin += delta;
-                model = Decreasing;
-            }
-            break;
-        case Increasing:
-            transfer_bound(Wmax, Wmin, Wavg, delta, std::greater_equal<>(), model);
-            break;
-        case Decreasing:
-            transfer_bound(Wmin, Wmax, Wavg, delta, std::less_equal<>(), model);
-            break;
-    }
-    Wmin = std::max(0.0, Wmin);
-    Wmax = std::max(0.0, Wmax);
-    Wavg = std::max(0.0, Wavg + delta / P);
-}
 
 #endif //LB_BRANCH_AND_BOUND_UTILS_HPP

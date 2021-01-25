@@ -16,12 +16,14 @@
 #include "utils.hpp"
 #include "io.hpp"
 #include "scenario.hpp"
-
+#include <memory>
 using namespace zz;
 
 
 int main(int argc, char** argv) {
     using TNode = LBChainedNode;
+
+
     std::vector<std::shared_ptr<TNode>> container;
     container.reserve((unsigned long) std::pow(2, 20));
 
@@ -33,8 +35,7 @@ int main(int argc, char** argv) {
     int nb_solution_wanted;
     /* Initial workload */
     double W0;
-    /* Workload increase load function */
-    workload::WorkloadIncreaseRate deltaW;
+
     /* Load balancing cost */
     double C;
     /* Number of iteration to simulate */
@@ -121,12 +122,12 @@ int main(int argc, char** argv) {
 
     constexpr int NB_INCREASING_WORKLOAD_F = 15;
 
-    workload::WorkloadIncreaseRate deltaWf[NB_INCREASING_WORKLOAD_F] = {
-            workload::Constant  {0.2* W0 / P},
-            workload::Sublinear { 0.1, 0.5, 10.},
-            workload::Linear    {-2., 18.},
-            workload::Quadratic {-1, 18, 0},
-            workload::SymmetricLinear {(int) maxI / 2, 0, 0.2*W0/P},
+    std::array<ptr_t<workload::Function>, NB_INCREASING_WORKLOAD_F> deltaWf = {
+            std::make_unique<workload::Constant>  (0.2),
+            std::make_unique<workload::Sublinear> ( 0.1, 0.5, 10.),
+            std::make_unique<workload::Linear>    (-2., 18.),
+            std::make_unique<workload::Quadratic> (0.0001, 00.01, 0),
+            std::make_unique<workload::Repeatable<workload::Linear, 17>> ( -2, 16 ),
     };
 
 //    workload::WorkloadIncreaseRate deltaWf[6] = {
@@ -142,7 +143,8 @@ int main(int argc, char** argv) {
 //            }
 //    };
 
-    deltaW = deltaWf[deltaW_func_id];
+    /* Workload increase load function */
+    const ptr_t<workload::Function>& deltaW = deltaWf[deltaW_func_id];
 
     W.resize(maxI);
     for (unsigned int i = 0; i < maxI; ++i) {

@@ -56,7 +56,8 @@ std::shared_ptr<LBChainedNode> make_next(LBChainedNode* parent, bool nextDecisio
     auto previous_lb_call = parent->apply_lb ? parent->iteration : parent->prev_lb;
 
     State s = parent->s;
-    update_workloads(parent->iteration, P, parent->params->deltaW, s);
+
+    update_workloads(previous_lb_call, nextIteration, P, parent->params->deltaW, s);
 
     if(nextDecision) {
         rebalance(s);

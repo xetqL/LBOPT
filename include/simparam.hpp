@@ -8,6 +8,7 @@
 #include <functional>
 #include <ostream>
 #include "workload.hpp"
+#include "utils.hpp"
 
 struct SimParam {
     /* Initial workload */
@@ -21,10 +22,10 @@ struct SimParam {
     /* Number of processors */
     const unsigned int P;
     /* Workload increase load function */
-    const workload::WorkloadIncreaseRate deltaW;
+    const ptr_t<workload::Function>& deltaW;
     std::vector<double> mu {};
     std::vector<double> h  {};
-    SimParam(double W0, std::vector<double>& W, double C, unsigned maxI, unsigned P, workload::WorkloadIncreaseRate dW):
+    SimParam(double W0, std::vector<double>& W, double C, unsigned maxI, unsigned P, const ptr_t<workload::Function>& dW):
     W0(W0), W(W), C(C), maxI(maxI), P(P), deltaW(dW)
     {
         mu = W;
@@ -34,7 +35,6 @@ struct SimParam {
         for(int i = 0; i < S; ++i) {
             h.at(i) = std::accumulate(mu.begin() + i, mu.end(), 0.0);
         }
-
     }
 
     friend std::ostream &operator<<(std::ostream &os, const SimParam &param) {
