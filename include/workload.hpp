@@ -80,12 +80,13 @@ namespace workload {
             return std::sin((a*x+b) * (M_PI/180.) );
         }
     };
+
     struct Uniform : public Function {
         std::vector<double> wir{};
-        Uniform(unsigned maxi, double min, double max) {
+        Uniform(unsigned seed, unsigned maxi, double min, double max) {
             std::uniform_real_distribution<double> dist {min, max};
             std::random_device rd{};
-            std::mt19937 generator { rd() };
+            std::mt19937 generator { seed };
             wir.reserve(maxi);
             for(auto i = 0; i < maxi; ++i)
                 wir.push_back(dist(generator));
@@ -96,10 +97,9 @@ namespace workload {
     };
     struct Normal : public Function  {
         std::vector<double> wir{};
-        Normal(unsigned maxi, double mu, double stddev){
+        Normal(unsigned seed, unsigned maxi, double mu, double stddev){
             std::normal_distribution<double> dist{mu, stddev};
-            std::random_device rd{};
-            std::mt19937 generator{ rd() };
+            std::mt19937 generator{ seed };
             wir.reserve(maxi);
             for(auto i = 0; i < maxi; ++i)
                 wir.push_back(dist(generator));
@@ -115,14 +115,19 @@ namespace workload {
         }
     };
 
-    using  Perturbator = std::variant<Uniform, Normal, XorY>;
-    struct Perturbation : public Function{
-        std::unique_ptr<Function> wir;
+    using  Perturbator = std::variant<Constant, Uniform, Normal, XorY>;
+
+    template<class T>
+    struct Perturbated : public Function {
+        T wir;
         Perturbator alg, sys;
+        template<class... Args>
+        Perturbated(Perturbator&& alg, Perturbator&& sys, Args... args) : alg(alg), sys(sys), wir(args...) {}
         double operator()(unsigned x) const override {
-            return wir->operator()(x) + std::visit([x](auto p){return p(x);}, alg) + std::visit([x](auto p){return p(x);}, sys);
+            return wir(x) + std::visit([x](auto p){return p(x);}, alg) + std::visit([x](auto p){return p(x);}, sys);
         }
     };
+
     struct GaussianPDF : public Function {
         double sigma = 0., mu = 0.;
         double operator()(unsigned x) const override {
@@ -186,7 +191,6 @@ namespace workload {
         }
     };
 
-    using  WorkloadIncreaseRate = std::variant<Constant, XorY, Sublinear, Linear, Quadratic, Log, Exp, Sine, Uniform, Normal, Perturbation, GaussianPDF, SymmetricLinear>;
 }
 inline double compute_application_workload(double W0, unsigned int i, const ptr_t<workload::Function>& deltaW) {
     auto r = W0;

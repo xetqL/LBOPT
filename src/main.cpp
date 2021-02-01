@@ -128,18 +128,22 @@ int main(int argc, char** argv) {
         min_exponential[i] = 1 - std::exp(i / (maxI * 1.0));
     }
 
-    constexpr int NB_INCREASING_WORKLOAD_F = 4;
 
     std::array<std::unique_ptr<workload::Function>,2> deltaWf = {
         std::make_unique<workload::Constant>(0.0),
         std::make_unique<workload::Sine>(1., 180.),
     };
 
-    std::array<std::unique_ptr<workload::Function>, NB_INCREASING_WORKLOAD_F> imbalancef = {
+    std::array<std::unique_ptr<workload::Function>, 5> imbalancef = {
             std::make_unique<workload::Constant>(0.1),
             std::make_unique<workload::Sublinear>( 1, 0.4, 1),
             std::make_unique<workload::Linear>   (0.02, 0.0),
             std::make_unique<workload::Repeatable<workload::Linear, 17>> (-0.1, 0.8),
+            std::make_unique<workload::Perturbated<workload::Linear>> (
+                    workload::Uniform {seed, maxI, -1., 0.5},
+                    workload::Normal {seed, maxI,  -0.1, 0.5},
+                    0.02, 0.0
+            ),
     };
 
     deltaW   = std::move(   deltaWf[deltaW_func_id]);
