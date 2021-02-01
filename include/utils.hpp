@@ -10,10 +10,11 @@
 #include <iostream>
 #include <algorithm>
 #include <memory>
-#include "workload.hpp"
 
 #define debug(x) std::cout << #x <<"\t"<< x << std::endl;
 #define dump(i, x) std::cout << (i) << ": " << (#x) <<"\t" << (x) << std::endl
+
+template<class T> using ptr_t = std::unique_ptr<T>;
 
 template<typename T>
 constexpr auto convert(T&& t) {
@@ -94,13 +95,6 @@ inline double compute_application_workload(double W0, unsigned int i, FMath delt
    return r;
 }
 
-inline double compute_application_workload(double W0, unsigned int i, const std::unique_ptr<workload::Function>& deltaW) {
-    auto r = W0;
-    for(unsigned k = 0; k < i; ++k) {
-        r = std::max(0.0, r + deltaW->operator()(k));
-    }
-    return r;
-}
 
 template<class T>
 std::ostream &operator<<(std::ostream &os, const std::vector<T> &vec) {
@@ -153,6 +147,5 @@ void transfer_bound(double& ub, double& lb, double mb, double dt, Comp comp, Mod
     }
 }
 
-void update_workloads(unsigned iter, unsigned tau, const std::unique_ptr<workload::Function>& deltaImbalance, Application& s);
 
 #endif //LB_BRANCH_AND_BOUND_UTILS_HPP

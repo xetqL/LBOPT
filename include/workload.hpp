@@ -11,6 +11,7 @@
 #include <variant>
 #include <iostream>
 #include <memory>
+#include "utils.hpp"
 
 namespace workload {
     struct Function {
@@ -73,9 +74,10 @@ namespace workload {
         }
     };
     struct Sine : public Function {
-        double i = 0;
+        double a = 0, b = 0;
+        Sine(double a, double b):a(a), b(b){}
         double operator()(unsigned x) const override {
-            return std::sin(i*x);
+            return std::sin((a*x+b) * (M_PI/180.) );
         }
     };
     struct Uniform : public Function {
@@ -171,8 +173,29 @@ namespace workload {
                 return this->operator()(t);
         }
     };
+    template<class T, unsigned every>
+    struct Repeatable : public Function {
+        T repeatedFunc;
+        template<class ...Arg>
+        explicit Repeatable(Arg... args) : repeatedFunc(args...) {}
+        double operator()(unsigned x) const override {
+            return repeatedFunc(x % every);
+        }
+        virtual double operator()(unsigned t, unsigned tau) const {
+            return this->operator()(t);
+        }
+    };
 
     using  WorkloadIncreaseRate = std::variant<Constant, XorY, Sublinear, Linear, Quadratic, Log, Exp, Sine, Uniform, Normal, Perturbation, GaussianPDF, SymmetricLinear>;
 }
+inline double compute_application_workload(double W0, unsigned int i, const ptr_t<workload::Function>& deltaW) {
+    auto r = W0;
+    for(unsigned k = 0; k < i; ++k) {
+        r = std::max(0.0, r + deltaW->operator()(k));
+    }
+    return r;
+}
+
+void update_workloads(unsigned iter, unsigned tau, const ptr_t<workload::Function>& deltaImbalance, Application& s);
 
 #endif //LBOPT_WORKLOAD_HPP

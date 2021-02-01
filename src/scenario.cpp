@@ -224,7 +224,7 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_basti
         // Apply the workload increase rate function
         update_workloads(iter, last_lb_it, p.deltaImbalance, app);
     }
-    save_results(dir+"menon-solution-1.txt", scenario, p, imb_time, it_max, it_avg);
+    save_results(dir+"bastien-solution.txt", scenario, p, imb_time, it_max, it_avg);
     return {Tcpu, scenario, imb_time};
 }
 
@@ -295,10 +295,8 @@ std::tuple<double, std::vector<bool>, std::vector<double>> create_scenario_eff(S
         imb_time[iter] = U;
 
         update_workloads(iter, last_lb_it, p.deltaImbalance, app);
-
     }
 
     save_results(fname, scenario, p, imb_time, it_max, it_avg);
-
     return {Tcpu, imb_time};
 }

@@ -59,7 +59,7 @@ sort_nicely(babfiles)
 
 configs = {
     'menon': {'fname': "menon-solution.txt", 'data': []},
-    'menon1': {'fname': "menon-solution-1.txt", 'data': []},
+    'bastien': {'fname': "bastien-solution.txt", 'data': []},
     #'procassini': {'fname': "proca-solution.txt", 'data': []},
     'static': {'fname': "static-solution.txt", 'data': []},
     #'freq100': {'fname': "freq-100-solution.txt", 'data': []},
@@ -70,7 +70,7 @@ configs = {
 for k, cfg in configs.items():
     configs[k]['data'] = get_params(dir + cfg['fname'])
 
-fig, ax = plt.subplots(4, 1, figsize=(8.27, 11.69))
+fig, ax = plt.subplots(2, 1)
 
 #ax[3].plot(max, c='C2', ls='-', label='max U>C')
 #ax[3].plot(avg, c='r', ls='-', label='avg curve')
@@ -81,97 +81,39 @@ fig, ax = plt.subplots(4, 1, figsize=(8.27, 11.69))
 
 ax[0].set_title(sys.argv[1])
 
-ax[0].plot(configs['static']['data']['W'], label='Workload')
 #ax[0].plot(np.array(W) /100.0, label='AVG Workload')
-ax[0].set_ylabel('Application Workload')
-ax[0].legend()
+
 
 for i, fbab in enumerate(babfiles):
+
     babcfg = get_params(fbab)
-    ax[1].plot(babcfg['time'], label='Optimum')
-    ax[2].plot(babcfg['cumli'], ls='-', label='Optimum')
-    ax[3].plot(babcfg['max']-babcfg['avg'], label="Optimum")
-
+    #ax[0].plot(babcfg['max']-babcfg['avg'], label='Optimum')
+    ax[0].plot(babcfg['time'], label='Optimum')
+    ax[1].plot(babcfg['cumli'], ls='-', label='Optimum')
+    #ax[3].plot(babcfg['max'], label='opt')
     for name, cfg in configs.items():
-        print("Bab", i, "is", compute_performance_diff(babcfg['time'][-1], float(cfg['data']['time'][-1])), "% faster than", name)
+        print("Bab", i, "with", babcfg['time'][-1], "is", compute_performance_diff(babcfg['time'][-1], float(cfg['data']['time'][-1])), "% faster than", name, "with", float(cfg['data']['time'][-1]) )
 
-    #print("Bab", i, "is", compute_performance_diff(timebab[-1], timemen1[-1]),"% faster than U>C -1")
-    #print("Bab", i, "is", compute_performance_diff(timebab[-1], timepro[-1]), "% faster than procassini")
-    #print("Bab", i, "is", compute_performance_diff(timebab[-1], time100[-1]), "% faster than rebalancing every 100 it")
-
-#ax[3].legend()
-#print(np.sum(np.asarray(cummen)) + np.sum(decmen) * C)
-#common_sub_seqs = get_longest_common_lb_sequence(decbab, decmen)
-#sa, sb = [], []
-#ca, cb = [], []
-#ta, tb = [], []
-#
-#for p, c in common_sub_seqs:
-#    sa.append(decbab[p:c])
-#    sb.append(decmen[p:c])
-#    ca.append(cumbab[p:c])
-#    cb.append(cummen[p:c])
-#    ta.append(timebab[p:c])
-#    tb.append(timemen[p:c])
-
-#ax[1].plot(timepro, label='procassini')
 for name, cfg in configs.items():
-    if name != 'none':
-        ax[1].plot(cfg['data']['time'], label=name)
-        ax[2].plot(cfg['data']['cumli'], label=name)
-        ax[3].plot(cfg['data']['max']-cfg['data']['avg'], label=name)
+    if name != 'static':
+        #ax[0].plot(cfg['data']['max'] - cfg['data']['avg'], label=name)
+        ax[0].plot(cfg['data']['time'], label=name)
+        ax[1].plot(cfg['data']['cumli'], label=name)
 
-#ax[2].plot(configs['menon']['data']['cumli'],label='menon')
-#ax[2].plot(configs['menon1']['data']['cumli'],label='menon++')
+for canvas in ax:
+    canvas.legend()
 
-#ax[1].plot(-compute_performance_diff(timebab, timemen1), label='U + $\Delta_{i+1}$ > C')
+#ax[0].set_ylabel('Imbalance Time')
+ax[0].set_ylabel('Simulated Parallel Time')
 
-ax[1].set_ylabel('CPU time')
-ax[1].legend()
+ax[1].plot([configs['static']['data']['C']]*configs['static']['data']['I'], label='C')
 
-ax[2].plot([configs['static']['data']['C']]*configs['static']['data']['I'], label='C')
+ax[1].set_xlabel('Iteration')
+ax[1].set_ylabel('Cumulative Imbalance Time')
 
-ax[2].set_xlabel('iteration')
-ax[2].set_ylabel('Cumulative imbalance time')
-ax[2].legend()
 plt.tight_layout()
 if len(sys.argv) > 2:
-    plt.savefig(sys.argv[2])
+    plt.savefig(sys.argv[2], dpi=300)
 else:
     plt.show()
 
-"""
-fig, ax = plt.subplots(len(sa), 1, sharex=True)
-if len(sa) > 1:
-    for seq_a, seq_b, li_a, li_b, time_a, time_b, s, i in (list(zip(sa, sb, ca, cb, ta,tb, common_sub_seqs, range(len(sa))))):
-        it = range(*s)
-        ax[i].plot(it, li_a)
-        ax[i].plot(it, li_b)
-        ax[i].plot(it, [C]*len(it), label='C')
-else:
-    for seq_a, seq_b, li_a, li_b, time_a, time_b, s, i in (list(zip(sa, sb, ca, cb, ta,tb, common_sub_seqs, range(len(sa))))):
-        it = range(*s)
-        ax.plot(it, li_a)
-        ax.plot(it, li_b)
-        ax.plot(it, [C]*len(it), label='C')
-plt.title('cumulative LI')
-plt.show()
-plt.close()
-
-fig, ax = plt.subplots(len(sa), 1, figsize=(10,50), sharex=True)
-if len(sa) > 1:
-    for seq_a, seq_b, li_a, li_b, time_a, time_b, s, i in (list(zip(sa, sb, ca, cb, ta,tb, common_sub_seqs, range(len(sa))))):
-        it = range(*s)
-        ax[i].plot(it, time_a, label='bab')
-        ax[i].plot(it, time_b, label='bab')
-        ax[i].legend()
-else:
-    for seq_a, seq_b, li_a, li_b, time_a, time_b, s, i in (list(zip(sa, sb, ca, cb, ta,tb, common_sub_seqs, range(len(sa))))):
-        it = range(*s)
-        ax.plot(it, time_a)
-        ax.plot(it, time_b)
-
-plt.title('time')
-plt.show()
-plt.close()
-"""

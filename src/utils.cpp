@@ -23,20 +23,3 @@ void rebalance(Application& app) {
     app.imbalance = 1.;
 }
 
-void update_workloads(unsigned iter, unsigned tau, const std::unique_ptr<workload::Function>& deltaImbalance, Application& s){
-    double delta = deltaImbalance->operator()(iter, tau);
-    auto&[P, W, max, avg, I, d] = s;
-
-    avg = W.at(iter) / P;
-
-    if(1. <= I+d*delta && I+d*delta <= P){
-        I += d*delta;
-    } else {
-        I += d*delta;
-        I = std::min((double) P, I);
-        I = std::max(1., I);
-        d = -d;
-    }
-
-    max = I * avg;
-}
